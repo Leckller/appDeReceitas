@@ -5,7 +5,9 @@ function Layout() {
   return (
     <div>
       <Header />
-      <Outlet />
+      <div className="w-screen h-screen">
+        <Outlet />
+      </div>
     </div>
   );
 }
