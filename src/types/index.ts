@@ -56,6 +56,7 @@ export type Drinks = Common & {
   strInstructionsZH_HANS: string | null;
   strInstructionsZH_HANT: string | null;
   strVideo: string | null;
+  [key: string]: string | null,
 };
 
 export type Meals = Common & {
@@ -77,6 +78,7 @@ export type Meals = Common & {
   strMeasure20: string;
   strSource: string;
   strYoutube: string;
+  [key: string]: string | null,
 };
 
 export type Categorias = {
@@ -84,8 +86,10 @@ export type Categorias = {
 };
 
 export type GlobalState = {
-  recipesReducer: { recipes: Meals[] | Drinks[] },
+  recipes: Recipes,
 };
+
+export type Recipes = Meals[] | Drinks[];
 
 export type User = {
   email: string,
@@ -97,6 +101,6 @@ export type Form = {
   radio: 'firstLetter' | 'ingredient' | 'name',
 };
 
-export type Path = 'meals' | 'drinks';
+export type Path = 'Meal' | 'Drink';
 
-export type Dispatch = ThunkDispatch<GlobalState, null, AnyAction>;
+export type Dispatch = ThunkDispatch<GlobalState, void, Action>;

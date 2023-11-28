@@ -12,7 +12,6 @@ const renderWithRouterAndRedux = (
   route = '/',
   state: GlobalState | undefined = undefined,
   store = createStore(rootReducer, state, applyMiddleware(thunk)),
-
 ) => {
   window.history.pushState({}, 'Test page', route);
   return {

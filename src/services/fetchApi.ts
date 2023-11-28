@@ -1,8 +1,8 @@
 import { Form, Path } from '../types';
 
 const path = {
-  meals: 'meal',
-  drinks: 'cocktail',
+  Meal: 'meal',
+  Drink: 'cocktail',
 };
 
 const radioFilter = {
@@ -15,16 +15,19 @@ export const fecthApi = async (
   { search, radio }: Form,
   pathFilter: Path,
 ) => {
-  const url = `https://www.the${path[pathFilter]}db.com/api/json/v1/1/${radioFilter[radio]}=${search}`;
-  console.log(url);
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data[pathFilter];
-  } catch (error) {
-    if (radio === 'firstLetter' && search.length > 1) {
-      throw new Error('Your search must have only 1 (one) character');
-    }
-    throw new Error(`Search by ${radio} didn't return data`);
+
+  const pathLower = `${pathFilter.toLowerCase()}s`;
+
+  if (radio === 'firstLetter' && search.length > 1) {
+    throw new Error('Your search must have only 1 (one) character');
   }
+
+  const response = await fetch(`https://www.the${path[pathFilter]}db.com/api/json/v1/1/${radioFilter[radio]}=${search}`);
+  const data = await response.json();
+
+  if (!data[pathLower]) {
+    throw new Error("Sorry, we haven't found any recipes for these filters");
+  }
+
+  return data[pathLower];
 };

@@ -1,29 +1,12 @@
-import { fecthApi } from '../../services/fetchApi';
-import { Dispatch, Drinks, Form, Meals, Path } from '../../types';
+import { Recipes } from '../../types';
 
 export const actions = {
+  GET_RESPONSE: 'GET_RESPONSE',
 } as const;
 
-export const GETAPI = 'GETAPI';
-export const getApi = (response: Meals[] | Drinks[]) => ({
-  type: GETAPI,
+const { GET_RESPONSE } = actions;
+
+export const getResponse = (response: Recipes) => ({
+  type: GET_RESPONSE,
   payload: response,
 });
-
-export const LOADING = 'LOADING';
-export const loading = () => ({
-  type: LOADING,
-});
-
-export const ADDLIST = 'ADDLIST';
-export const addList = (form: Form, pathFilter: Path) => {
-  return async (dispatch:Dispatch) => {
-    dispatch(loading());
-    try {
-      const response = await fecthApi(form, pathFilter);
-      dispatch(getApi(response));
-    } catch (error: any) {
-      window.alert(error.message);
-    }
-  };
-};
