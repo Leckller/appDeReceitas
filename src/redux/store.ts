@@ -1,17 +1,14 @@
-import { ThunkAction, configureStore } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
-import { Action } from 'redux';
-import reduxRecipes from './reducers/recipes';
+import { legacy_createStore as createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from '@redux-devtools/extension';
+import thunk from 'redux-thunk';
+import rootReducer from './reducers';
 
-export const store = configureStore({
-  reducer: {
-    recipes: reduxRecipes,
-  },
-});
+const middleware = applyMiddleware(thunk);
+const store = createStore(rootReducer, composeWithDevTools(middleware));
 
-export type RootState = ReturnType<typeof store.getState>;
+// if (window.Cypress) {
+//   window.store = store;
+// }
 
-export type AppThunk = ThunkAction<void, RootState, null, Action<string>>;
-export const useAppDispatch = () => useDispatch<AppDispatch>();
+export default store;
 
-export type AppDispatch = typeof store.dispatch;
