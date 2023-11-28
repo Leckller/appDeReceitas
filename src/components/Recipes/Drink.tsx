@@ -1,16 +1,6 @@
-import { useEffect, useState } from 'react';
 import { Drinks } from '../../types';
 
-function Drink() {
-  const [drinks, setDrinks] = useState<Drinks[]>([]);
-  useEffect(() => {
-    const effect = async () => {
-      const data = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-      const resp = await data.json();
-      setDrinks(resp.drinks);
-    };
-    effect();
-  }, []);
+function Drink({ drinks }: { drinks: Drinks[] }) {
   return (
     <section className="flex w-screen flex-wrap gap-4 p-2">
       {drinks && drinks.slice(0, 12).map((d, i) => (

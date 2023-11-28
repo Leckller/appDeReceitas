@@ -2,38 +2,43 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Drink from '../components/Recipes/Drink';
 import Meal from '../components/Recipes/Meal';
-import { Categorias } from '../types';
+import { Categorias, Drinks, Meals } from '../types';
+import Categories from '../components/Recipes/Categories';
+import { dataCat, dataItem, setItemsByCategory } from '../services/RecipesFunctions';
 
 function Recipes() {
   const { pathname } = useLocation();
   const [categorias, setCategorias] = useState<Categorias[]>([]);
   const title = pathname.slice(1);
+  const [Items, setItems] = useState<Meals[] | Drinks[]>([]);
   useEffect(() => {
     const effect = async () => {
-      const dataCat = title === 'meals' ? await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list') : await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
-      const resp = await dataCat.json();
-      console.log(resp[title]);
-      setCategorias(resp[title]);
+      // Fetch categorias de Drink ou Meal
+      setCategorias(await dataCat(title));
+
+      // Fetch item - drink ou meal
+      setItems(await dataItem(title));
     };
     effect();
-  }, []);
+  }, [title]);
 
+  const handleClick = async (cat: string) => {
+    setItems(await setItemsByCategory(title, cat));
+  };
+  const handleClearAll = async () => {
+    setItems(await dataItem(title));
+  };
   return (
     <div className="bg-blue-200 h-screen overflow-y-auto">
-      <div>
-        {categorias && categorias.slice(0, 5).map(({ strCategory }) => (
-          <button
-            data-testid={ `${strCategory}-category-filter` }
-            key={ strCategory }
-          >
-            {strCategory}
-          </button>
-        ))}
-      </div>
+      <Categories
+        handleClearAll={ handleClearAll }
+        handleClick={ handleClick }
+        categorias={ categorias }
+      />
       {pathname === '/meals' ? (
-        <Meal />
+        <Meal meals={ Items as Meals[] } />
       ) : (
-        <Drink />
+        <Drink drinks={ Items as Drinks[] } />
       )}
     </div>
   );

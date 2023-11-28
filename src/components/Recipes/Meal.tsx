@@ -1,17 +1,6 @@
-import { useEffect, useState } from 'react';
 import { Meals } from '../../types';
 
-function Meal() {
-  const [meals, setMeals] = useState<Meals[]>([]);
-  useEffect(() => {
-    const effect = async () => {
-      const data = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-      const resp = await data.json();
-      setMeals(resp.meals);
-      console.log(resp.meals);
-    };
-    effect();
-  }, []);
+function Meal({ meals }: { meals: Meals[] }) {
   return (
     <section className="flex w-screen flex-wrap gap-4 p-2">
       {meals && meals.slice(0, 12).map((d, i) => (
