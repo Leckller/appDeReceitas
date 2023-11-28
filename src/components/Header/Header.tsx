@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
-import Search from '../Search/Search';
+import SearchBar from '../SearchBar/SearchBar';
 
 function Header() {
   const navigate = useNavigate();
@@ -39,10 +39,10 @@ function Header() {
       />
       <div className="flex relative h-full items-center">
         { search && (
-          <div className="absolute top-12 right-0 border border-black">
-            <Search />
-          </div>
+          <div className="absolute top-12 right-0 border border-black" />
         )}
+        <SearchBar />
+
         {
           !notSearch.includes(pathname) && (
             <input
