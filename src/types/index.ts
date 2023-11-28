@@ -79,6 +79,10 @@ export type Meals = Common & {
   strYoutube: string;
 };
 
+export type Categorias = {
+  strCategory: string,
+};
+
 export type GlobalState = {
   recipesReducer: { recipes: Meals[] | Drinks[] },
 };
