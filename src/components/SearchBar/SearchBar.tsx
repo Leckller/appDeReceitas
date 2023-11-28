@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Dispatch, Form } from '../../types';
-import { addList } from '../../redux/actions';
+import { getResponse } from '../../redux/actions';
 import { fecthApi } from '../../services/fetchApi';
 
 function SearchBar() {
@@ -28,7 +28,8 @@ function SearchBar() {
     e.preventDefault();
     try {
       const response = await fecthApi(form, key);
-      dispatch(addList(response));
+
+      dispatch(getResponse(response));
 
       if (response.length === 1) {
         navigate(`${pathname}/${response[0][`id${key}`]}`);

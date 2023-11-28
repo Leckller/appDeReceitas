@@ -1,4 +1,4 @@
-import { Dispatch, Recipes } from '../../types';
+import { Recipes } from '../../types';
 
 export const actions = {
   GET_RESPONSE: 'GET_RESPONSE',
@@ -6,11 +6,7 @@ export const actions = {
 
 const { GET_RESPONSE } = actions;
 
-const getResponse = (response: Recipes) => ({
+export const getResponse = (response: Recipes) => ({
   type: GET_RESPONSE,
   payload: response,
 });
-
-export const addList = (recipes: Recipes) => async (dispatch: Dispatch) => {
-  dispatch(getResponse(recipes));
-};

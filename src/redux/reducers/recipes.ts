@@ -9,7 +9,7 @@ const INITIAL_STATE: Recipes = [];
 const recipes = (state = INITIAL_STATE, action: AnyAction): Recipes => {
   switch (action.type) {
     case GET_RESPONSE:
-      return [action.payload];
+      return action.payload;
     default:
       return state;
   }

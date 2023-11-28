@@ -1,25 +1,13 @@
 export const useLocalStorage = (key: string) => {
   const setItem = (value: unknown) => {
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-      console.log(error);
-    }
+    localStorage.setItem(key, JSON.stringify(value));
   };
-  const getItem = () => {
-    try {
-      const item = localStorage.getItem(key);
-      return item ? JSON.parse(item) : undefined;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const removeItem = () => {
-    try {
-      localStorage.removeItem(key);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  return { setItem, getItem, removeItem };
+  // const getItem = () => {
+  //   const item = localStorage.getItem(key);
+  //   return item ? JSON.parse(item) : undefined;
+  // };
+  // const removeItem = () => {
+  //   localStorage.removeItem(key);
+  // };
+  return { setItem };
 };
