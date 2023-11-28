@@ -1,5 +1,24 @@
 import { AnyAction } from 'redux';
 import { GETAPI, LOADING } from '../actions';
+
+const initialState = {
+  recipes: [],
+  loading: false,
+};
+
+const recipesReducer = (state = initialState, action: AnyAction) => {
+  switch (action.type) {
+    case LOADING: { return { ...state, loading: true }; }
+
+    case GETAPI: {
+      return { ...state, loading: false, recipes: action.payload };
+    }
+    default: { return { ...state }; }
+  }
+};
+
+export default recipesReducer;
+
 // import { createSlice } from '@reduxjs/toolkit';
 // import type { PayloadAction } from '@reduxjs/toolkit';
 // import { Dispatch, Drinks, Form, GlobalState, Meals, Path } from '../../types';
@@ -34,21 +53,3 @@ import { GETAPI, LOADING } from '../actions';
 // };
 
 // export default recipes.reducer;
-
-const initialState = {
-  recipes: [],
-  loading: false,
-};
-
-const recipesReducer = (state = initialState, action: AnyAction) => {
-  switch (action.type) {
-    case LOADING: { return { ...state, loading: true }; }
-
-    case GETAPI: {
-      return { ...state, loading: false, recipes: action.payload };
-    }
-    default: { return { ...state }; }
-  }
-};
-
-export default recipesReducer;

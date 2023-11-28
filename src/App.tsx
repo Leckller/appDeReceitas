@@ -8,7 +8,6 @@ import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Details from './pages/Details';
 
-
 function App() {
   return (
     <Routes>

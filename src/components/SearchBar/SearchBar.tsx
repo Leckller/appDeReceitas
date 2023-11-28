@@ -36,7 +36,7 @@ function SearchBar() {
   };
 
   return (
-    <div className="flex items-center flex-col">
+    <div className="flex items-center flex-col bg-white">
       <h1>{ pathFilter }</h1>
       <form
         onSubmit={ handleSubmit }
@@ -45,6 +45,7 @@ function SearchBar() {
         <label htmlFor="search">
           Search
           <input
+            className="border border-black"
             type="text"
             name="search"
             id="search"

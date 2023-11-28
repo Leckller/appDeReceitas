@@ -18,7 +18,7 @@ function Header() {
     const renderTitleEffect = (str: string) => str.charAt(1) + str.slice(2);
     const pathFilter = renderTitleEffect(pathname) as Path;
     dispatch(addList({ search: '', radio: 'ingredient' }, pathFilter));
-  }, []);
+  }, [dispatch, pathname]);
 
   const renderTitle = (str: string) => {
     if (pathname === '/done-recipes' || pathname === '/favorite-recipes') {
