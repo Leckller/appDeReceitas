@@ -99,5 +99,4 @@ export type Form = {
 
 export type Path = 'Meal' | 'Drink';
 
-
 export type Dispatch = ThunkDispatch<GlobalState, void, Action>;
