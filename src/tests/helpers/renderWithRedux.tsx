@@ -8,13 +8,11 @@ import { store } from '../../redux/store';
 import { GlobalState } from '../../types';
 import rootReducer from '../../redux/reducers';
 
-
 const renderWithRouterAndRedux = (
   component: JSX.Element,
   route = '/',
   state: GlobalState | undefined = undefined,
   store = createStore(rootReducer, state, applyMiddleware(thunk)),
-
 ) => {
   window.history.pushState({}, 'Test page', route);
   return {
