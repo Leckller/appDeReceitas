@@ -21,7 +21,14 @@ function Header() {
   const title = renderTitle(pathname);
 
   return (
-    <div>
+    <div
+      className="w-screen h-12
+      bg-gradient-to-tr from-indigo-700
+     via-blue-800 to-blue-700
+      flex justify-around items-center
+     shadow-gray-800 shadow-md
+     "
+    >
       <h1 data-testid="page-title">{ title }</h1>
       <input
         type="image"
@@ -30,8 +37,14 @@ function Header() {
         data-testid="profile-top-btn"
         onClick={ () => navigate('/profile') }
       />
-      { search && (<SearchBar />)}
-      {
+      <div className="flex relative h-full items-center">
+        { search && (
+          <div className="absolute top-12 right-0 border border-black w-80">
+            <SearchBar />
+          </div>
+        )}
+
+        {
           !notSearch.includes(pathname) && (
             <input
               type="image"
@@ -42,6 +55,7 @@ function Header() {
             />
           )
       }
+      </div>
     </div>
   );
 }

@@ -15,6 +15,7 @@ export const fecthApi = async (
   { search, radio }: Form,
   pathFilter: Path,
 ) => {
+
   const pathLower = `${pathFilter.toLowerCase()}s`;
 
   if (radio === 'firstLetter' && search.length > 1) {

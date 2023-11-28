@@ -1,4 +1,4 @@
-import { Action } from 'redux';
+import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 
 export type Common = {
@@ -79,6 +79,10 @@ export type Meals = Common & {
   strSource: string;
   strYoutube: string;
   [key: string]: string | null,
+};
+
+export type Categorias = {
+  strCategory: string,
 };
 
 export type GlobalState = {

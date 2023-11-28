@@ -1,6 +1,5 @@
 import { AnyAction } from 'redux';
 import { Recipes } from '../../types';
-import { actions } from '../actions';
 
 const { GET_RESPONSE } = actions;
 
