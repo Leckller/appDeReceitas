@@ -1,5 +1,4 @@
 import { screen } from '@testing-library/dom';
-import { vi } from 'vitest';
 import App from '../App';
 import renderWithRouterAndRedux from './helpers/renderWithRedux';
 

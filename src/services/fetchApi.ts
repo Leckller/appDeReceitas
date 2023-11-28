@@ -25,7 +25,7 @@ export const fecthApi = async (
   const data = await response.json();
 
   if (!data[pathLower]) {
-    throw new Error("Sorry, we haven't found any recipes for these filters.");
+    throw new Error("Sorry, we haven't found any recipes for these filters");
   }
 
   return data[pathLower];

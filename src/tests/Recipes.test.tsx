@@ -29,7 +29,7 @@ describe('Check page Recipes', () => {
     await user.click(enterBtn);
 
     await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith('Sorry, we haven\'t found any recipes for these filters.');
+      expect(window.alert).toHaveBeenCalledWith('Sorry, we haven\'t found any recipes for these filters');
       expect(window.alert).toHaveBeenCalledTimes(1);
     });
   });
