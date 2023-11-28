@@ -4,7 +4,7 @@ import Meal from '../components/Recipes/Meal';
 
 function Recipes() {
   const { pathname } = useLocation();
-  console.log(pathname);
+
   return (
     <div className="bg-blue-200 h-screen overflow-y-auto">
       <div>Recipes</div>

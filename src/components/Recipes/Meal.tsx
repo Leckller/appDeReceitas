@@ -1,35 +1,38 @@
-import { useSelector } from 'react-redux';
-import { GlobalState, Meals } from '../../types';
+import { useEffect, useState } from 'react';
+import { Meals } from '../../types';
 
 function Meal() {
-  const meals = useSelector((state:
-  GlobalState) => state.recipesReducer.recipes as Meals[]);
+  const [meals, setMeals] = useState<Meals[]>([]);
+  useEffect(() => {
+    const effect = async () => {
+      const data = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+      const resp = await data.json();
+      setMeals(resp.meals);
+      console.log(resp.meals);
+    };
+    effect();
+  }, []);
   return (
     <section className="flex w-screen flex-wrap gap-4 p-2">
-      {meals ? (
-        meals
-          .map((d, i) => (
-            <article
-              className="w-64 h-64 flex items-center flex-col
+      {meals && meals.slice(0, 12).map((d, i) => (
+        <article
+          className="w-64 h-64 flex items-center flex-col
             justify-around
           bg-red-400"
-              data-testid={ `${i}-recipe-card` }
-              key={ d.idMeal }
-            >
-              <img
-                className="w-1/2"
-                src={ d.strMealThumb }
-                alt={ d.strMeal }
-                data-testid={ `${i}-card-img` }
-              />
-              <h1 data-testid={ `${i}-card-name` }>
-                {d.strMeal}
-              </h1>
-            </article>
-          ))
-      ) : (
-        <h2>Faça uma pesquisa</h2>
-      )}
+          data-testid={ `${i}-recipe-card` }
+          key={ d.idMeal }
+        >
+          <img
+            className="w-1/2"
+            src={ d.strMealThumb }
+            alt={ d.strMeal }
+            data-testid={ `${i}-card-img` }
+          />
+          <h1 data-testid={ `${i}-card-name` }>
+            {d.strMeal}
+          </h1>
+        </article>
+      ))}
     </section>
   );
 }
