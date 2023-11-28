@@ -1,6 +1,6 @@
 function DoneRecipes() {
   return (
-    <div>DoneRecipes</div>
+    <div>Done Recipes</div>
   );
 }
 

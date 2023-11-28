@@ -2,7 +2,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
-import Search from '../Search/Search';
+import SearchBar from '../SearchBar/SearchBar';
+
 
 function Header() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ function Header() {
         data-testid="profile-top-btn"
         onClick={ () => navigate('/profile') }
       />
-      { search && (<Search />)}
+      { search && (<SearchBar />)}
       {
           !notSearch.includes(pathname) && (
             <input
