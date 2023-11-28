@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Dispatch, Form, GlobalState, Path } from '../../types';
-import { addList } from '../../redux/reducers/recipes';
+import { Dispatch, Form } from '../../types';
+import { getResponse } from '../../redux/actions';
+import { fecthApi } from '../../services/fetchApi';
 
 function SearchBar() {
-  const { recipes: { recipes } } = useSelector((state: GlobalState) => state);
-  const navigate = useNavigate();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const dispatch: Dispatch = useDispatch();
 
   const INITIAL_STATE: Form = {
@@ -22,22 +22,25 @@ function SearchBar() {
     setForm({ ...form, [name]: value });
   };
 
-  const renderTitle = (str: string) => str.charAt(1) + str.slice(2);
+  const key = pathname.includes('/meals') ? 'Meal' : 'Drink';
 
-  const pathFilter = renderTitle(pathname) as Path;
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(addList(form, pathFilter));
+    try {
+      const response = await fecthApi(form, key);
 
-    if (recipes.length === 1) {
-      navigate(`${pathname}/${recipes[0].idMeal}`);
+      dispatch(getResponse(response));
+
+      if (response.length === 1) {
+        navigate(`${pathname}/${response[0][`id${key}`]}`);
+      }
+    } catch (error: any) {
+      window.alert(error.message);
     }
   };
 
   return (
     <div>
-      <h1>{ pathFilter }</h1>
       <form
         onSubmit={ handleSubmit }
       >

@@ -4,7 +4,6 @@ import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
 import SearchBar from '../SearchBar/SearchBar';
 
-
 function Header() {
   const navigate = useNavigate();
   const { pathname } = useLocation();

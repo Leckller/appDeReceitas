@@ -1,7 +1,7 @@
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 
 function Recipes() {
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
   return (
     <div>Recipes</div>
   );

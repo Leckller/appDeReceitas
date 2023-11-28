@@ -4,7 +4,6 @@ import renderWithRouterAndRedux from './helpers/renderWithRedux';
 
 describe('Check page Login', () => {
   test('Checks login functionality', async () => {
-    localStorage.setItem('', JSON.stringify(''));
     const { user } = renderWithRouterAndRedux(
       <App />,
     );

@@ -8,20 +8,19 @@ import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Details from './pages/Details';
 
-
 function App() {
   return (
     <Routes>
       <Route path="/" Component={ Login } />
       <Route path="/" Component={ Layout }>
-        <Route path="meals" Component={ Recipes } />
-        <Route path="drinks" Component={ Recipes } />
-        <Route path="meals:id-da-receita" Component={ Details } />
-        <Route path="drinks:id-da-receita" Component={ Details } />
-        <Route path="profile" Component={ Profile } />
-        <Route path="done-recipes" Component={ DoneRecipes } />
-        <Route path="favorite-recipes" Component={ FavoriteRecipes } />
+        <Route path="/meals" Component={ Recipes } />
+        <Route path="/drinks" Component={ Recipes } />
+        <Route path="/profile" Component={ Profile } />
+        <Route path="/done-recipes" Component={ DoneRecipes } />
+        <Route path="/favorite-recipes" Component={ FavoriteRecipes } />
       </Route>
+      <Route path="/meals/:id" Component={ Details } />
+      <Route path="/drinks/:id" Component={ Details } />
     </Routes>
   );
 }
