@@ -1,17 +1,15 @@
 import { AnyAction } from 'redux';
-import { GlobalState } from '../../types';
+import { Recipes } from '../../types';
 import { actions } from '../actions';
 
 const { GET_RESPONSE } = actions;
 
-const INITIAL_STATE: GlobalState = {
-  recipes: [],
-};
+const INITIAL_STATE: Recipes = [];
 
-const recipes = (state = INITIAL_STATE, action: AnyAction): GlobalState => {
+const recipes = (state = INITIAL_STATE, action: AnyAction): Recipes => {
   switch (action.type) {
     case GET_RESPONSE:
-      return { ...state, recipes: action.payload };
+      return [action.payload];
     default:
       return state;
   }
