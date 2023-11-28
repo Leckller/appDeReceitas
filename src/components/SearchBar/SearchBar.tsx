@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Dispatch, Form, GlobalState, Path } from '../../types';
-import { addList } from '../../redux/reducers/recipes';
+import { addList } from '../../redux/actions';
 
 function SearchBar() {
-  const { recipes: { recipes } } = useSelector((state: GlobalState) => state);
+  const { recipesReducer: { recipes } } = useSelector((state: GlobalState) => state);
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const dispatch: Dispatch = useDispatch();
@@ -36,52 +36,68 @@ function SearchBar() {
   };
 
   return (
-    <div>
+    <div className="flex items-center flex-col">
       <h1>{ pathFilter }</h1>
       <form
         onSubmit={ handleSubmit }
+        className="flex flex-col items-start p-3"
       >
-        <label htmlFor="search">Search</label>
-        <input
-          type="text"
-          name="search"
-          id="search"
-          data-testid="search-input"
-          value={ search }
-          onChange={ handleChange }
-        />
-        <label htmlFor="ingredient">Ingredient</label>
-        <input
-          type="radio"
-          name="radio"
-          id="ingredient"
-          data-testid="ingredient-search-radio"
-          value="ingredient"
-          onChange={ handleChange }
-          checked={ radio === 'ingredient' }
-        />
-        <label htmlFor="name">Name</label>
-        <input
-          type="radio"
-          name="radio"
-          id="name"
-          data-testid="name-search-radio"
-          value="name"
-          onChange={ handleChange }
-          checked={ radio === 'name' }
-        />
-        <label htmlFor="first-letter">First Letter</label>
-        <input
-          type="radio"
-          name="radio"
-          id="first-letter"
-          data-testid="first-letter-search-radio"
-          value="firstLetter"
-          onChange={ handleChange }
-          checked={ radio === 'firstLetter' }
-        />
+        <label htmlFor="search">
+          Search
+          <input
+            type="text"
+            name="search"
+            id="search"
+            data-testid="search-input"
+            value={ search }
+            onChange={ handleChange }
+          />
+
+        </label>
+
+        <label htmlFor="ingredient">
+          Ingredient
+          <input
+            type="radio"
+            name="radio"
+            id="ingredient"
+            data-testid="ingredient-search-radio"
+            value="ingredient"
+            onChange={ handleChange }
+            checked={ radio === 'ingredient' }
+          />
+        </label>
+
+        <label htmlFor="name">
+          Name
+          <input
+            type="radio"
+            name="radio"
+            id="name"
+            data-testid="name-search-radio"
+            value="name"
+            onChange={ handleChange }
+            checked={ radio === 'name' }
+          />
+
+        </label>
+
+        <label htmlFor="first-letter">
+          First Letter
+          <input
+            type="radio"
+            name="radio"
+            id="first-letter"
+            data-testid="first-letter-search-radio"
+            value="firstLetter"
+            onChange={ handleChange }
+            checked={ radio === 'firstLetter' }
+          />
+        </label>
+
         <button
           data-testid="exec-search-btn"
+          className="border p-1 border-black"
         >
           Enter
         </button>

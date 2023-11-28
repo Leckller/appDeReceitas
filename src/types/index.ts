@@ -1,6 +1,5 @@
-import { Action } from 'redux';
+import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-
 
 export type Common = {
   dateModified: string | null;
@@ -81,7 +80,7 @@ export type Meals = Common & {
 };
 
 export type GlobalState = {
-  recipes: any,
+  recipesReducer: { recipes: Meals[] | Drinks[] },
 };
 
 export type User = {
@@ -96,5 +95,4 @@ export type Form = {
 
 export type Path = 'meals' | 'drinks';
 
-
-export type Dispatch = ThunkDispatch<GlobalState, void, Action>;
+export type Dispatch = ThunkDispatch<GlobalState, null, AnyAction>;

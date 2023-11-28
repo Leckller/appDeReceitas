@@ -15,10 +15,11 @@ export const fecthApi = async (
   { search, radio }: Form,
   pathFilter: Path,
 ) => {
+  const url = `https://www.the${path[pathFilter]}db.com/api/json/v1/1/${radioFilter[radio]}=${search}`;
+  console.log(url);
   try {
-    const response = await fetch(`https://www.the${path[pathFilter]}db.com/api/json/v1/1/${radioFilter[radio]}=${search}`);
+    const response = await fetch(url);
     const data = await response.json();
-
     return data[pathFilter];
   } catch (error) {
     if (radio === 'firstLetter' && search.length > 1) {

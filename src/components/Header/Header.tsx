@@ -1,14 +1,24 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
 import SearchBar from '../SearchBar/SearchBar';
+import { addList } from '../../redux/actions';
+import { Dispatch, Path } from '../../types';
 
 function Header() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const notSearch = ['/profile', '/done-recipes', '/favorite-recipes'];
   const [search, setSearch] = useState<boolean>(false);
+  const dispatch: Dispatch = useDispatch();
+
+  useEffect(() => {
+    const renderTitleEffect = (str: string) => str.charAt(1) + str.slice(2);
+    const pathFilter = renderTitleEffect(pathname) as Path;
+    dispatch(addList({ search: '', radio: 'ingredient' }, pathFilter));
+  }, []);
 
   const renderTitle = (str: string) => {
     if (pathname === '/done-recipes' || pathname === '/favorite-recipes') {
@@ -39,9 +49,10 @@ function Header() {
       />
       <div className="flex relative h-full items-center">
         { search && (
-          <div className="absolute top-12 right-0 border border-black" />
+          <div className="absolute top-12 right-0 border border-black w-80">
+            <SearchBar />
+          </div>
         )}
-        <SearchBar />
 
         {
           !notSearch.includes(pathname) && (

@@ -1,34 +1,54 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { Dispatch, Drinks, Form, GlobalState, Meals, Path } from '../../types';
-import { fecthApi } from '../../services/fetchApi';
+import { AnyAction } from 'redux';
+import { GETAPI, LOADING } from '../actions';
+// import { createSlice } from '@reduxjs/toolkit';
+// import type { PayloadAction } from '@reduxjs/toolkit';
+// import { Dispatch, Drinks, Form, GlobalState, Meals, Path } from '../../types';
+// import { fecthApi } from '../../services/fetchApi';
 
-const initialState: GlobalState = {
+// const initialState: GlobalState = {
+//   recipes: [],
+// };
+
+// export const recipes = createSlice({
+//   name: 'recipes',
+//   initialState,
+//   reducers: {
+//     getApi: (state, action: PayloadAction<Drinks | Meals>) => {
+//       state.recipes = action.payload;
+//     },
+//   },
+// });
+
+// export const { getApi } = recipes.actions;
+
+// export const addList = (
+//   form: Form,
+//   pathFilter: Path,
+// ) => async (dispatch: Dispatch) => {
+//   try {
+//     const response = await fecthApi(form, pathFilter);
+//     dispatch(getApi(response));
+//   } catch (error: any) {
+//     window.alert(error.message);
+//   }
+// };
+
+// export default recipes.reducer;
+
+const initialState = {
   recipes: [],
+  loading: false,
 };
 
-export const recipes = createSlice({
-  name: 'recipes',
-  initialState,
-  reducers: {
-    getApi: (state, action: PayloadAction<Drinks | Meals>) => {
-      state.recipes = action.payload;
-    },
-  },
-});
+const recipesReducer = (state = initialState, action: AnyAction) => {
+  switch (action.type) {
+    case LOADING: { return { ...state, loading: true }; }
 
-export const { getApi } = recipes.actions;
-
-export const addList = (
-  form: Form,
-  pathFilter: Path,
-) => async (dispatch: Dispatch) => {
-  try {
-    const response = await fecthApi(form, pathFilter);
-    dispatch(getApi(response));
-  } catch (error: any) {
-    window.alert(error.message);
+    case GETAPI: {
+      return { ...state, loading: false, recipes: action.payload };
+    }
+    default: { return { ...state }; }
   }
 };
 
-export default recipes.reducer;
+export default recipesReducer;
