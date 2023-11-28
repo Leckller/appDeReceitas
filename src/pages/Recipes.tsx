@@ -9,6 +9,7 @@ import { dataCat, dataItem, setItemsByCategory } from '../services/RecipesFuncti
 function Recipes() {
   const { pathname } = useLocation();
   const [categorias, setCategorias] = useState<Categorias[]>([]);
+  const [titleCategorie, setTitleCategorie] = useState('');
   const title = pathname.slice(1);
   const [Items, setItems] = useState<Meals[] | Drinks[]>([]);
   useEffect(() => {
@@ -19,11 +20,16 @@ function Recipes() {
       // Fetch item - drink ou meal
       setItems(await dataItem(title));
     };
-    effect();
-  }, [title]);
+    if (Items.length === 0) effect();
+  }, [title, Items]);
 
   const handleClick = async (cat: string) => {
     setItems(await setItemsByCategory(title, cat));
+    setTitleCategorie(cat);
+    if (cat === titleCategorie) {
+      setItems(await dataItem(title));
+      setTitleCategorie('');
+    }
   };
   const handleClearAll = async () => {
     setItems(await dataItem(title));
