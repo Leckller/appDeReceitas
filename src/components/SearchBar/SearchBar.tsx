@@ -22,7 +22,6 @@ function SearchBar() {
     setForm({ ...form, [name]: value });
   };
 
-
   const key = pathname.includes('/meals') ? 'Meal' : 'Drink';
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
