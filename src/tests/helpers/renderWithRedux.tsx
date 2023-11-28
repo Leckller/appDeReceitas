@@ -4,7 +4,6 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
-import { store } from '../../redux/store';
 import { GlobalState } from '../../types';
 import rootReducer from '../../redux/reducers';
 
