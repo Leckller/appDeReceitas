@@ -34,32 +34,37 @@ describe('Check page Recipes', () => {
     });
   });
 
-  test('Check if you click on drinks and redirected to profile', async () => {
+  test.only('Check if you click on drinks', async () => {
     const { user } = renderWithRouterAndRedux(<App />, '/drinks');
 
-    const profileBtn = screen.getByTestId(profileBtnID);
     const searchBtn = screen.getByTestId(searchBtnID);
-
-    let title = screen.getByTestId(titleID);
-
-    expect(title).toHaveTextContent('Drinks');
 
     await user.click(searchBtn);
 
     const searchInput = screen.getByTestId(serchInputID);
     const ingredientRadio = screen.getByTestId(ingredientRadioID);
     const enterBtn = screen.getByTestId(enterBtnID);
+    let article = await screen.findAllByRole('article');
+
+    expect(article).toHaveLength(12);
 
     await user.type(searchInput, 'banana');
     await user.click(ingredientRadio);
 
     await user.click(enterBtn);
 
-    await user.click(searchBtn);
+    article = await screen.findAllByRole('article');
+
+    expect(article).toHaveLength(6);
+  });
+  test('Check if you redirected to page profile', async () => {
+    const { user } = renderWithRouterAndRedux(<App />, '/drinks');
+
+    const profileBtn = screen.getByTestId(profileBtnID);
+    const title = screen.getByTestId(titleID);
 
     await user.click(profileBtn);
 
-    title = screen.getByTestId(titleID);
     expect(title).toHaveTextContent('Profile');
   });
 });

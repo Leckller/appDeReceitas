@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { Categories, Dispatch, GlobalState } from '../types';
+import { Categories, Dispatch, Form, GlobalState } from '../types';
 import { fecthApi } from '../services/fetchApi';
 import { setAnyFilterInGlobal } from '../redux/actions';
 
@@ -9,32 +9,38 @@ function Recipes() {
   // pathname pega a rota em que você estiver
   const { pathname } = useLocation();
   const dispatch: Dispatch = useDispatch();
-  const { filters } = useSelector((state: GlobalState) => state);
+  const filters = useSelector((state: GlobalState) => state.filters);
   const [categories, setCategories] = useState<Categories[]>([]);
-  const [select, setSelect] = useState(false);
+
+  const [select, setSelect] = useState('All');
 
   // verifica a rota que está e faz a condicional de forma dinâmica Drinks ou Meals.
   const recipePath = pathname.includes('/meals') ? 'Meal' : 'Drink';
 
   // faz o fecth e o filtro na API de forma dinâmica e Dispara para qualquer State Global.
-  const filterAll = async (key: string, filter: string = '') => {
-    const data = await fecthApi({ key, search: key }, recipePath, filter);
+  const filterAll = async (form: Form, filter: string = '') => {
+    const { search = '', key } = form;
+    const data = await fecthApi({ key, search }, recipePath, filter);
     return data;
   };
   const handleClick = (strCategory: string) => {
-    setSelect(!select);
-    if (!select) {
-      return dispatch(setAnyFilterInGlobal('categories', recipePath, strCategory));
+    if (select === strCategory) { setSelect('All'); } else {
+      setSelect(strCategory);
+      return dispatch(setAnyFilterInGlobal(
+        { key: 'categories' },
+        recipePath,
+        strCategory,
+      ));
     }
-    dispatch(setAnyFilterInGlobal('name', recipePath));
+    dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath));
   };
 
   useEffect(() => {
     (async () => {
-      const data = await filterAll('list');
+      const data = await filterAll({ key: 'list' });
       setCategories(data);
     })();
-    dispatch(setAnyFilterInGlobal('name', recipePath));
+    dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath));
   }, []);
 
   return (
@@ -56,9 +62,9 @@ function Recipes() {
       <button
         type="button"
         data-testid="All-category-filter"
-        onClick={ () => dispatch(setAnyFilterInGlobal('name', recipePath)) }
+        onClick={ () => dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath)) }
       >
-        Clear All
+        All
       </button>
       <section className="flex w-screen flex-wrap gap-4 p-2">
         {

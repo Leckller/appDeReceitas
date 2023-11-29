@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Dispatch, Form } from '../../types';
-import { getRecipes } from '../../redux/actions';
+import { getAllFilters } from '../../redux/actions';
 import { fecthApi } from '../../services/fetchApi';
 
 function SearchBar() {
@@ -33,9 +33,14 @@ function SearchBar() {
       window.alert('Your search must have only 1 (one) character');
     }
 
-    // faz o fecth e o filtro na API de forma dinâmica e Dispara para o State Global Recipes.
+    // faz o fecth e o filtro na API de forma dinâmica e Dispara para o State Global Filters as Recipes.
     const recipes = await fecthApi(form, path, key);
-    dispatch(getRecipes(recipes));
+    dispatch(getAllFilters(recipes));
+
+    // quando o recipes for igual a [], disparará o alerta.
+    if (!recipes.length) {
+      window.alert("Sorry, we haven't found any recipes for these filters");
+    }
 
     // faz a verificação se o filtro da API for igual a 1, redireciona para a página de detalhes do produto.
     if (recipes.length === 1) {
