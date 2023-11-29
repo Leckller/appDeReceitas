@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import validator from 'validator';
-import { User } from '../types';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+
+type User = {
+  email: string,
+  password: string,
+};
 
 function Login() {
   const navigate = useNavigate();
@@ -20,6 +24,7 @@ function Login() {
     setForm({ ...form, [name]: value });
   };
 
+  // seta para o localStorage o e-mail e vai para rota /meals.
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setItem({ email });
