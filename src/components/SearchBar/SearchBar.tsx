@@ -1,15 +1,17 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Dispatch, Form } from '../../types';
-import { getAllFilters } from '../../redux/actions';
+import { Dispatch, Form, GlobalState } from '../../types';
+import { getAllFilters, setLoading } from '../../redux/actions';
 import { fecthApi } from '../../services/fetchApi';
+import Loading from '../Loading/Loading';
 
 function SearchBar() {
   // pathname pega a rota em que você estiver
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const dispatch: Dispatch = useDispatch();
+  const loading = useSelector((state: GlobalState) => state.loading);
 
   const INITIAL_STATE: Form = {
     search: '',
@@ -47,6 +49,10 @@ function SearchBar() {
       navigate(`${pathname}/${recipes[0][`id${path}`]}`);
     }
   };
+
+  if (loading) {
+    return (<Loading />);
+  }
 
   return (
     <div>

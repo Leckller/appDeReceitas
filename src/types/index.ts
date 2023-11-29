@@ -82,8 +82,8 @@ export type Meals = Common & {
 };
 
 export type GlobalState = {
-  recipes: TypeRecipes,
   filters: TypeRecipes,
+  loading: boolean,
 };
 
 export type FiltersDrinks = {

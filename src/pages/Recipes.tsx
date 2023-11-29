@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { Categories, Dispatch, Form, GlobalState } from '../types';
 import { fecthApi } from '../services/fetchApi';
-import { setAnyFilterInGlobal } from '../redux/actions';
+import { setAnyFilterInGlobal, setLoading } from '../redux/actions';
+import Loading from '../components/Loading/Loading';
 
 function Recipes() {
   // pathname pega a rota em que você estiver
   const { pathname } = useLocation();
   const dispatch: Dispatch = useDispatch();
-  const filters = useSelector((state: GlobalState) => state.filters);
+  const { filters, loading } = useSelector((state: GlobalState) => state);
   const [categories, setCategories] = useState<Categories[]>([]);
 
   const [select, setSelect] = useState('All');
@@ -41,7 +42,11 @@ function Recipes() {
       setCategories(data);
     })();
     dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath));
-  }, []);
+  }, [recipePath]);
+
+  if (loading) {
+    return (<Loading />);
+  }
 
   return (
     <div>
