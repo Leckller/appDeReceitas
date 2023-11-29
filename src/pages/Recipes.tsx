@@ -69,6 +69,7 @@ function Recipes() {
       <section className="flex w-screen flex-wrap gap-4 p-2">
         {
           // faz a reendenização das 12 primeiras Recipes
+
           filters.slice(0, 12).map((filter, index) => (
             <Link
               to={ `/${recipePath.toLowerCase()}s/${filter[`id${recipePath}`]}` }
