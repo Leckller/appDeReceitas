@@ -3,6 +3,12 @@ import { vi } from 'vitest';
 import renderWithRouterAndRedux from './helpers/renderWithRedux';
 import App from '../App';
 
+// const mockData = {
+//   json: async () => drinks,
+// } as Response;
+
+// vi.spyOn(global, 'fetch').mockResolvedValueOnce(mockData);
+
 describe('Check page Recipes', () => {
   const titleID = 'page-title';
   const profileBtnID = 'profile-top-btn';
@@ -35,27 +41,27 @@ describe('Check page Recipes', () => {
   });
 
   test.only('Check if you click on drinks', async () => {
-    const { user } = renderWithRouterAndRedux(<App />, '/drinks');
+    const { user } = renderWithRouterAndRedux(<App />, '/meals');
 
-    const searchBtn = screen.getByTestId(searchBtnID);
+    await user.click(screen.getByTestId(searchBtnID));
 
-    await user.click(searchBtn);
+    let article = await screen.findAllByRole('link');
+
+    expect(article).toHaveLength(12);
 
     const searchInput = screen.getByTestId(serchInputID);
     const ingredientRadio = screen.getByTestId(ingredientRadioID);
     const enterBtn = screen.getByTestId(enterBtnID);
-    let article = await screen.findAllByRole('article');
-
-    expect(article).toHaveLength(12);
 
     await user.type(searchInput, 'banana');
     await user.click(ingredientRadio);
 
     await user.click(enterBtn);
 
-    article = await screen.findAllByRole('article');
-
-    expect(article).toHaveLength(6);
+    await waitFor(() => {
+      article = screen.getAllByRole('img');
+      expect(article).toHaveLength(3);
+    });
   });
   test('Check if you redirected to page profile', async () => {
     const { user } = renderWithRouterAndRedux(<App />, '/drinks');

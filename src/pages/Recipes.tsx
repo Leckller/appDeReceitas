@@ -33,6 +33,7 @@ function Recipes() {
         strCategory,
       ));
     }
+    dispatch(setLoading(true));
     dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath));
   };
 
@@ -41,6 +42,7 @@ function Recipes() {
       const data = await filterAll({ key: 'list' });
       setCategories(data);
     })();
+    dispatch(setLoading(true));
     dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath));
   }, [recipePath]);
 

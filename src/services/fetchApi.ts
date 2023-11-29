@@ -70,6 +70,8 @@ export const fecthApi = async (
     const response = await fetch(endPoint);
     const data = await response.json();
 
+    console.log(data);
+
     return data[pathLowerCase] || [];
   } catch (error: any) {
     throw new Error(error.message);
