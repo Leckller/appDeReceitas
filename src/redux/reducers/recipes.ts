@@ -1,14 +1,20 @@
 import { AnyAction } from 'redux';
-import { Recipes } from '../../types';
+import { GlobalState } from '../../types';
+import { actions } from '../actions';
 
-const { GET_RESPONSE } = actions;
+const { GET_FILTERS, SET_LOADING } = actions;
 
-const INITIAL_STATE: Recipes = [];
+const INITIAL_STATE: GlobalState = {
+  filters: [],
+  loading: false,
+};
 
-const recipes = (state = INITIAL_STATE, action: AnyAction): Recipes => {
+const recipes = (state = INITIAL_STATE, action: AnyAction) => {
   switch (action.type) {
-    case GET_RESPONSE:
-      return action.payload;
+    case SET_LOADING:
+      return { ...state, loading: action.payload };
+    case GET_FILTERS:
+      return { ...state, filters: action.payload };
     default:
       return state;
   }

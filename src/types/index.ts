@@ -86,21 +86,35 @@ export type Categorias = {
 };
 
 export type GlobalState = {
-  recipes: Recipes,
+  filters: TypeRecipes,
+  loading: boolean,
 };
 
-export type Recipes = Meals[] | Drinks[];
-
-export type User = {
-  email: string,
-  password: string,
+export type FiltersDrinks = {
+  'strDrink': string,
+  'strDrinkThumb': string,
+  'idDrink': string,
 };
 
-export type Form = {
-  search: string,
-  radio: 'firstLetter' | 'ingredient' | 'name',
+export type FiltersMeals = {
+  'strMeal': string,
+  'strMealThumb': string,
+  'idMeal': string,
 };
 
-export type Path = 'Meal' | 'Drink';
+export type Categories = {
+  strCategory: string,
+};
 
-export type Dispatch = ThunkDispatch<GlobalState, void, Action>;
+export type TypeRecipes = Meals[] | Drinks[];
+
+export type Key = {
+  key: 'firstLetter' | 'ingredient' | 'name' | 'list' | 'categories' | '' | string,
+};
+export type Form = Key & {
+  search?: string | '',
+};
+
+export type Path = 'Meal' | 'Drink' | '';
+
+export type Dispatch = ThunkDispatch<GlobalState, void, AnyAction>;

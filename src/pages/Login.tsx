@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import validator from 'validator';
-import { User } from '../types';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+
+type User = {
+  email: string,
+  password: string,
+};
 
 function Login() {
   const navigate = useNavigate();
@@ -20,15 +24,17 @@ function Login() {
     setForm({ ...form, [name]: value });
   };
 
+  // seta para o localStorage o e-mail e vai para rota /meals.
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setItem({ email });
     navigate('/meals');
   };
+
   return (
     <div
       className="w-screen h-screen flex bg-gradient-to-tr from-indigo-950
-     via-blue-950 to-blue-900 items-center justify-center"
+      via-blue-950 to-blue-900 items-center justify-center"
     >
       <form
         className="w-3/4 h-4/5 flex p-5 flex-col items-center
@@ -39,8 +45,8 @@ function Login() {
           <label
             htmlFor="email"
             className="shadow-lg shadow-blue-950/50
-         bg-blue-800/50 rounded-md p-1 sm:w-72 sm:h-16 flex h-16 items-center
-         "
+          bg-blue-800/50 rounded-md p-1 sm:w-72 sm:h-16 flex h-16 items-center
+          "
           >
             E-mail:
             <input
@@ -56,8 +62,8 @@ function Login() {
           <label
             htmlFor="password"
             className="shadow-lg shadow-blue-950/50
-         bg-blue-800/50 rounded-md p-1 sm:w-72 sm:h-16 flex h-16 items-center
-         "
+          bg-blue-800/50 rounded-md p-1 sm:w-72 sm:h-16 flex h-16 items-center
+          "
           >
             Password:
             <input

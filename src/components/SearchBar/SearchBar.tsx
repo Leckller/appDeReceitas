@@ -1,107 +1,106 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Dispatch, Form } from '../../types';
-import { getResponse } from '../../redux/actions';
+import { Dispatch, Form, GlobalState } from '../../types';
+import { getAllFilters, setLoading } from '../../redux/actions';
 import { fecthApi } from '../../services/fetchApi';
+import Loading from '../Loading/Loading';
 
 function SearchBar() {
+  // pathname pega a rota em que você estiver
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const dispatch: Dispatch = useDispatch();
+  const loading = useSelector((state: GlobalState) => state.loading);
 
   const INITIAL_STATE: Form = {
     search: '',
-    radio: 'ingredient',
+    key: 'ingredient',
   };
   const [form, setForm] = useState<Form>(INITIAL_STATE);
-  const { search, radio } = form;
+  const { search, key } = form;
 
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = target;
     setForm({ ...form, [name]: value });
   };
 
-  const key = pathname.includes('/meals') ? 'Meal' : 'Drink';
+  // pega o pathname e faz um condicional de forma dinâmica se for Drinks ou Meals.
+  const path = pathname.includes('/meals') ? 'Meal' : 'Drink';
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const response = await fecthApi(form, key);
+    // verifica se o input search tiver tamanho maior que 1 e dispara o alerta.
+    if (key === 'firstLetter' && search && search.length > 1) {
+      window.alert('Your search must have only 1 (one) character');
+    }
 
-      dispatch(getResponse(response));
+    // faz o fecth e o filtro na API de forma dinâmica e Dispara para o State Global Filters as Recipes.
+    const recipes = await fecthApi(form, path, key);
+    dispatch(setLoading(true));
+    dispatch(getAllFilters(recipes));
 
-      if (response.length === 1) {
-        navigate(`${pathname}/${response[0][`id${key}`]}`);
-      }
-    } catch (error: any) {
-      window.alert(error.message);
+    // quando o recipes for igual a [], disparará o alerta.
+    if (!recipes.length) {
+      window.alert("Sorry, we haven't found any recipes for these filters");
+    }
+
+    // faz a verificação se o filtro da API for igual a 1, redireciona para a página de detalhes do produto.
+    if (recipes.length === 1) {
+      navigate(`${pathname}/${recipes[0][`id${path}`]}`);
     }
   };
+
+  if (loading) {
+    return (<Loading />);
+  }
 
   return (
     <div>
       <form
         onSubmit={ handleSubmit }
-        className="flex flex-col items-start p-3"
       >
-        <label htmlFor="search">
-          Search
-          <input
-            className="border border-black"
-            type="text"
-            name="search"
-            id="search"
-            data-testid="search-input"
-            value={ search }
-            onChange={ handleChange }
-          />
-
-        </label>
-
-        <label htmlFor="ingredient">
-          Ingredient
-          <input
-            type="radio"
-            name="radio"
-            id="ingredient"
-            data-testid="ingredient-search-radio"
-            value="ingredient"
-            onChange={ handleChange }
-            checked={ radio === 'ingredient' }
-          />
-        </label>
-
-        <label htmlFor="name">
-          Name
-          <input
-            type="radio"
-            name="radio"
-            id="name"
-            data-testid="name-search-radio"
-            value="name"
-            onChange={ handleChange }
-            checked={ radio === 'name' }
-          />
-
-        </label>
-
-        <label htmlFor="first-letter">
-          First Letter
-          <input
-            type="radio"
-            name="radio"
-            id="first-letter"
-            data-testid="first-letter-search-radio"
-            value="firstLetter"
-            onChange={ handleChange }
-            checked={ radio === 'firstLetter' }
-          />
-        </label>
-
+        <label htmlFor="search">Search</label>
+        <input
+          type="text"
+          name="search"
+          id="search"
+          data-testid="search-input"
+          value={ search }
+          onChange={ handleChange }
+        />
+        <label htmlFor="ingredient">Ingredient</label>
+        <input
+          type="radio"
+          name="key"
+          id="ingredient"
+          data-testid="ingredient-search-radio"
+          value="ingredient"
+          onChange={ handleChange }
+          checked={ key === 'ingredient' }
+        />
+        <label htmlFor="name">Name</label>
+        <input
+          type="radio"
+          name="key"
+          id="name"
+          data-testid="name-search-radio"
+          value="name"
+          onChange={ handleChange }
+          checked={ key === 'name' }
+        />
+        <label htmlFor="first-letter">First Letter</label>
+        <input
+          type="radio"
+          name="key"
+          id="first-letter"
+          data-testid="first-letter-search-radio"
+          value="firstLetter"
+          onChange={ handleChange }
+          checked={ key === 'firstLetter' }
+        />
         <button
           data-testid="exec-search-btn"
-          className="border p-1 border-black"
         >
           Enter
         </button>

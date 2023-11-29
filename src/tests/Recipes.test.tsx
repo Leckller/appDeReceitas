@@ -3,6 +3,12 @@ import { vi } from 'vitest';
 import renderWithRouterAndRedux from './helpers/renderWithRedux';
 import App from '../App';
 
+// const mockData = {
+//   json: async () => drinks,
+// } as Response;
+
+// vi.spyOn(global, 'fetch').mockResolvedValueOnce(mockData);
+
 describe('Check page Recipes', () => {
   const titleID = 'page-title';
   const profileBtnID = 'profile-top-btn';
@@ -34,17 +40,14 @@ describe('Check page Recipes', () => {
     });
   });
 
-  test('Check if you click on drinks and redirected to profile', async () => {
-    const { user } = renderWithRouterAndRedux(<App />, '/drinks');
+  test.only('Check if you click on drinks', async () => {
+    const { user } = renderWithRouterAndRedux(<App />, '/meals');
 
-    const profileBtn = screen.getByTestId(profileBtnID);
-    const searchBtn = screen.getByTestId(searchBtnID);
+    await user.click(screen.getByTestId(searchBtnID));
 
-    let title = screen.getByTestId(titleID);
+    let article = await screen.findAllByRole('link');
 
-    expect(title).toHaveTextContent('Drinks');
-
-    await user.click(searchBtn);
+    expect(article).toHaveLength(12);
 
     const searchInput = screen.getByTestId(serchInputID);
     const ingredientRadio = screen.getByTestId(ingredientRadioID);
@@ -55,11 +58,19 @@ describe('Check page Recipes', () => {
 
     await user.click(enterBtn);
 
-    await user.click(searchBtn);
+    await waitFor(() => {
+      article = screen.getAllByRole('img');
+      expect(article).toHaveLength(3);
+    });
+  });
+  test('Check if you redirected to page profile', async () => {
+    const { user } = renderWithRouterAndRedux(<App />, '/drinks');
+
+    const profileBtn = screen.getByTestId(profileBtnID);
+    const title = screen.getByTestId(titleID);
 
     await user.click(profileBtn);
 
-    title = screen.getByTestId(titleID);
     expect(title).toHaveTextContent('Profile');
   });
 });

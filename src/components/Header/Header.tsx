@@ -24,10 +24,10 @@ function Header() {
     <div
       className="w-screen h-12
       bg-gradient-to-tr from-indigo-700
-     via-blue-800 to-blue-700
+      via-blue-800 to-blue-700
       flex justify-around items-center
-     shadow-gray-800 shadow-md
-     "
+      shadow-gray-800 shadow-md
+      "
     >
       <h1 data-testid="page-title">{ title }</h1>
       <input
