@@ -52,6 +52,7 @@ const createEndPoint = (form: Form, path: Path, filter: string) => {
     firstLetter: `search.php?f=${search}`,
     list: 'list.php?c=list',
     categories: `filter.php?c=${filter}`,
+    id: `lookup.php?i=${filter}`,
   };
 
   return `https://www.the${recipePath[path as keyof typeof recipePath]}db.com/api/json/v1/1/${endPoint[key as keyof typeof endPoint]}`;

@@ -25,7 +25,10 @@ function Recipes() {
     return data;
   };
   const handleClick = (strCategory: string) => {
-    if (select === strCategory) { setSelect('All'); } else {
+    if (select === strCategory) {
+      setSelect('All');
+      dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath));
+    } else {
       setSelect(strCategory);
       return dispatch(setAnyFilterInGlobal(
         { key: 'categories' },
@@ -33,8 +36,6 @@ function Recipes() {
         strCategory,
       ));
     }
-    dispatch(setLoading(true));
-    dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath));
   };
 
   useEffect(() => {
@@ -76,7 +77,6 @@ function Recipes() {
       <section className="flex w-screen flex-wrap gap-4 p-2">
         {
           // faz a reendenização das 12 primeiras Recipes
-
           filters.slice(0, 12).map((filter, index) => (
             <Link
               to={ `/${recipePath.toLowerCase()}s/${filter[`id${recipePath}`]}` }

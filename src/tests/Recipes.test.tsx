@@ -2,12 +2,19 @@ import { screen, waitFor } from '@testing-library/dom';
 import { vi } from 'vitest';
 import renderWithRouterAndRedux from './helpers/renderWithRedux';
 import App from '../App';
+import drinks from '../../cypress/mocks/drinks';
+import meals from '../../cypress/mocks/meals';
 
-// const mockData = {
-//   json: async () => drinks,
-// } as Response;
+beforeEach(() => {
+  const mockData = {
+    json: async () => drinks || meals,
+  } as Response;
+  vi.spyOn(global, 'fetch').mockResolvedValueOnce(mockData);
+});
 
-// vi.spyOn(global, 'fetch').mockResolvedValueOnce(mockData);
+afterEach(() => {
+  vi.clearAllMocks();
+});
 
 describe('Check page Recipes', () => {
   const titleID = 'page-title';
