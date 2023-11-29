@@ -1,4 +1,4 @@
-import { Action } from 'redux';
+import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 
 export type Common = {
@@ -81,6 +81,10 @@ export type Meals = Common & {
   [key: string]: string | null,
 };
 
+export type Categorias = {
+  strCategory: string,
+};
+
 export type GlobalState = {
   filters: TypeRecipes,
   loading: boolean,
@@ -113,4 +117,4 @@ export type Form = Key & {
 
 export type Path = 'Meal' | 'Drink' | '';
 
-export type Dispatch = ThunkDispatch<GlobalState, void, Action>;
+export type Dispatch = ThunkDispatch<GlobalState, void, AnyAction>;
