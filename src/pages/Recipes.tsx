@@ -52,11 +52,17 @@ function Recipes() {
   }
 
   return (
-    <div>
-      {
+    <div className="flex flex-col items-center justify-center gap-1 pb-20">
+      <section
+        className="w-screen h-20 flex flex-row flex-wrap items-center
+       justify-around"
+      >
+        {
         // faz a reendenização das 5 primeiras Categories
         categories.slice(0, 5).map(({ strCategory }) => (
           <button
+            className="mt-4 hover:scale-110 transition-all border border-blue-950
+            rounded-md w-20"
             type="button"
             key={ strCategory }
             data-testid={ `${strCategory}-category-filter` }
@@ -67,14 +73,17 @@ function Recipes() {
           </button>
         ))
       }
-      <button
-        type="button"
-        data-testid="All-category-filter"
-        onClick={ () => dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath)) }
-      >
-        All
-      </button>
-      <section className="flex w-screen flex-wrap gap-4 p-2">
+        <button
+          type="button"
+          className="mt-4 hover:scale-110 transition-all border border-blue-950
+          rounded-md w-20"
+          data-testid="All-category-filter"
+          onClick={ () => dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath)) }
+        >
+          All
+        </button>
+      </section>
+      <section className="flex w-screen flex-wrap items-center justify-center">
         {
           // faz a reendenização das 12 primeiras Recipes
           filters.slice(0, 12).map((filter, index) => (
@@ -83,13 +92,12 @@ function Recipes() {
               key={ index }
             >
               <article
-                className="w-64 h-64 flex items-center flex-col
-            justify-around
-          bg-red-400"
+                className="w-96 h-80 flex items-center flex-col
+                  justify-around hover:scale-110 transition-all"
                 data-testid={ `${index}-recipe-card` }
               >
                 <img
-                  className="w-1/2"
+                  className="w-1/2 shadow-2xl shadow-blue-950"
                   src={ `${filter[`str${recipePath}Thumb`]}` }
                   alt={ `${filter[`str${recipePath}`]}` }
                   data-testid={ `${index}-card-img` }
