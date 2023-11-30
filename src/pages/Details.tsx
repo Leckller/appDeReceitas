@@ -1,6 +1,6 @@
 import { useLocation, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Drinks, Form, Meals } from '../types';
+import { Drinks, Form, Meals, TypeRecipes } from '../types';
 import { fecthApi } from '../services/fetchApi';
 // import { setAnyFilterInGlobal, setLoading } from '../redux/actions';
 
@@ -11,6 +11,7 @@ function Details() {
     : 'Details Drinks';
 
   const [product, setProduct] = useState<Meals | Drinks>({});
+  const [recomended, setRecomended] = useState<TypeRecipes>([]);
 
   // verifica a rota que está e faz a condicional de forma dinâmica Drinks ou Meals.
   const recipePath = pathname.includes('/meals') ? 'Meal' : 'Drink';
@@ -26,6 +27,8 @@ function Details() {
     (async () => {
       const data = await filterAll({ key: 'id' }, id);
       setProduct(data[0]);
+      const recipes = await filterAll({ key: 'name' });
+      setRecomended(recipes);
     })();
   }, [recipePath, id]);
 
@@ -53,7 +56,7 @@ function Details() {
                 { product[`str${recipePath}`] }
               </h1>
               <p data-testid="recipe-category">{ product.strCategory }</p>
-              <p data-testid="instructions">{ product.strInstuctions }</p>
+              <p data-testid="instructions">{ product.strInstructions }</p>
               {
                 ingredient.map((value, index) => (
                   <p
@@ -70,6 +73,25 @@ function Details() {
                 title={ product[`str${recipePath}`] as string }
                 data-testid="video"
               />
+              {
+                recomended.slice(0, 6).map((recipe, index) => (
+                  <div
+                    key={ index }
+                    data-testid={ `${index}-recommendation-card` }
+                  >
+                    <img
+                      src={ recipe[`str${recipePath}Thumb`] as string }
+                      alt={ recipe[`str${recipePath}`] as string }
+                    />
+                    <h3
+                      data-testid={ `${index}-recommendation-title` }
+                    >
+                      {recipe[`str${recipePath}`]}
+                    </h3>
+                  </div>
+                ))
+              }
+              <button data-testid="start-recipe-btn">Start Recipe</button>
             </form>
           </div>
         )
