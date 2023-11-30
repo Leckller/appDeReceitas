@@ -1,19 +1,16 @@
 import { useLocation, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Form } from '../types';
+import { Drinks, Form, Meals } from '../types';
 import { fecthApi } from '../services/fetchApi';
 // import { setAnyFilterInGlobal, setLoading } from '../redux/actions';
-
-type Product = {
-  [key: string]: string,
-};
 
 function Details() {
   const { id } = useParams();
   const { pathname } = useLocation();
   const keyPage = pathname.includes(`/meals/${id}`) ? 'Details Meals'
     : 'Details Drinks';
-  const [product, setProduct] = useState<Product>({});
+
+  const [product, setProduct] = useState<Meals | Drinks>({});
 
   // verifica a rota que está e faz a condicional de forma dinâmica Drinks ou Meals.
   const recipePath = pathname.includes('/meals') ? 'Meal' : 'Drink';
@@ -47,15 +44,16 @@ function Details() {
             <form>
               <img
                 data-testid="recipe-photo"
-                src={ product[`str${recipePath}Thumb`] }
-                alt={ product[`str${recipePath}`] }
+                src={ product[`str${recipePath}Thumb`] as string }
+                alt={ product[`str${recipePath}`] as string }
               />
               <h1
                 data-testid="recipe-title"
               >
                 { product[`str${recipePath}`] }
               </h1>
-              <p data-testid="recipe-category">{product.strCategory}</p>
+              <p data-testid="recipe-category">{ product.strCategory }</p>
+              <p data-testid="instructions">{ product.strInstuctions }</p>
               {
                 ingredient.map((value, index) => (
                   <p
@@ -67,9 +65,9 @@ function Details() {
                 ))
               }
               <iframe
-                src={ video }
+                src={ video as string }
                 allowFullScreen
-                title={ product[`str${recipePath}`] }
+                title={ product[`str${recipePath}`] as string }
                 data-testid="video"
               />
             </form>
