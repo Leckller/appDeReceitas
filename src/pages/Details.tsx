@@ -1,17 +1,16 @@
 import { useLocation, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Dispatch, Form } from '../types';
+import { Drinks, Form, Meals } from '../types';
 import { fecthApi } from '../services/fetchApi';
-import { setAnyFilterInGlobal, setLoading } from '../redux/actions';
+// import { setAnyFilterInGlobal, setLoading } from '../redux/actions';
 
 function Details() {
-  const dispatch: Dispatch = useDispatch();
   const { id } = useParams();
   const { pathname } = useLocation();
   const keyPage = pathname.includes(`/meals/${id}`) ? 'Details Meals'
     : 'Details Drinks';
-  const [product, setProduct] = useState();
+
+  const [product, setProduct] = useState<Meals | Drinks>({});
 
   // verifica a rota que está e faz a condicional de forma dinâmica Drinks ou Meals.
   const recipePath = pathname.includes('/meals') ? 'Meal' : 'Drink';
@@ -26,17 +25,53 @@ function Details() {
   useEffect(() => {
     (async () => {
       const data = await filterAll({ key: 'id' }, id);
-      setProduct(data);
+      setProduct(data[0]);
     })();
-    // dispatch(setLoading(true));
-    // dispatch(setAnyFilterInGlobal({ key: 'id' }, recipePath, id));
   }, [recipePath, id]);
+
+  const ingredient = Object.entries(product)
+    .filter((teste) => teste[0].includes('strIngredient'));
+
+  const video = pathname === '/drinks' ? product.strVideo
+    : product.strYoutube?.replace('watch?v=', 'embed/');
+
   return (
     <div>
       <h1>{keyPage}</h1>
       {
         product && (
-          <p>{ product[0][`str${recipePath}`]}</p>
+          <div>
+            <form>
+              <img
+                data-testid="recipe-photo"
+                src={ product[`str${recipePath}Thumb`] as string }
+                alt={ product[`str${recipePath}`] as string }
+              />
+              <h1
+                data-testid="recipe-title"
+              >
+                { product[`str${recipePath}`] }
+              </h1>
+              <p data-testid="recipe-category">{ product.strCategory }</p>
+              <p data-testid="instructions">{ product.strInstuctions }</p>
+              {
+                ingredient.map((value, index) => (
+                  <p
+                    data-testid={ `${index}-ingredient-name-and-measure` }
+                    key={ index }
+                  >
+                    { value[1] }
+                  </p>
+                ))
+              }
+              <iframe
+                src={ video as string }
+                allowFullScreen
+                title={ product[`str${recipePath}`] as string }
+                data-testid="video"
+              />
+            </form>
+          </div>
         )
       }
     </div>
