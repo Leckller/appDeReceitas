@@ -86,6 +86,7 @@ export type Categorias = {
 };
 
 export type GlobalState = {
+  recipes: TypeRecipes[],
   filters: TypeRecipes[],
   loading: boolean,
 };

@@ -15,7 +15,7 @@ function Login() {
   const [form, setForm] = useState<User>(INITIAL_STATE);
   const { email, password } = form;
 
-  const { setItem } = useLocalStorage('user');
+  const { setItem } = useLocalStorage();
 
   const validadeForm = (validator.isEmail(email) && password.length > 6);
 
@@ -27,7 +27,7 @@ function Login() {
   // seta para o localStorage o e-mail e vai para rota /meals.
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setItem({ email });
+    setItem({ email }, 'user');
     navigate('/meals');
   };
 

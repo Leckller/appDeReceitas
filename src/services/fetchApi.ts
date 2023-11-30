@@ -1,5 +1,45 @@
 import { Form, Path } from '../types';
 
+const recipePath = {
+  Meal: 'meal',
+  Drink: 'cocktail',
+};
+
+// monta de forma dinâmica o endPoint
+const createEndPoint = (form: Form, path: Path, filter: string) => {
+  const { search = '', key } = form;
+  // cada chave do objeto endPoint trás o final do endPoint de forma dinâmica.
+  const endPoint = {
+    ingredient: `filter.php?i=${search}`,
+    name: `search.php?s=${search}`,
+    firstLetter: `search.php?f=${search}`,
+    list: 'list.php?c=list',
+    categories: `filter.php?c=${filter}`,
+    id: `lookup.php?i=${filter}`,
+  };
+
+  return `https://www.the${recipePath[path as keyof typeof recipePath]}db.com/api/json/v1/1/${endPoint[key as keyof typeof endPoint]}`;
+};
+
+// faz o fecth da API
+export const fecthApi = async (
+  form: Form,
+  path: Path,
+  filter: string,
+) => {
+  try {
+    const endPoint = createEndPoint(form, path, filter);
+    const pathLowerCase = `${path.toLowerCase()}s`;
+
+    const response = await fetch(endPoint);
+    const data = await response.json();
+
+    return data[pathLowerCase] || [];
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
 // Como é criado o endPoint de forma Dinâmica.
 /*
   Condição dinâmina do parêmetro "path":
@@ -36,45 +76,3 @@ import { Form, Path } from '../types';
         - No caso filter = Beef
           - seria a mesma coisa que https://www.themealdb.com/api/json/v1/1/filter.php?c=Beef
 */
-
-const recipePath = {
-  Meal: 'meal',
-  Drink: 'cocktail',
-};
-
-// monta de forma dinâmica o endPoint
-const createEndPoint = (form: Form, path: Path, filter: string) => {
-  const { search = '', key } = form;
-  // cada chave do objeto endPoint trás o final do endPoint de forma dinâmica.
-  const endPoint = {
-    ingredient: `filter.php?i=${search}`,
-    name: `search.php?s=${search}`,
-    firstLetter: `search.php?f=${search}`,
-    list: 'list.php?c=list',
-    categories: `filter.php?c=${filter}`,
-    id: `lookup.php?i=${filter}`,
-  };
-
-  return `https://www.the${recipePath[path as keyof typeof recipePath]}db.com/api/json/v1/1/${endPoint[key as keyof typeof endPoint]}`;
-};
-
-// faz o fecth da API
-export const fecthApi = async (
-  form: Form,
-  path: Path,
-  filter: string,
-) => {
-  try {
-    const endPoint = createEndPoint(form, path, filter);
-    const pathLowerCase = `${path.toLowerCase()}s`;
-
-    const response = await fetch(endPoint);
-    const data = await response.json();
-
-    // console.log(data);
-
-    return data[pathLowerCase] || [];
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
-};
