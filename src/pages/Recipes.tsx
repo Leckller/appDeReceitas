@@ -60,8 +60,8 @@ function Recipes() {
   return (
     <div className="flex flex-col items-center justify-center gap-1 pb-20">
       <section
-        className="w-screen h-20 flex flex-row flex-wrap items-center
-       justify-around"
+        className="w-screen flex flex-row flex-wrap
+       justify-around mt-3 mb-3"
       >
         {
         // faz a reendenização das 5 primeiras Categories

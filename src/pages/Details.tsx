@@ -30,18 +30,27 @@ function Details() {
   }, [recipePath, id]);
 
   const ingredient = Object.entries(product)
-    .filter((teste) => teste[0].includes('strIngredient'));
+    .filter((teste) => teste[0].includes('strIngredient')
+    || teste[0].includes('strMeasure'))
+    .filter((i) => i[1] !== null).sort((a, b) => {
+      if (a[0][a[0].length - 1] > b[0][b[0].length - 1]) return 1;
+      if (a[0][a[0].length - 1] < b[0][b[0].length - 1]) return -1;
+    })
+    .reduce((a, b) => {
+      return [...a, { [b[0]]: b[1] }];
+    }, []);
 
   const video = pathname === '/drinks' ? product.strVideo
     : product.strYoutube?.replace('watch?v=', 'embed/');
 
+  console.log(ingredient);
   return (
-    <div>
+    <main className="flex flex-col justify-center items-center">
       <h1>{keyPage}</h1>
       {
         product && (
-          <div>
-            <form>
+          <section>
+            <article>
               <img
                 data-testid="recipe-photo"
                 src={ product[`str${recipePath}Thumb`] as string }
@@ -60,7 +69,7 @@ function Details() {
                     data-testid={ `${index}-ingredient-name-and-measure` }
                     key={ index }
                   >
-                    { value[1] }
+                    { value.strIngredient1 }
                   </p>
                 ))
               }
@@ -70,11 +79,11 @@ function Details() {
                 title={ product[`str${recipePath}`] as string }
                 data-testid="video"
               />
-            </form>
-          </div>
+            </article>
+          </section>
         )
       }
-    </div>
+    </main>
   );
 }
 
