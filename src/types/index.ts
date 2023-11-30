@@ -86,7 +86,7 @@ export type Categorias = {
 };
 
 export type GlobalState = {
-  filters: TypeRecipes,
+  filters: TypeRecipes[],
   loading: boolean,
 };
 
@@ -106,7 +106,7 @@ export type Categories = {
   strCategory: string,
 };
 
-export type TypeRecipes = Meals[] | Drinks[];
+export type TypeRecipes = Meals | Drinks;
 
 export type Key = {
   key: 'firstLetter' | 'ingredient' | 'name' | 'list' | 'categories' | '' | string,

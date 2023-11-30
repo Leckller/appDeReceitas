@@ -1,42 +1,50 @@
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Drinks, Form, Meals, TypeRecipes } from '../types';
+import { useDispatch, useSelector } from 'react-redux';
+import { Dispatch, Form, GlobalState, TypeRecipes } from '../types';
 import { fecthApi } from '../services/fetchApi';
+import { setAnyFilterInGlobal } from '../redux/actions';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 // import { setAnyFilterInGlobal, setLoading } from '../redux/actions';
 
-function Details() {
+function RecipeDetails() {
   const { id } = useParams();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const { getItem } = useLocalStorage('doneRecipes');
+  const dispatch: Dispatch = useDispatch();
+  const filters = useSelector((state: GlobalState) => state.filters);
   const keyPage = pathname.includes(`/meals/${id}`) ? 'Details Meals'
     : 'Details Drinks';
 
-  const [product, setProduct] = useState<Meals | Drinks>({});
-  const [recomended, setRecomended] = useState<TypeRecipes>([]);
+  const [recomended, setRecomended] = useState<TypeRecipes[]>([]);
 
   // verifica a rota que está e faz a condicional de forma dinâmica Drinks ou Meals.
   const recipePath = pathname.includes('/meals') ? 'Meal' : 'Drink';
 
+  const pathInverse = pathname.includes('/drinks') ? 'Meal' : 'Drink';
+
   // faz o fecth e o filtro na API de forma dinâmica e Dispara para qualquer State Global.
   const filterAll = async (form: Form, filter: string = '') => {
     const { search = '', key } = form;
-    const data = await fecthApi({ key, search }, recipePath, filter);
+    const data = await fecthApi({ key, search }, pathInverse, filter);
     return data;
   };
 
   useEffect(() => {
     (async () => {
-      const data = await filterAll({ key: 'id' }, id);
-      setProduct(data[0]);
       const recipes = await filterAll({ key: 'name' });
       setRecomended(recipes);
     })();
+    dispatch(setAnyFilterInGlobal({ key: 'id' }, recipePath, id));
   }, [recipePath, id]);
 
+  const product = filters[0] || {};
   const ingredient = Object.entries(product)
     .filter((teste) => teste[0].includes('strIngredient'));
 
-  const video = pathname === '/drinks' ? product.strVideo
-    : product.strYoutube?.replace('watch?v=', 'embed/');
+  const getLocalStorage: TypeRecipes[] = getItem()
+    ?.some((item: TypeRecipes) => item.id === id);
 
   return (
     <div>
@@ -67,12 +75,17 @@ function Details() {
                   </p>
                 ))
               }
-              <iframe
-                src={ video as string }
-                allowFullScreen
-                title={ product[`str${recipePath}`] as string }
-                data-testid="video"
-              />
+              {
+                product.strYoutube && (
+
+                  <iframe
+                    src={ product.strYoutube?.replace('watch?v=', 'embed/') as string }
+                    allowFullScreen
+                    title={ product[`str${recipePath}`] as string }
+                    data-testid="video"
+                  />
+                )
+              }
               {
                 recomended.slice(0, 6).map((recipe, index) => (
                   <div
@@ -80,18 +93,27 @@ function Details() {
                     data-testid={ `${index}-recommendation-card` }
                   >
                     <img
-                      src={ recipe[`str${recipePath}Thumb`] as string }
-                      alt={ recipe[`str${recipePath}`] as string }
+                      src={ recipe[`str${pathInverse}Thumb`] as string }
+                      alt={ recipe[`str${pathInverse}`] as string }
                     />
                     <h3
                       data-testid={ `${index}-recommendation-title` }
                     >
-                      {recipe[`str${recipePath}`]}
+                      {recipe[`str${pathInverse}`]}
                     </h3>
                   </div>
                 ))
               }
-              <button data-testid="start-recipe-btn">Start Recipe</button>
+              {
+                !getLocalStorage && (
+                  <button
+                    data-testid="start-recipe-btn"
+                    onClick={ () => {} }
+                  >
+                    Start Recipe
+                  </button>
+                )
+              }
             </form>
           </div>
         )
@@ -100,4 +122,4 @@ function Details() {
   );
 }
 
-export default Details;
+export default RecipeDetails;
