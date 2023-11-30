@@ -10,7 +10,6 @@ import { useLocalStorage } from '../hooks/useLocalStorage';
 function RecipeDetails() {
   const { id } = useParams();
   const { pathname } = useLocation();
-  const navigate = useNavigate();
   const { getItem } = useLocalStorage('doneRecipes');
   const dispatch: Dispatch = useDispatch();
   const filters = useSelector((state: GlobalState) => state.filters);
@@ -40,11 +39,27 @@ function RecipeDetails() {
   }, [recipePath, id]);
 
   const product = filters[0] || {};
-  const ingredient = Object.entries(product)
-    .filter((teste) => teste[0].includes('strIngredient'));
+
+  const recipesProduts = Object.entries(product)
+    .filter(([key, value]) => key.includes('strIngredient') && value);
+
+  // const ingredient = Object.entries(product).reduce((acc, [key, value]) => {
+  //   if (key.includes('strIngredient') && value) {
+  //     const num = key.split('strIngredient')[1];
+  //     return { ...acc, [num]: [value, acc[num]] };
+  //   }
+  //   if (key.includes('strMeasure') && value) {
+  //     const num = key.split('strMeasure')[1];
+  //     return { ...acc, [num]: [acc[num][0], value] };
+  //   }
+  //   return acc;
+  // }, {} as { [key: string]: [string, string | undefined] });
+  // console.log(ingredient);
 
   const getLocalStorage: TypeRecipes[] = getItem()
     ?.some((item: TypeRecipes) => item.id === id);
+
+  console.log(product.strCategory);
 
   return (
     <div>
@@ -63,16 +78,21 @@ function RecipeDetails() {
               >
                 { product[`str${recipePath}`] }
               </h1>
-              <p data-testid="recipe-category">{ product.strCategory }</p>
+              <p
+                data-testid="recipe-category"
+              >
+                {`${product.strCategory}: ${product.strAlcoholic}`}
+              </p>
               <p data-testid="instructions">{ product.strInstructions }</p>
               {
-                ingredient.map((value, index) => (
-                  <p
-                    data-testid={ `${index}-ingredient-name-and-measure` }
-                    key={ index }
-                  >
-                    { value[1] }
-                  </p>
+                recipesProduts.map((value, index) => (
+                  <div key={ index }>
+                    <p
+                      data-testid={ `${index}-ingredient-name-and-measure` }
+                    >
+                      {`${value[1]}: ${product[`strMeasure${index + 1}`]}`}
+                    </p>
+                  </div>
                 ))
               }
               {
