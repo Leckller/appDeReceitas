@@ -37,7 +37,6 @@ function SearchBar() {
 
     // faz o fecth e o filtro na API de forma dinâmica e Dispara para o State Global Filters as Recipes.
     const recipes = await fecthApi(form, path, key);
-    dispatch(setLoading(true));
     dispatch(getAllFilters(recipes));
 
     // quando o recipes for igual a [], disparará o alerta.

@@ -65,7 +65,7 @@ describe('Check page Recipes', () => {
 
     await user.click(enterBtn);
 
-    await waitFor(() => {
+    await waitFor(async () => {
       article = screen.getAllByRole('img');
       expect(article).toHaveLength(3);
     });

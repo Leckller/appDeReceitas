@@ -9,7 +9,7 @@ export const actions = {
 const { GET_FILTERS, SET_LOADING } = actions;
 
 // seta no estado global todos os Filtros
-export const getAllFilters = (filter: TypeRecipes) => ({
+export const getAllFilters = (filter: TypeRecipes[]) => ({
   type: GET_FILTERS,
   payload: filter,
 });
