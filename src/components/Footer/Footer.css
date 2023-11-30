@@ -12,6 +12,7 @@
   background: none;
   border: none;
   cursor: pointer;
+  filter: opacity();
   height: 30px;
   margin: 0 20px;
   width: 30px;
