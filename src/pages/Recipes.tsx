@@ -68,7 +68,7 @@ function Recipes() {
         categories.slice(0, 5).map(({ strCategory }) => (
           <button
             className="mt-4 hover:scale-110 transition-all border border-blue-950
-            rounded-md w-20"
+            rounded-md w-28"
             type="button"
             key={ strCategory }
             data-testid={ `${strCategory}-category-filter` }
@@ -82,7 +82,7 @@ function Recipes() {
         <button
           type="button"
           className="mt-4 hover:scale-110 transition-all border border-blue-950
-          rounded-md w-20"
+          rounded-md w-28"
           data-testid="All-category-filter"
           onClick={ () => dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath)) }
         >
@@ -108,7 +108,9 @@ function Recipes() {
                   alt={ `${filter[`str${recipePath}`]}` }
                   data-testid={ `${index}-card-img` }
                 />
-                <h1 data-testid={ `${index}-card-name` }>
+                <h1
+                  data-testid={ `${index}-card-name` }
+                >
                   {filter[`str${recipePath}`]}
                 </h1>
               </article>
