@@ -1,5 +1,5 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch, GlobalState, TypeRecipes } from '../types';
 import { getRecipes, setAnyFilterInGlobal } from '../redux/actions';
@@ -22,6 +22,7 @@ function RecipeDetails() {
   useEffect(() => {
     dispatch(getRecipes({ key: 'name' }, route(pathname)));
     dispatch(setAnyFilterInGlobal({ key: 'id' }, route(pathname), id));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, id]);
 
   const product = filters[0] || {};

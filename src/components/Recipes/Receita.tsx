@@ -4,11 +4,14 @@ import shareIcon from '../../images/searchIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import { route } from '../../utils';
 import { TypeRecipes } from '../../types';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 function Receita({ product }: { product: TypeRecipes }) {
   const { pathname } = useLocation();
-
+  const { setItem, removeItem, getItem } = useLocalStorage();
+  const chave = 'inProgressRecipes';
   const [actvItems, setActvItems] = useState<string[]>([]);
+  const itemKey = pathname.split('/')[1];
 
   const recipesProduts = Object.entries(product)
     .filter(([key, value]) => key.includes('strIngredient') && value);
@@ -22,9 +25,20 @@ function Receita({ product }: { product: TypeRecipes }) {
     if (actvItems.some((item) => item.includes(`item-${index}`))) {
       setActvItems([...actvItems.filter((i) => i.split(' ')[0] !== `item-${index}`)]);
     }
+    // const actLocStorage = getItem(chave);
+    // setItem({ ...actLocStorage,
+    //   [itemKey]: {
+    //     ...actLocStorage[itemKey],
+    //     [product[`id${route(pathname)}`]]: actvItems,
+    //   } }, chave);
   };
 
   useEffect(() => {
+    // console.log(getItem(chave)[itemKey][product[[`id${route(pathname)}`]]]);
+    // if (getItem(chave) === undefined) { setItem({ drinks: {}, meals: {} }, chave); }
+    // if (actvItems.length === 0) {
+    //   setActvItems(getItem(chave)[itemKey][product[[`id${route(pathname)}`]]]);
+    // }
   }, [actvItems]);
 
   return (
@@ -92,6 +106,8 @@ function Receita({ product }: { product: TypeRecipes }) {
                         {`${value[1]}: ${product[`strMeasure${index + 1}`]}`}
                       </p>
                       <input
+                        checked={ actvItems
+                          .some((item) => item.includes(`item-${index}`)) }
                         onClick={ () => handleOnClick(value[1] as string, index) }
                         type="checkbox"
                         name={ value[1] as string }

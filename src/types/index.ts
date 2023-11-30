@@ -118,4 +118,9 @@ export type Form = Key & {
 
 export type Path = 'Meal' | 'Drink' | '';
 
+export type LSProgressType = {
+  drinks: { id: [] },
+  meals: { id: [] },
+};
+
 export type Dispatch = ThunkDispatch<GlobalState, void, AnyAction>;
