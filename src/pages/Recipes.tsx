@@ -26,17 +26,22 @@ function Recipes() {
     return data;
   };
   const handleClick = (strCategory: string) => {
-    if (select === strCategory) {
-      setSelect('All');
-      dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath));
-    } else {
-      setSelect(strCategory);
-      return dispatch(setAnyFilterInGlobal(
-        { key: 'categories' },
-        recipePath,
-        strCategory,
-      ));
-    }
+    setTimeout(() => {
+      dispatch(setLoading(true));
+      if (select === strCategory) {
+        setSelect('All');
+        dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath));
+        dispatch(setLoading(false));
+      } else {
+        setSelect(strCategory);
+        dispatch(setAnyFilterInGlobal(
+          { key: 'categories' },
+          recipePath,
+          strCategory,
+        ));
+      }
+    }, 100);
+    dispatch(setLoading(false));
   };
 
   useEffect(() => {
