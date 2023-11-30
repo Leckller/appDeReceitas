@@ -1,10 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { Categories, Dispatch, Form, GlobalState } from '../types';
-import { fecthApi } from '../services/fetchApi';
+import { Categories, Dispatch, GlobalState } from '../types';
 import { setAnyFilterInGlobal, setLoading } from '../redux/actions';
 import Loading from '../components/Loading/Loading';
+import { filterAll, route, routeInverse } from '../utils';
 
 function Recipes() {
   // pathname pega a rota em que você estiver
@@ -16,27 +16,18 @@ function Recipes() {
 
   const [select, setSelect] = useState('All');
 
-  // verifica a rota que está e faz a condicional de forma dinâmica Drinks ou Meals.
-  const recipePath = pathname.includes('/meals') ? 'Meal' : 'Drink';
-
-  // faz o fecth e o filtro na API de forma dinâmica e Dispara para qualquer State Global.
-  const filterAll = async (form: Form, filter: string = '') => {
-    const { search = '', key } = form;
-    const data = await fecthApi({ key, search }, recipePath, filter);
-    return data;
-  };
   const handleClick = (strCategory: string) => {
     setTimeout(() => {
       dispatch(setLoading(true));
       if (select === strCategory) {
         setSelect('All');
-        dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath));
+        dispatch(setAnyFilterInGlobal({ key: 'name' }, route(pathname)));
         dispatch(setLoading(false));
       } else {
         setSelect(strCategory);
         dispatch(setAnyFilterInGlobal(
           { key: 'categories' },
-          recipePath,
+          route(pathname),
           strCategory,
         ));
       }
@@ -46,12 +37,12 @@ function Recipes() {
 
   useEffect(() => {
     (async () => {
-      const data = await filterAll({ key: 'list' });
+      const data = await filterAll({ key: 'list' }, route(pathname));
       setCategories(data);
     })();
     dispatch(setLoading(true));
-    dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath));
-  }, [recipePath]);
+    dispatch(setAnyFilterInGlobal({ key: 'name' }, route(pathname)));
+  }, [pathname]);
 
   if (loading) {
     return (<Loading />);
@@ -84,7 +75,10 @@ function Recipes() {
           className="mt-4 hover:scale-110 transition-all border border-blue-950
           rounded-md w-20"
           data-testid="All-category-filter"
-          onClick={ () => dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath)) }
+          onClick={ () => dispatch(setAnyFilterInGlobal(
+            { key: 'name' },
+            route(pathname),
+          )) }
         >
           All
         </button>
@@ -94,7 +88,7 @@ function Recipes() {
           // faz a reendenização das 12 primeiras Recipes
           filters.slice(0, 12).map((filter, index) => (
             <Link
-              to={ `/${recipePath.toLowerCase()}s/${filter[`id${recipePath}`]}` }
+              to={ `${pathname}/${filter[`id${route(pathname)}`]}` }
               key={ index }
             >
               <article
@@ -104,12 +98,12 @@ function Recipes() {
               >
                 <img
                   className="w-1/2 shadow-2xl shadow-blue-950"
-                  src={ `${filter[`str${recipePath}Thumb`]}` }
-                  alt={ `${filter[`str${recipePath}`]}` }
+                  src={ `${filter[`str${route(pathname)}Thumb`]}` }
+                  alt={ `${filter[`str${route(pathname)}`]}` }
                   data-testid={ `${index}-card-img` }
                 />
                 <h1 data-testid={ `${index}-card-name` }>
-                  {filter[`str${recipePath}`]}
+                  {filter[`str${route(pathname)}`]}
                 </h1>
               </article>
             </Link>
