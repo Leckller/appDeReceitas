@@ -110,7 +110,7 @@ export type Categories = {
 export type TypeRecipes = Meals | Drinks;
 
 export type Key = {
-  key: 'firstLetter' | 'ingredient' | 'name' | 'list' | 'categories' | '' | string,
+  key: 'firstLetter' | 'ingredient' | 'name' | 'list' | 'categories' | '' | 'id' | string,
 };
 export type Form = Key & {
   search?: string | '',

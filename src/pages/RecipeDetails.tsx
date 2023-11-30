@@ -25,7 +25,6 @@ function RecipeDetails() {
   }, [pathname, id]);
 
   const product = filters[0] || {};
-
   const recipesProduts = Object.entries(product)
     .filter(([key, value]) => key.includes('strIngredient') && value);
 
