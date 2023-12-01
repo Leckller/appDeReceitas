@@ -119,6 +119,11 @@ export type Categories = {
   strCategory: string,
 };
 
+export type LocalProgressType = {
+  drinks: { [key: string]: [] },
+  meals: { [key: string]: [] }
+};
+
 export type Progress = Record<'meals' | 'drinks', { [key: string]: string[] }>;
 
 export type TypeRecipes = Meals | Drinks;
