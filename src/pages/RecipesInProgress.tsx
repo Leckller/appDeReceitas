@@ -16,7 +16,6 @@ function RecipesInProgress() {
   return (
     <div>
       <Receita />
-      <button data-testid="finish-recipe-btn">finish</button>
     </div>
   );
 }
