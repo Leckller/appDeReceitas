@@ -2,16 +2,12 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import shareIcon from '../../images/searchIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
-import { route } from '../../utils';
 import { TypeRecipes } from '../../types';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { route } from '../../utils/FuncsAll';
 
 function Receita({ product }: { product: TypeRecipes }) {
   const { pathname } = useLocation();
-  const { setItem, removeItem, getItem } = useLocalStorage();
-  const chave = 'inProgressRecipes';
   const [actvItems, setActvItems] = useState<string[]>([]);
-  const itemKey = pathname.split('/')[1];
 
   const recipesProduts = Object.entries(product)
     .filter(([key, value]) => key.includes('strIngredient') && value);

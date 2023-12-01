@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { filterAll, route } from '../utils';
 import Receita from '../components/Recipes/Receita';
+import { filterAll, route } from '../utils/FuncsAll';
 
 function RecipesInProgress() {
   const { pathname } = useLocation();

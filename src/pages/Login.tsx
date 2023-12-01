@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import validator from 'validator';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { setItem } from '../utils/localStorage';
 
 type User = {
   email: string,
@@ -15,8 +15,6 @@ function Login() {
   const [form, setForm] = useState<User>(INITIAL_STATE);
   const { email, password } = form;
 
-  const { setItem } = useLocalStorage();
-
   const validadeForm = (validator.isEmail(email) && password.length > 6);
 
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +25,7 @@ function Login() {
   // seta para o localStorage o e-mail e vai para rota /meals.
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setItem({ email }, 'user');
+    setItem('user', { email });
     navigate('/meals');
   };
 

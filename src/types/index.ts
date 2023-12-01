@@ -81,6 +81,18 @@ export type Meals = Common & {
   [key: string]: string | null,
 };
 
+export type Favorite = {
+  id: string,
+  type: string,
+  nationality: string,
+  category: string,
+  alcoholicOrNot: string,
+  name: string,
+  image: string,
+  doneDate: string,
+  tags: string,
+};
+
 export type Categorias = {
   strCategory: string,
 };
@@ -107,6 +119,8 @@ export type Categories = {
   strCategory: string,
 };
 
+export type Progress = Record<'meals' | 'drinks', { [key: string]: string[] }>;
+
 export type TypeRecipes = Meals | Drinks;
 
 export type Key = {
@@ -116,11 +130,13 @@ export type Form = Key & {
   search?: string | '',
 };
 
+export type Unions = Favorite[] | Progress | TypeRecipes[];
+
 export type Path = 'Meal' | 'Drink' | '';
 
 export type LSProgressType = {
-  drinks: { id: [] },
-  meals: { id: [] },
+  drinks: { [key: string]: [] },
+  meals: { [key: string]: [] },
 };
 
 export type Dispatch = ThunkDispatch<GlobalState, void, AnyAction>;
