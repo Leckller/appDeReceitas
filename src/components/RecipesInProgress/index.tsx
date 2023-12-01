@@ -22,6 +22,7 @@ function Receita() {
   const navigate = useNavigate();
   const product: TypeRecipes = useSelector((state: GlobalState) => state.filters)[0]
   || {};
+  console.log(product);
   const [productCheck, setproductCheck] = useState<string[]>([]);
 
   const url = `${protocol}//${host}${pathname}`.split('/in-progress')[0];
