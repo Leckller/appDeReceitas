@@ -1,11 +1,11 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams, Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { Dispatch, GlobalState, Progress, TypeRecipes } from '../types';
 import { getRecipes, setAnyFilterInGlobal } from '../redux/actions';
 import { getItem } from '../utils/localStorage';
-import { path, route, routeInverse } from '../utils/FuncsAll';
+import { path, pathInverse, route, routeInverse } from '../utils/FuncsAll';
 import Products from '../components/RecipesDetails';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -25,6 +25,8 @@ function RecipeDetails() {
     : 'Details Drinks';
 
   const url = `${protocol}//${host}${pathname}`;
+
+  const urlInverse = `${protocol}//${host}/${pathInverse(pathname)}/`;
 
   useEffect(() => {
     dispatch(getRecipes({ key: 'name' }, routeInverse(pathname)));
@@ -83,22 +85,23 @@ function RecipeDetails() {
             />
             <Products />
             {
-                recipes.slice(0, 6).map((recipe, index) => (
-                  <div
-                    key={ index }
-                    data-testid={ `${index}-recommendation-card` }
+              recipes.slice(0, 6).map((recipe, index) => (
+                <Link
+                  key={ index }
+                  to={ `${urlInverse}${recipe[`id${routeInverse(pathname)}`]}` as string }
+                  data-testid={ `${index}-recommendation-card` }
+                >
+                  <img
+                    src={ recipe[`str${routeInverse(pathname)}Thumb`] as string }
+                    alt={ recipe[`str${routeInverse(pathname)}`] as string }
+                  />
+                  <h3
+                    data-testid={ `${index}-recommendation-title` }
                   >
-                    <img
-                      src={ recipe[`str${routeInverse(pathname)}Thumb`] as string }
-                      alt={ recipe[`str${routeInverse(pathname)}`] as string }
-                    />
-                    <h3
-                      data-testid={ `${index}-recommendation-title` }
-                    >
-                      {recipe[`str${routeInverse(pathname)}`]}
-                    </h3>
-                  </div>
-                ))
+                    {recipe[`str${routeInverse(pathname)}`]}
+                  </h3>
+                </Link>
+              ))
               }
             {
                 !getDoneRecipes && (
