@@ -8,7 +8,7 @@ export const useProgress = () => {
   const { id } = useParams();
   const { pathname } = useLocation();
   const key = 'inProgressRecipes';
-  const storage = (getItem(key) as Progress);
+  const storage = getItem(key) as Progress;
   const [progress, setProgress] = useState<Progress>(storage);
 
   const saveProgress = (checked: string[]) => {
