@@ -1,5 +1,5 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { Dispatch, GlobalState, Progress, TypeRecipes } from '../types';
@@ -21,6 +21,7 @@ function RecipeDetails() {
   const dispatch: Dispatch = useDispatch();
   const recipes = useSelector((state: GlobalState) => state.recipes);
   const filters = useSelector((state: GlobalState) => state.filters);
+  const [actRecomend, setActRecomend] = useState(0);
   const keyPage = pathname.includes(`/meals/${id}`) ? 'Details Meals'
     : 'Details Drinks';
 
@@ -53,7 +54,7 @@ function RecipeDetails() {
       toast.onmouseleave = Swal.resumeTimer;
     },
   });
-
+  const images = recipes.slice(actRecomend, actRecomend + 2);
   return (
     <div>
       <h1>{keyPage}</h1>
@@ -83,9 +84,38 @@ function RecipeDetails() {
               onClick={ changeFavorite }
             />
             <Products />
-            {
-                recipes.slice(0, 6).map((recipe, index) => (
+            <div className="w-screen flex flex-col h-96">
+              <div className="flex justify-around">
+                <button
+                  onClick={ () => {
+                    if (actRecomend === 0) {
+                      setActRecomend(5);
+                    } else {
+                      setActRecomend(actRecomend - 1);
+                    }
+                  } }
+                >
+                  Previus
+                </button>
+
+                <button
+                  onClick={ () => {
+                    if (actRecomend === 5) {
+                      setActRecomend(0);
+                    } else {
+                      setActRecomend(actRecomend + 1);
+                    }
+                  } }
+                >
+                  Next
+                </button>
+
+              </div>
+              <div className="flex flex-row justify-around">
+                {
+                images.map((recipe, index) => (
                   <div
+                    className="w-96"
                     key={ index }
                     data-testid={ `${index}-recommendation-card` }
                   >
@@ -101,6 +131,8 @@ function RecipeDetails() {
                   </div>
                 ))
               }
+              </div>
+            </div>
             {
                 !getDoneRecipes && (
                   <button
