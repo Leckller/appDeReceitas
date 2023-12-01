@@ -134,9 +134,4 @@ export type Unions = Favorite[] | Progress | TypeRecipes[];
 
 export type Path = 'Meal' | 'Drink' | '';
 
-export type LSProgressType = {
-  drinks: { [key: string]: [] },
-  meals: { [key: string]: [] },
-};
-
 export type Dispatch = ThunkDispatch<GlobalState, void, AnyAction>;

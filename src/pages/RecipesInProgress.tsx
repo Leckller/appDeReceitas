@@ -1,28 +1,21 @@
-import { useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import Receita from '../components/Recipes/Receita';
-import { filterAll, route } from '../utils/FuncsAll';
+import { useLocation, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import Receita from '../components/RecipesInProgress';
+import { setAnyFilterInGlobal } from '../redux/actions';
+import { route } from '../utils/FuncsAll';
+import { Dispatch } from '../types';
 
 function RecipesInProgress() {
+  const { id } = useParams();
   const { pathname } = useLocation();
-
-  const [item, setItem] = useState([]);
-
+  const dispatch: Dispatch = useDispatch();
   useEffect(() => {
-    const effect = async () => {
-      const response = await filterAll(
-        { key: 'id', search: '' },
-        route(pathname),
-        pathname.split('/')[2],
-      );
-      setItem(response);
-    };
-    effect();
-  }, []);
-
+    dispatch(setAnyFilterInGlobal({ key: 'id' }, route(pathname), id));
+  }, [pathname, id]);
   return (
     <div>
-      {item[0] && <Receita product={ item[0] } />}
+      <Receita />
       <button data-testid="finish-recipe-btn">finish</button>
     </div>
   );
