@@ -1,16 +1,14 @@
 import { useLocation, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { useState } from 'react';
-import { GlobalState, LSProgressType } from '../types';
+import { LSProgressType } from '../types';
 
-const getItem = (key_: string):LSProgressType => {
+export const getItem = (key_: string):LSProgressType => {
   const item = localStorage.getItem(key_);
   return item ? JSON.parse(item as string) : undefined;
 };
 
 export const useProgress = () => {
   const { id } = useParams();
-  const filters = useSelector((state: GlobalState) => state.filters);
   const { pathname } = useLocation();
   const actRecipe: 'drinks' | 'meals' = pathname.split('/')[1] as 'drinks' | 'meals';
   const chave = 'inProgressRecipes';
@@ -25,14 +23,30 @@ export const useProgress = () => {
   // filter: para drinks ou meals
   // values: valores atuais dos inputs
   // rItem: item para remover
-  const removeItem = () => {
+
+  const editItem = (item: string) => {
     const local = getItem(chave);
-    const newObj = { ...local,
-      [actRecipe]: { ...local[actRecipe],
-        [id as string]: actvInputs[actRecipe][id as string] } };
-    // localStorage.setItem()
+    const key = actvInputs[actRecipe];
+    if (key[id as string].some((i) => i === item)) {
+      const newObj = { ...local,
+        [actRecipe]: { ...local[actRecipe],
+          [id as string]: {
+            ...key,
+            [id as string]: [...key[id as string]
+              .filter((i) => i !== item)],
+          } } };
+      setItem(newObj, chave);
+    } else {
+      const newObj = { ...local,
+        [actRecipe]: { ...local[actRecipe],
+          [id as string]: {
+            ...key,
+            [id as string]: [...key[id as string], item],
+          } } };
+      setItem(newObj, chave);
+    }
   };
-  return { setItem, getItem, removeItem };
+  return { setItem, getItem, editItem };
 };
 
 // ESTRUTURA A SEGUIR

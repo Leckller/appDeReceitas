@@ -4,11 +4,12 @@ import shareIcon from '../../images/searchIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import { TypeRecipes } from '../../types';
 import { route } from '../../utils/FuncsAll';
+import { getItem, useProgress } from '../../hooks/useProgress';
 
 function Receita({ product }: { product: TypeRecipes }) {
   const { pathname } = useLocation();
   const [actvItems, setActvItems] = useState<string[]>([]);
-
+  const { editItem, setItem } = useProgress();
   const recipesProduts = Object.entries(product)
     .filter(([key, value]) => key.includes('strIngredient') && value);
 
@@ -21,6 +22,7 @@ function Receita({ product }: { product: TypeRecipes }) {
     if (actvItems.some((item) => item.includes(`item-${index}`))) {
       setActvItems([...actvItems.filter((i) => i.split(' ')[0] !== `item-${index}`)]);
     }
+    editItem(`item-${index} ${name} ${product[`strMeasure${index + 1}`]}`);
     // const actLocStorage = getItem(chave);
     // setItem({ ...actLocStorage,
     //   [itemKey]: {
@@ -31,7 +33,9 @@ function Receita({ product }: { product: TypeRecipes }) {
 
   useEffect(() => {
     // console.log(getItem(chave)[itemKey][product[[`id${route(pathname)}`]]]);
-    // if (getItem(chave) === undefined) { setItem({ drinks: {}, meals: {} }, chave); }
+    if (getItem('inProgressRecipes') === undefined) {
+      setItem({ drinks: {}, meals: {} }, 'inProgressRecipes');
+    }
     // if (actvItems.length === 0) {
     //   setActvItems(getItem(chave)[itemKey][product[[`id${route(pathname)}`]]]);
     // }
@@ -102,8 +106,6 @@ function Receita({ product }: { product: TypeRecipes }) {
                         {`${value[1]}: ${product[`strMeasure${index + 1}`]}`}
                       </p>
                       <input
-                        checked={ actvItems
-                          .some((item) => item.includes(`item-${index}`)) }
                         onClick={ () => handleOnClick(value[1] as string, index) }
                         type="checkbox"
                         name={ value[1] as string }
