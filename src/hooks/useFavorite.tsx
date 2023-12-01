@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useLocalStorage } from './useLocalStorage';
-import { Favorite, GlobalState, Unions } from '../types';
+import { getItem, setItem } from '../utils/localStorage';
+import { Favorite, GlobalState } from '../types';
 import { route } from '../utils/FuncsAll';
 
 function useFavorite() {
   const { id } = useParams();
   const { pathname } = useLocation();
-  const { getItem, setItem } = useLocalStorage<Unions>();
   const filters = useSelector((state: GlobalState) => state.filters);
   const [favorites, setFavorites] = useState<Favorite[]>(
     getItem('favoriteRecipes') as Favorite[] || [],

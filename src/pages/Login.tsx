@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import validator from 'validator';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { setItem } from '../utils/localStorage';
 
 type User = {
   email: string,
@@ -14,8 +14,6 @@ function Login() {
   const INITIAL_STATE = { email: '', password: '' };
   const [form, setForm] = useState<User>(INITIAL_STATE);
   const { email, password } = form;
-
-  const { setItem } = useLocalStorage();
 
   const validadeForm = (validator.isEmail(email) && password.length > 6);
 

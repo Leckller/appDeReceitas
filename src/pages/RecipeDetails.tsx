@@ -1,13 +1,10 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import {
-  Dispatch, GlobalState,
-  Progress, TypeRecipes, Unions,
-} from '../types';
+import { Dispatch, GlobalState, Progress, TypeRecipes } from '../types';
 import { getRecipes, setAnyFilterInGlobal } from '../redux/actions';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { getItem } from '../utils/localStorage';
 import { path, route, routeInverse } from '../utils/FuncsAll';
 import Products from '../components/RecipesDetails';
 import shareIcon from '../images/shareIcon.svg';
@@ -20,7 +17,6 @@ function RecipeDetails() {
   const { pathname } = useLocation();
   const { host, protocol } = window.location;
   const { changeFavorite, verifyFavorite } = useFavorite();
-  const { getItem } = useLocalStorage<Unions>();
   const navigate = useNavigate();
   const dispatch: Dispatch = useDispatch();
   const recipes = useSelector((state: GlobalState) => state.recipes);
