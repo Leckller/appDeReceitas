@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { GlobalState } from '../../../types';
-import { route } from '../../../utils/FuncsAll';
+import { GlobalState } from '../../types';
+import { route } from '../../utils/FuncsAll';
 
 function Products() {
   const { pathname } = useLocation();
+
   const filters = useSelector((state: GlobalState) => state.filters);
 
   const product = filters[0] || {};

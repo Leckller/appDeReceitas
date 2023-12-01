@@ -47,7 +47,7 @@ describe('Check page Recipes', () => {
     });
   });
 
-  test.only('Check if you click on drinks', async () => {
+  test('Check if you click on drinks', async () => {
     const { user } = renderWithRouterAndRedux(<App />, '/meals');
 
     await user.click(screen.getByTestId(searchBtnID));

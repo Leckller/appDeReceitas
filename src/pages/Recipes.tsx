@@ -16,21 +16,22 @@ function Recipes() {
   const [select, setSelect] = useState('All');
 
   const handleClick = (strCategory: string) => {
-    setTimeout(() => {
-      dispatch(setLoading(true));
-      if (select === strCategory) {
-        setSelect('All');
-        dispatch(setAnyFilterInGlobal({ key: 'name' }, route(pathname)));
-        dispatch(setLoading(false));
-      } else {
-        setSelect(strCategory);
-        dispatch(setAnyFilterInGlobal(
-          { key: 'categories' },
-          route(pathname),
-          strCategory,
-        ));
-      }
-    }, 100);
+    console.log(select, strCategory);
+
+    if (select === 'All' && strCategory === 'All') return;
+    dispatch(setLoading(true));
+    if (select === strCategory || strCategory === 'All') {
+      setSelect('All');
+      dispatch(setAnyFilterInGlobal({ key: 'name' }, route(pathname)));
+      dispatch(setLoading(false));
+    } else {
+      setSelect(strCategory);
+      dispatch(setAnyFilterInGlobal(
+        { key: 'categories' },
+        route(pathname),
+        strCategory,
+      ));
+    }
     dispatch(setLoading(false));
   };
 
@@ -50,7 +51,7 @@ function Recipes() {
   return (
     <div className="flex flex-col items-center justify-center gap-1 pb-20">
       <section
-        className="w-screen h-20 flex flex-row flex-wrap items-center
+        className="w-screen flex flex-row flex-wrap items-center
         justify-around"
       >
         {
@@ -74,10 +75,8 @@ function Recipes() {
           className="mt-4 hover:scale-110 transition-all border border-blue-950
           rounded-md w-20"
           data-testid="All-category-filter"
-          onClick={ () => dispatch(setAnyFilterInGlobal(
-            { key: 'name' },
-            route(pathname),
-          )) }
+          value="All"
+          onClick={ () => handleClick('All') }
         >
           All
         </button>
