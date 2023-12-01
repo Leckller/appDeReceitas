@@ -28,7 +28,7 @@ function useDoneRecipes() {
       name: filter[`str${paths}`],
       image: filter[`str${paths}Thumb`],
       doneDate: new Date().toJSON(),
-      tags: [filter.strTags],
+      tags: filter.strTags.split(',') || '',
     }));
   };
 
