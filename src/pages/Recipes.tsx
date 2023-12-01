@@ -42,6 +42,7 @@ function Recipes() {
     })();
     dispatch(setLoading(true));
     dispatch(setAnyFilterInGlobal({ key: 'name' }, route(pathname)));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   if (loading) {

@@ -1,40 +1,24 @@
 import { useLocation, useNavigate, useParams, Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Swal from 'sweetalert2';
 import { Dispatch, GlobalState, Progress, TypeRecipes } from '../types';
-import { getRecipes, setAnyFilterInGlobal } from '../redux/actions';
+import { setAnyFilterInGlobal } from '../redux/actions';
 import { getItem } from '../utils/localStorage';
-import { path, pathInverse, route, routeInverse } from '../utils/FuncsAll';
+import { filterAll, path, pathInverse, route, routeInverse } from '../utils/FuncsAll';
 import Products from '../components/RecipesDetails';
-import shareIcon from '../images/shareIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import useFavorite from '../hooks/useFavorite';
 
 function RecipeDetails() {
   const { id } = useParams();
   const { pathname } = useLocation();
   const { host, protocol } = window.location;
-  const { changeFavorite, verifyFavorite } = useFavorite();
   const navigate = useNavigate();
   const dispatch: Dispatch = useDispatch();
-  const recipes = useSelector((state: GlobalState) => state.recipes);
-  const filters = useSelector((state: GlobalState) => state.filters);
+  const [recipes, setRecipes] = useState<TypeRecipes[]>([]);
+  const product = useSelector((state: GlobalState) => state.filters)[0] || {};
   const keyPage = pathname.includes(`/meals/${id}`) ? 'Details Meals'
     : 'Details Drinks';
 
-  const url = `${protocol}//${host}${pathname}`;
-
   const urlInverse = `${protocol}//${host}/${pathInverse(pathname)}/`;
-
-  useEffect(() => {
-    dispatch(getRecipes({ key: 'name' }, routeInverse(pathname)));
-    dispatch(setAnyFilterInGlobal({ key: 'id' }, route(pathname), id));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, id]);
-
-  const product = filters[0] || {};
 
   const getDoneRecipes = (getItem('doneRecipes') as TypeRecipes[])
     .some((item) => item.id === id);
@@ -44,17 +28,17 @@ function RecipeDetails() {
   const getRecipesInProgress = progress[path(pathname)] && Object.prototype.hasOwnProperty
     .call(progress[path(pathname)], id as string);
 
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.onmouseenter = Swal.stopTimer;
-      toast.onmouseleave = Swal.resumeTimer;
-    },
-  });
+  const recipesProduts = Object.entries(product)
+    .filter(([key, value]) => key.includes('strIngredient') && value);
+
+  useEffect(() => {
+    (async () => {
+      const data = await filterAll({ key: 'name' }, routeInverse(pathname));
+      setRecipes(data);
+    })();
+    dispatch(setAnyFilterInGlobal({ key: 'id' }, route(pathname), id));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname, id]);
 
   return (
     <div>
@@ -62,29 +46,28 @@ function RecipeDetails() {
       {
         product && (
           <div>
-            <input
-              type="image"
-              src={ shareIcon }
-              alt="share"
-              data-testid="share-btn"
-              onClick={ () => {
-                navigator.clipboard.writeText(url);
-                Toast.fire({
-                  icon: 'success',
-                  title: 'Link copied!',
-                });
-              } }
-            />
-            <input
-              type="image"
-              src={ verifyFavorite() ? blackHeartIcon
-                : whiteHeartIcon }
-              alt={ verifyFavorite() ? 'Black Heart Icon'
-                : 'White Heart Icon' }
-              data-testid="favorite-btn"
-              onClick={ changeFavorite }
-            />
             <Products />
+            {
+                recipesProduts.map((value, index) => (
+                  <div key={ index }>
+                    <p
+                      data-testid={ `${index}-ingredient-name-and-measure` }
+                    >
+                      {`${value[1]}: ${product[`strMeasure${index + 1}`]}`}
+                    </p>
+                  </div>
+                ))
+              }
+            {
+                product.strYoutube && (
+                  <iframe
+                    src={ product.strYoutube?.replace('watch?v=', 'embed/') as string }
+                    allowFullScreen
+                    title={ product[`str${route(pathname)}`] as string }
+                    data-testid="video"
+                  />
+                )
+              }
             {
               recipes.slice(0, 6).map((recipe, index) => (
                 <Link
