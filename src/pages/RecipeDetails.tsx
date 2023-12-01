@@ -1,11 +1,11 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams, Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { Dispatch, GlobalState, Progress, TypeRecipes } from '../types';
 import { getRecipes, setAnyFilterInGlobal } from '../redux/actions';
 import { getItem } from '../utils/localStorage';
-import { path, route, routeInverse } from '../utils/FuncsAll';
+import { path, pathInverse, route, routeInverse } from '../utils/FuncsAll';
 import Products from '../components/RecipesDetails';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -21,11 +21,12 @@ function RecipeDetails() {
   const dispatch: Dispatch = useDispatch();
   const recipes = useSelector((state: GlobalState) => state.recipes);
   const filters = useSelector((state: GlobalState) => state.filters);
-  const [actRecomend, setActRecomend] = useState(0);
   const keyPage = pathname.includes(`/meals/${id}`) ? 'Details Meals'
     : 'Details Drinks';
 
   const url = `${protocol}//${host}${pathname}`;
+
+  const urlInverse = `${protocol}//${host}/${pathInverse(pathname)}/`;
 
   useEffect(() => {
     dispatch(getRecipes({ key: 'name' }, routeInverse(pathname)));
@@ -82,16 +83,18 @@ function RecipeDetails() {
               onClick={ changeFavorite }
             />
             <Products />
-            <ul
+            <div
               className="flex flex-col flex-wrap w-96 h-48
              overflow-x-auto overflow-y-hidden"
             >
               {
                 recipes.slice(0, 6).map((recipe, index) => (
-                  <li
-                    className="h-48"
+                  <Link
                     key={ index }
+                    to={ `${urlInverse}${recipe[`id${routeInverse(pathname)}`]
+                    }` as string }
                     data-testid={ `${index}-recommendation-card` }
+                    className="h-48"
                   >
                     <img
                       className="h-full"
@@ -103,15 +106,15 @@ function RecipeDetails() {
                     >
                       {recipe[`str${routeInverse(pathname)}`]}
                     </h3>
-                  </li>
+                  </Link>
                 ))
               }
-            </ul>
+            </div>
             {
                 !getDoneRecipes && (
                   <button
                     data-testid="start-recipe-btn"
-                    className="fixed bottom-5 right-5"
+                    className="fixed bottom-0 right-5"
                     onClick={ () => navigate(`${pathname}/in-progress`) }
                   >
                     {

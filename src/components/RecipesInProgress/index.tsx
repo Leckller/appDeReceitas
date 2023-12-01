@@ -1,45 +1,40 @@
 import { useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import shareIcon from '../../images/searchIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
-import { TypeRecipes } from '../../types';
+import { GlobalState, TypeRecipes } from '../../types';
 import { route } from '../../utils/FuncsAll';
-import { getItem, useProgress } from '../../hooks/useProgress';
+import { useProgress } from '../../hooks/useProgress';
 
-function Receita({ product }: { product: TypeRecipes }) {
+function Receita() {
   const { pathname } = useLocation();
-  const [actvItems, setActvItems] = useState<string[]>([]);
-  const { editItem, setItem } = useProgress();
+  const { saveProgress } = useProgress();
+  const product: TypeRecipes = useSelector((state: GlobalState) => state.filters)[0]
+    || {};
+  const [productCheck, setproductCheck] = useState<string[]>([]);
+
+  // console.log(productCheck);
+
   const recipesProduts = Object.entries(product)
     .filter(([key, value]) => key.includes('strIngredient') && value);
 
-  const handleOnClick = (name:string, index:number) => {
-    if (!actvItems.some((item) => item.includes(`item-${index}`))) {
-      setActvItems(
-        [...actvItems, `item-${index} ${name} ${product[`strMeasure${index + 1}`]}`],
-      );
+  const changeChecked = (name: string, index: number) => {
+    let checked = [] as string[];
+    if (!productCheck.some((item) => item.includes(`item-${index}`))) {
+      checked = [...productCheck,
+        `item-${index} ${name} ${product[`strMeasure${index + 1}`]}`];
     }
-    if (actvItems.some((item) => item.includes(`item-${index}`))) {
-      setActvItems([...actvItems.filter((i) => i.split(' ')[0] !== `item-${index}`)]);
+    if (productCheck.some((item) => item.includes(`item-${index}`))) {
+      checked = [...productCheck
+        .filter((i) => {
+          return i.split(' ')[0] !== `item-${index}`;
+        })];
     }
-    editItem(`item-${index} ${name} ${product[`strMeasure${index + 1}`]}`);
-    // const actLocStorage = getItem(chave);
-    // setItem({ ...actLocStorage,
-    //   [itemKey]: {
-    //     ...actLocStorage[itemKey],
-    //     [product[`id${route(pathname)}`]]: actvItems,
-    //   } }, chave);
-  };
 
-  useEffect(() => {
-    // console.log(getItem(chave)[itemKey][product[[`id${route(pathname)}`]]]);
-    if (getItem('inProgressRecipes') === undefined) {
-      setItem({ drinks: {}, meals: {} }, 'inProgressRecipes');
-    }
-    // if (actvItems.length === 0) {
-    //   setActvItems(getItem(chave)[itemKey][product[[`id${route(pathname)}`]]]);
-    // }
-  }, [actvItems]);
+    setproductCheck(checked);
+    saveProgress(checked);
+  };
 
   return (
     <div className="">
@@ -96,7 +91,7 @@ function Receita({ product }: { product: TypeRecipes }) {
                       htmlFor={ value[1] as string + index }
                       data-testid={ `${index}-ingredient-step` }
                       className={
-                        `${actvItems.some((item) => item.includes(`item-${index}`))
+                        `${productCheck.some((item) => item.includes(`item-${index}`))
                           ? 'text-decoration: line-through solid rgb(0, 0, 0)' : ''}`
                     }
                     >
@@ -106,7 +101,9 @@ function Receita({ product }: { product: TypeRecipes }) {
                         {`${value[1]}: ${product[`strMeasure${index + 1}`]}`}
                       </p>
                       <input
-                        onClick={ () => handleOnClick(value[1] as string, index) }
+                        checked={ productCheck
+                          .some((item) => item.includes(`item-${index}`)) }
+                        onChange={ () => changeChecked(value[1] as string, index) }
                         type="checkbox"
                         name={ value[1] as string }
                         id={ value[1] as string + index }
