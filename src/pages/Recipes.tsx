@@ -1,61 +1,66 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { Categories, Dispatch, Form, GlobalState } from '../types';
-import { fecthApi } from '../services/fetchApi';
+import { Categories, Dispatch, GlobalState } from '../types';
 import { setAnyFilterInGlobal, setLoading } from '../redux/actions';
 import Loading from '../components/Loading/Loading';
+import { filterAll, route } from '../utils/FuncsAll';
+import Section from '../components/Recipes';
 
 function Recipes() {
   // pathname pega a rota em que você estiver
   const { pathname } = useLocation();
   const dispatch: Dispatch = useDispatch();
-  const { filters, loading } = useSelector((state: GlobalState) => state);
+  const loading = useSelector((state: GlobalState) => state.loading);
   const [categories, setCategories] = useState<Categories[]>([]);
-
   const [select, setSelect] = useState('All');
 
-  // verifica a rota que está e faz a condicional de forma dinâmica Drinks ou Meals.
-  const recipePath = pathname.includes('/meals') ? 'Meal' : 'Drink';
-
-  // faz o fecth e o filtro na API de forma dinâmica e Dispara para qualquer State Global.
-  const filterAll = async (form: Form, filter: string = '') => {
-    const { search = '', key } = form;
-    const data = await fecthApi({ key, search }, recipePath, filter);
-    return data;
-  };
   const handleClick = (strCategory: string) => {
-    if (select === strCategory) { setSelect('All'); } else {
+    console.log(select, strCategory);
+
+    if (select === 'All' && strCategory === 'All') return;
+    dispatch(setLoading(true));
+    if (select === strCategory || strCategory === 'All') {
+      setSelect('All');
+      dispatch(setAnyFilterInGlobal({ key: 'name' }, route(pathname)));
+      dispatch(setLoading(false));
+    } else {
       setSelect(strCategory);
-      return dispatch(setAnyFilterInGlobal(
+      dispatch(setAnyFilterInGlobal(
         { key: 'categories' },
-        recipePath,
+        route(pathname),
         strCategory,
       ));
     }
-    dispatch(setLoading(true));
-    dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath));
+    dispatch(setLoading(false));
   };
 
   useEffect(() => {
     (async () => {
-      const data = await filterAll({ key: 'list' });
+      const data = await filterAll({ key: 'list' }, route(pathname));
       setCategories(data);
     })();
     dispatch(setLoading(true));
-    dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath));
-  }, [recipePath]);
+    dispatch(setAnyFilterInGlobal({ key: 'name' }, route(pathname)));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   if (loading) {
     return (<Loading />);
   }
 
   return (
-    <div>
-      {
+    <div className="flex flex-col items-center justify-center gap-1 pb-20">
+      <section
+        className="w-screen flex flex-row flex-wrap items-center
+        justify-around"
+      >
+        {
         // faz a reendenização das 5 primeiras Categories
         categories.slice(0, 5).map(({ strCategory }) => (
           <button
+            className="mt-4 hover:scale-110 transition-all border border-blue-950
+            rounded-md w-28"
             type="button"
             key={ strCategory }
             data-testid={ `${strCategory}-category-filter` }
@@ -66,42 +71,18 @@ function Recipes() {
           </button>
         ))
       }
-      <button
-        type="button"
-        data-testid="All-category-filter"
-        onClick={ () => dispatch(setAnyFilterInGlobal({ key: 'name' }, recipePath)) }
-      >
-        All
-      </button>
-      <section className="flex w-screen flex-wrap gap-4 p-2">
-        {
-          // faz a reendenização das 12 primeiras Recipes
-
-          filters.slice(0, 12).map((filter, index) => (
-            <Link
-              to={ `/${recipePath.toLowerCase()}s/${filter[`id${recipePath}`]}` }
-              key={ index }
-            >
-              <article
-                className="w-64 h-64 flex items-center flex-col
-            justify-around
-          bg-red-400"
-                data-testid={ `${index}-recipe-card` }
-              >
-                <img
-                  className="w-1/2"
-                  src={ `${filter[`str${recipePath}Thumb`]}` }
-                  alt={ `${filter[`str${recipePath}`]}` }
-                  data-testid={ `${index}-card-img` }
-                />
-                <h1 data-testid={ `${index}-card-name` }>
-                  {filter[`str${recipePath}`]}
-                </h1>
-              </article>
-            </Link>
-          ))
-        }
+        <button
+          type="button"
+          className="mt-4 hover:scale-110 transition-all border border-blue-950
+          rounded-md w-28"
+          data-testid="All-category-filter"
+          value="All"
+          onClick={ () => handleClick('All') }
+        >
+          All
+        </button>
       </section>
+      <Section />
     </div>
   );
 }

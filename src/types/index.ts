@@ -81,12 +81,25 @@ export type Meals = Common & {
   [key: string]: string | null,
 };
 
+export type Favorite = {
+  id: string,
+  type: string,
+  nationality: string,
+  category: string,
+  alcoholicOrNot: string,
+  name: string,
+  image: string,
+  doneDate: string,
+  tags: string,
+};
+
 export type Categorias = {
   strCategory: string,
 };
 
 export type GlobalState = {
-  filters: TypeRecipes,
+  recipes: TypeRecipes[],
+  filters: TypeRecipes[],
   loading: boolean,
 };
 
@@ -106,14 +119,18 @@ export type Categories = {
   strCategory: string,
 };
 
-export type TypeRecipes = Meals[] | Drinks[];
+export type Progress = Record<'meals' | 'drinks', { [key: string]: string[] }>;
+
+export type TypeRecipes = Meals | Drinks;
 
 export type Key = {
-  key: 'firstLetter' | 'ingredient' | 'name' | 'list' | 'categories' | '' | string,
+  key: 'firstLetter' | 'ingredient' | 'name' | 'list' | 'categories' | '' | 'id' | string,
 };
 export type Form = Key & {
   search?: string | '',
 };
+
+export type Unions = Favorite[] | Progress | TypeRecipes[];
 
 export type Path = 'Meal' | 'Drink' | '';
 
