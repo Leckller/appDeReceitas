@@ -54,13 +54,12 @@ function RecipeDetails() {
       toast.onmouseleave = Swal.resumeTimer;
     },
   });
-  const images = recipes.slice(actRecomend, actRecomend + 2);
   return (
-    <div>
+    <div className="w-screen h-screen">
       <h1>{keyPage}</h1>
       {
         product && (
-          <div>
+          <div className="w-screen flex flex-col justify-center items-center">
             <input
               type="image"
               src={ shareIcon }
@@ -84,42 +83,19 @@ function RecipeDetails() {
               onClick={ changeFavorite }
             />
             <Products />
-            <div className="w-screen flex flex-col h-96">
-              <div className="flex justify-around">
-                <button
-                  onClick={ () => {
-                    if (actRecomend === 0) {
-                      setActRecomend(5);
-                    } else {
-                      setActRecomend(actRecomend - 1);
-                    }
-                  } }
-                >
-                  Previus
-                </button>
-
-                <button
-                  onClick={ () => {
-                    if (actRecomend === 5) {
-                      setActRecomend(0);
-                    } else {
-                      setActRecomend(actRecomend + 1);
-                    }
-                  } }
-                >
-                  Next
-                </button>
-
-              </div>
-              <div className="flex flex-row justify-around">
-                {
-                images.map((recipe, index) => (
-                  <div
-                    className="w-96"
+            <ul
+              className="flex flex-col flex-wrap w-96 h-48
+             overflow-x-auto overflow-y-hidden"
+            >
+              {
+                recipes.slice(0, 6).map((recipe, index) => (
+                  <li
+                    className="h-48"
                     key={ index }
                     data-testid={ `${index}-recommendation-card` }
                   >
                     <img
+                      className="h-full"
                       src={ recipe[`str${routeInverse(pathname)}Thumb`] as string }
                       alt={ recipe[`str${routeInverse(pathname)}`] as string }
                     />
@@ -128,16 +104,15 @@ function RecipeDetails() {
                     >
                       {recipe[`str${routeInverse(pathname)}`]}
                     </h3>
-                  </div>
+                  </li>
                 ))
               }
-              </div>
-            </div>
+            </ul>
             {
                 !getDoneRecipes && (
                   <button
                     data-testid="start-recipe-btn"
-                    className="fixed bottom-0"
+                    className="fixed bottom-5 right-5"
                     onClick={ () => navigate(`${pathname}/in-progress`) }
                   >
                     {
