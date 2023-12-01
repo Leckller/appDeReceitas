@@ -5,7 +5,7 @@ import { Dispatch, GlobalState, Progress, TypeRecipes } from '../types';
 import { setAnyFilterInGlobal } from '../redux/actions';
 import { getItem } from '../utils/localStorage';
 import { filterAll, path, pathInverse, route, routeInverse } from '../utils/FuncsAll';
-import Products from '../components/RecipesDetails';
+import Products from '../components/Products';
 
 function RecipeDetails() {
   const { id } = useParams();

@@ -73,7 +73,7 @@ function Products() {
         <p
           data-testid="recipe-category"
         >
-          {`${product.strCategory}: ${product.strAlcoholic}`}
+          {product.strAlcoholic ? product.strAlcoholic : product.strCategory}
         </p>
 
         <p

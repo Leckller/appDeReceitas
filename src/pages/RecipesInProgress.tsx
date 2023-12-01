@@ -2,10 +2,11 @@ import { useLocation, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAnyFilterInGlobal } from '../redux/actions';
-import { route } from '../utils/FuncsAll';
-import { Dispatch, GlobalState, TypeRecipes } from '../types';
+import { path, route } from '../utils/FuncsAll';
+import { Dispatch, GlobalState, Progress, TypeRecipes } from '../types';
 import { useProgress } from '../hooks/useProgress';
-import Products from '../components/RecipesDetails';
+import Products from '../components/Products';
+import { getItem } from '../utils/localStorage';
 
 function RecipesInProgress() {
   const { id } = useParams();
@@ -36,7 +37,19 @@ function RecipesInProgress() {
     saveProgress(checked);
   };
 
+  const isInProgress = () => {
+    const inProgressRecipes = getItem('inProgressRecipes') as Progress || {};
+    return inProgressRecipes[path(pathname)]?.[id as string];
+  };
+
+  const getCheckeds = () => {
+    return isInProgress()
+      .filter((checked) => productCheck
+        .every((item) => item === checked));
+  };
+
   useEffect(() => {
+    if (isInProgress()) setproductCheck(getCheckeds());
     dispatch(setAnyFilterInGlobal({ key: 'id' }, route(pathname), id));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, id]);
