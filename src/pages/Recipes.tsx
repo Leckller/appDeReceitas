@@ -4,16 +4,15 @@ import { useEffect, useState } from 'react';
 import { Categories, Dispatch, GlobalState } from '../types';
 import { setAnyFilterInGlobal, setLoading } from '../redux/actions';
 import Loading from '../components/Loading/Loading';
-import { filterAll, route } from '../utils';
+import { filterAll, route } from '../utils/FuncsAll';
+import Section from '../components/Recipes';
 
 function Recipes() {
   // pathname pega a rota em que você estiver
   const { pathname } = useLocation();
   const dispatch: Dispatch = useDispatch();
-  const { filters, loading } = useSelector((state: GlobalState) => state);
-  const animate = loading ? '' : 'animate-afterLoad';
+  const loading = useSelector((state: GlobalState) => state.loading);
   const [categories, setCategories] = useState<Categories[]>([]);
-
   const [select, setSelect] = useState('All');
 
   const handleClick = (strCategory: string) => {
@@ -83,33 +82,7 @@ function Recipes() {
           All
         </button>
       </section>
-      <section className="flex w-screen flex-wrap items-center justify-center">
-        {
-          // faz a reendenização das 12 primeiras Recipes
-          filters.slice(0, 12).map((filter, index) => (
-            <Link
-              to={ `${pathname}/${filter[`id${route(pathname)}`]}` }
-              key={ index }
-            >
-              <article
-                className={ `${animate} w-96 h-80 flex items-center flex-col
-                justify-around hover:scale-110 transition-all` }
-                data-testid={ `${index}-recipe-card` }
-              >
-                <img
-                  className="w-1/2 shadow-2xl shadow-blue-950"
-                  src={ `${filter[`str${route(pathname)}Thumb`]}` }
-                  alt={ `${filter[`str${route(pathname)}`]}` }
-                  data-testid={ `${index}-card-img` }
-                />
-                <h1 data-testid={ `${index}-card-name` }>
-                  {filter[`str${route(pathname)}`]}
-                </h1>
-              </article>
-            </Link>
-          ))
-        }
-      </section>
+      <Section />
     </div>
   );
 }

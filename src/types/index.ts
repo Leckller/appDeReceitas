@@ -130,6 +130,8 @@ export type Form = Key & {
   search?: string | '',
 };
 
+export type Unions = Favorite[] | Progress | TypeRecipes[];
+
 export type Path = 'Meal' | 'Drink' | '';
 
 export type Dispatch = ThunkDispatch<GlobalState, void, AnyAction>;

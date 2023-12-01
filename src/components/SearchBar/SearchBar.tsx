@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Dispatch, Form, GlobalState } from '../../types';
-import { getAllFilters, setLoading } from '../../redux/actions';
+import { getAllFilters } from '../../redux/actions';
 import { fecthApi } from '../../services/fetchApi';
 import Loading from '../Loading/Loading';
 
