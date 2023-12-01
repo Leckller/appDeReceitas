@@ -42,7 +42,6 @@ function RecipeDetails() {
 
   const getRecipesInProgress = progress[path(pathname)] && Object.prototype.hasOwnProperty
     .call(progress[path(pathname)], id as string);
-
   const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
