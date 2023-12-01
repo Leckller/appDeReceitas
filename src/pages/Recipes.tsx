@@ -59,7 +59,7 @@ function Recipes() {
         categories.slice(0, 5).map(({ strCategory }) => (
           <button
             className="mt-4 hover:scale-110 transition-all border border-blue-950
-            rounded-md w-20"
+            rounded-md w-28"
             type="button"
             key={ strCategory }
             data-testid={ `${strCategory}-category-filter` }
@@ -73,7 +73,7 @@ function Recipes() {
         <button
           type="button"
           className="mt-4 hover:scale-110 transition-all border border-blue-950
-          rounded-md w-20"
+          rounded-md w-28"
           data-testid="All-category-filter"
           value="All"
           onClick={ () => handleClick('All') }

@@ -124,7 +124,7 @@ export type Progress = Record<'meals' | 'drinks', { [key: string]: string[] }>;
 export type TypeRecipes = Meals | Drinks;
 
 export type Key = {
-  key: 'firstLetter' | 'ingredient' | 'name' | 'list' | 'categories' | '' | string,
+  key: 'firstLetter' | 'ingredient' | 'name' | 'list' | 'categories' | '' | 'id' | string,
 };
 export type Form = Key & {
   search?: string | '',
@@ -133,5 +133,10 @@ export type Form = Key & {
 export type Unions = Favorite[] | Progress | TypeRecipes[];
 
 export type Path = 'Meal' | 'Drink' | '';
+
+export type LSProgressType = {
+  drinks: { [key: string]: [] },
+  meals: { [key: string]: [] },
+};
 
 export type Dispatch = ThunkDispatch<GlobalState, void, AnyAction>;

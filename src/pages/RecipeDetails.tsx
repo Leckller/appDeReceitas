@@ -31,6 +31,7 @@ function RecipeDetails() {
   useEffect(() => {
     dispatch(getRecipes({ key: 'name' }, routeInverse(pathname)));
     dispatch(setAnyFilterInGlobal({ key: 'id' }, route(pathname), id));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, id]);
 
   const product = filters[0] || {};
