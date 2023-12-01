@@ -27,7 +27,7 @@ function Login() {
   // seta para o localStorage o e-mail e vai para rota /meals.
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setItem({ email }, 'user');
+    setItem('user', { email });
     navigate('/meals');
   };
 

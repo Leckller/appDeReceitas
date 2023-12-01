@@ -81,6 +81,18 @@ export type Meals = Common & {
   [key: string]: string | null,
 };
 
+export type Favorite = {
+  id: string,
+  type: string,
+  nationality: string,
+  category: string,
+  alcoholicOrNot: string,
+  name: string,
+  image: string,
+  doneDate: string,
+  tags: string,
+};
+
 export type Categorias = {
   strCategory: string,
 };
@@ -106,6 +118,8 @@ export type FiltersMeals = {
 export type Categories = {
   strCategory: string,
 };
+
+export type Progress = Record<'meals' | 'drinks', { [key: string]: string[] }>;
 
 export type TypeRecipes = Meals | Drinks;
 

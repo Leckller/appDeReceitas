@@ -1,39 +1,75 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Dispatch, GlobalState, TypeRecipes } from '../types';
+import { Dispatch, Favorite, GlobalState, Progress, TypeRecipes } from '../types';
 import { getRecipes, setAnyFilterInGlobal } from '../redux/actions';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { route, routeInverse } from '../utils';
-import shareIcon from '../images/searchIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+
+type Unions = Favorite[] | Progress | TypeRecipes[];
 
 function RecipeDetails() {
   const { id } = useParams();
   const { pathname } = useLocation();
-  const { getItem } = useLocalStorage();
+  const { getItem, setItem, removeItem } = useLocalStorage<Unions>();
   const navigate = useNavigate();
-  const recipes = useSelector((state: GlobalState) => state.recipes);
   const dispatch: Dispatch = useDispatch();
+  const recipes = useSelector((state: GlobalState) => state.recipes);
   const filters = useSelector((state: GlobalState) => state.filters);
   const keyPage = pathname.includes(`/meals/${id}`) ? 'Details Meals'
     : 'Details Drinks';
 
   useEffect(() => {
-    dispatch(getRecipes({ key: 'name' }, route(pathname)));
+    dispatch(getRecipes({ key: 'name' }, routeInverse(pathname)));
     dispatch(setAnyFilterInGlobal({ key: 'id' }, route(pathname), id));
   }, [pathname, id]);
 
   const product = filters[0] || {};
 
+  const path = pathname.includes('/meals') ? 'meals' : 'drinks';
+
   const recipesProduts = Object.entries(product)
     .filter(([key, value]) => key.includes('strIngredient') && value);
 
-  const getDoneRecipes = getItem('doneRecipes')
-    ?.some((item: TypeRecipes) => item.id === id);
-  const getRecipesInProgress = getItem('inProgressRecipes')
-    ?.some((item: TypeRecipes) => item.id === id);
-  const startRecipes = !getDoneRecipes && !getRecipesInProgress;
+  const getDoneRecipes = (getItem('doneRecipes') as TypeRecipes[])
+    .some((item) => item.id === id);
+
+  const progress: Progress = (getItem('inProgressRecipes') as Progress) || {};
+
+  const getRecipesInProgress = progress[path] && Object.prototype.hasOwnProperty
+    .call(progress[path], id as string);
+
+  const setFavoriteRecipes = filters
+    .map((filter) => ({
+      id: filter[`id${route(pathname)}`],
+      type: route(pathname),
+      nationality: filter.strArea || '',
+      category: filter.strCategory || '',
+      alcoholicOrNot: filter.strAlcoholic || '',
+      name: filter[`str${route(pathname)}`],
+      image: filter[`str${route(pathname)}Thumb`],
+    })) as Favorite[];
+
+  const verifyFavorite = (getItem('favoriteRecipes') as Favorite[] || [])
+    .some((favorite) => favorite.id === id);
+
+  const removeFavorite = (getItem('favoriteRecipes') as Favorite[] || [])
+    .filter((favorite: Favorite) => favorite.id !== id);
+
+  const handleClick = (e: any) => {
+    e.preventDefault();
+    dispatch(setAnyFilterInGlobal(
+      { key: 'id' },
+      route(pathname),
+      id,
+    ));
+    return verifyFavorite
+      ? setItem('favoriteRecipes', removeFavorite)
+      : setItem('favoriteRecipes', setFavoriteRecipes);
+  };
 
   return (
     <div>
@@ -51,10 +87,10 @@ function RecipeDetails() {
               />
               <input
                 type="image"
-                src={ blackHeartIcon }
+                src={ verifyFavorite ? blackHeartIcon : whiteHeartIcon }
                 alt="favorite"
                 data-testid="favorite-btn"
-                onClick={ () => {} }
+                onClick={ handleClick }
               />
               <img
                 data-testid="recipe-photo"
@@ -85,7 +121,6 @@ function RecipeDetails() {
               }
               {
                 product.strYoutube && (
-
                   <iframe
                     src={ product.strYoutube?.replace('watch?v=', 'embed/') as string }
                     allowFullScreen
@@ -113,22 +148,15 @@ function RecipeDetails() {
                 ))
               }
               {
-                startRecipes && (
+                !getDoneRecipes && (
                   <button
                     data-testid="start-recipe-btn"
+                    className="fixed top-4 right-0"
                     onClick={ () => navigate(`${pathname}/in-progress`) }
                   >
-                    Start Recipe
-                  </button>
-                )
-              }
-              {
-                getRecipesInProgress && (
-                  <button
-                    data-testid="continue-recipe-btn"
-                    onClick={ () => {} }
-                  >
-                    Continue Recipe
+                    {
+                      !getRecipesInProgress ? 'Start Recipe' : 'Continue Recipe'
+                    }
                   </button>
                 )
               }

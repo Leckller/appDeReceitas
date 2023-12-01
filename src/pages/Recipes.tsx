@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Categories, Dispatch, GlobalState } from '../types';
 import { setAnyFilterInGlobal, setLoading } from '../redux/actions';
 import Loading from '../components/Loading/Loading';
-import { filterAll, route, routeInverse } from '../utils';
+import { filterAll, route } from '../utils';
 
 function Recipes() {
   // pathname pega a rota em que você estiver
