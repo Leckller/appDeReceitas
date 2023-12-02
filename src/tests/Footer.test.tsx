@@ -6,23 +6,28 @@ describe('Verificando o componente footer', () => {
   test('Verificando se o Footer renderiza corretamente', async () => {
     const { user } = renderWithRouterAndRedux(<App />, '/meals');
 
-    const mealsBtn = screen.getByTestId('meals-bottom-btn');
     const drinksBtn = screen.getByTestId('drinks-bottom-btn');
 
     await user.click(drinksBtn);
 
-    let loading = screen.getByRole('heading', { level: 1, name: 'Loading ...' });
+    let loading = screen.getByText('Loading...');
 
     expect(loading).toBeVisible();
 
-    const article = await screen.findAllByRole('article');
+    let article = await screen.findAllByRole('article');
 
     expect(article).toHaveLength(12);
 
+    const mealsBtn = screen.getByTestId('meals-bottom-btn');
+
     await user.click(mealsBtn);
 
-    loading = screen.getByRole('heading', { level: 1, name: 'Loading ...' });
+    loading = screen.getByText('Loading...');
 
     expect(loading).toBeVisible();
+
+    article = await screen.findAllByRole('article');
+
+    expect(article).toHaveLength(12);
   });
 });

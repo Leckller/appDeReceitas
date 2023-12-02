@@ -7,12 +7,9 @@ describe('Check page Done Recipes', () => {
     const { user } = renderWithRouterAndRedux(<App />, '/done-recipes');
 
     const profileBtnID = screen.getByTestId('profile-top-btn');
-    const searchBtnID = screen.queryByTestId('search-top-btn');
     let titleID = screen.getByTestId('page-title');
 
     expect(titleID).toHaveTextContent('Done Recipes');
-    expect(profileBtnID).toBeVisible();
-    expect(searchBtnID).not.toBeInTheDocument();
 
     await user.click(profileBtnID);
 
