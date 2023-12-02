@@ -31,27 +31,30 @@ function Login() {
 
   return (
     <div
-      className="w-screen h-screen flex bg-gradient-to-r from-black
-      via-gray-400 to-white items-center justify-center"
+      className="w-screen h-screen flex items-center justify-center
+      bg-blue-400"
     >
       <form
         className="w-3/4 h-4/5 flex p-5 flex-col items-center
-          justify-center shadow-2xl bg-gradient-to-l from-black
-          via-gray-400 to-white rounded-md sm:flex-row "
+          justify-center shadow-2xl shadow-blue-950 rounded-2xl
+          gap-16
+        "
         onSubmit={ handleSubmit }
       >
+        {' '}
+        <h1>
+          Recipes App
+        </h1>
         <div className="flex flex-col gap-3">
           <label
             htmlFor="email"
-            className="shadow-lg shadow-blue-950/50 justify-center text-left
-            bg-gradient-to-r from-black text-white hover:bg-gradient-to-l
-            hover:text-black
-            via-gray-400 to-white rounded-md pl-6 sm:w-72 sm:h-16 flex items-center
+            className="border border-blue-950 p-2
+            flex flex-row items-center
           "
           >
             Email:
             <input
-              className="bg-transparent focus:outline-none ml-2"
+              className="w-full p-2 bg-transparent outline-none"
               type="email"
               name="email"
               id="email"
@@ -62,14 +65,13 @@ function Login() {
           </label>
           <label
             htmlFor="password"
-            className="shadow-lg shadow-blue-950/50
-            bg-gradient-to-l from-black hover:bg-gradient-to-r hover:text-white
-            via-gray-400 to-white rounded-md pl-2 sm:w-72 sm:h-16 flex items-center
+            className="border border-blue-950 p-2
+            flex flex-row items-center
           "
           >
             Password:
             <input
-              className="bg-transparent focus:outline-none ml-2 max-w-full"
+              className="w-full p-2 bg-transparent outline-none"
               type="password"
               name="password"
               id="password"
@@ -78,19 +80,16 @@ function Login() {
               onChange={ handleChange }
             />
           </label>
-          <button
-            data-testid="login-submit-btn"
-            disabled={ !validadeForm }
-            className="w-72 transition ease-in-out
-          delay-150 bg-gradient-to-r from-black
-          via-gray-400 to-white hover:-translate-y-1
-          hover:scale-110 hover:bg-gradient-to-l duration-300 p-2 rounded-md
-          hover:text-blue-200 shadow-lg shadow-blue-950/50
-          "
-          >
-            Enter
-          </button>
         </div>
+        <button
+          data-testid="login-submit-btn"
+          disabled={ !validadeForm }
+          className=" w-5/6 border border-blue-950 p-2
+          disabled: cursor-not-allowed bg
+          "
+        >
+          Enter
+        </button>
       </form>
     </div>
   );
