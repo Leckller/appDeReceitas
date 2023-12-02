@@ -18,7 +18,3 @@ export const path = (routes: string) => (routes.includes('/meals') ? 'meals' : '
 
 export const pathInverse = (routes: string) => (routes
   .includes('/drinks') ? 'meals' : 'drinks');
-
-export const returnRoute = (key: string, id: string) => {
-  return key.includes(`/meals/${id}/in-progress`) ? `/meals/${id}` : `/drinks/${id}`;
-};

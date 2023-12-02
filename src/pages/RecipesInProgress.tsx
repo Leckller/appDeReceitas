@@ -2,7 +2,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAnyFilterInGlobal } from '../redux/actions';
-import { path, returnRoute, route } from '../utils/FuncsAll';
+import { path, route } from '../utils/FuncsAll';
 import { Dispatch, GlobalState, Progress, TypeRecipes } from '../types';
 import { useProgress } from '../hooks/useProgress';
 import Products from '../components/Products';
