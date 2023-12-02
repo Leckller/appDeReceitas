@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/dom';
+import { screen } from '@testing-library/dom';
 import renderWithRouterAndRedux from './helpers/renderWithRedux';
 import App from '../App';
 
@@ -7,7 +7,7 @@ describe('Check page Details', () => {
     const favoriteID = 'favorite-btn';
     const { user } = renderWithRouterAndRedux(<App />, '/meals/52771');
 
-    screen.getByText(/details meals/i);
+    screen.getByRole('heading', { level: 1, name: 'Details Meals' });
 
     let favoriteBtn = screen.getByTestId(favoriteID);
 
@@ -25,7 +25,7 @@ describe('Check page Details', () => {
     const shareID = 'share-btn';
     const { user } = renderWithRouterAndRedux(<App />, '/drinks/17222');
 
-    screen.getByText(/details drinks/i);
+    screen.getByRole('heading', { level: 1, name: 'Details Drinks' });
 
     const shareBtn = screen.getByTestId(shareID);
 

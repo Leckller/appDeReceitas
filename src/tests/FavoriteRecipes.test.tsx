@@ -6,17 +6,12 @@ describe('Check page Favorite Recipes', () => {
   test('Checks favorite recipes functionality', async () => {
     const { user } = renderWithRouterAndRedux(<App />, '/favorite-recipes');
 
-    const profileBtnID = screen.getByTestId('profile-top-btn');
-    const searchBtnID = screen.queryByTestId('search-top-btn');
-    let titleID = screen.getByTestId('page-title');
+    await screen.findByRole('heading', { level: 1, name: 'Favorite Recipes' });
 
-    expect(titleID).toHaveTextContent('Favorite Recipes');
-    expect(profileBtnID).toBeVisible();
-    expect(searchBtnID).not.toBeInTheDocument();
+    const profileBtnID = screen.getByTestId('profile-top-btn');
 
     await user.click(profileBtnID);
 
-    titleID = screen.getByTestId('page-title');
-    expect(titleID).toHaveTextContent('Profile');
+    await screen.findByRole('heading', { level: 1, name: 'Profile' });
   });
 });

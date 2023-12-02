@@ -31,6 +31,6 @@ describe('Check page Recipes in Progress', () => {
     expect(finishBtn).not.toBeDisabled();
     await user.click(finishBtn);
 
-    await screen.findByText(/dones recipes/i);
+    screen.getByRole('heading', { level: 1, name: 'Done Recipes' });
   });
 });

@@ -78,6 +78,6 @@ describe('Check page Recipes', () => {
 
     await user.click(profileBtn);
 
-    expect(title).toHaveTextContent('Profile');
+    await screen.findByRole('heading', { level: 1, name: 'Profile' });
   });
 });

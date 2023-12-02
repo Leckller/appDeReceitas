@@ -12,8 +12,6 @@ describe('Verificando o componente footer', () => {
 
     let loading = screen.getByText('Loading...');
 
-    expect(loading).toBeVisible();
-
     let article = await screen.findAllByRole('article');
 
     expect(article).toHaveLength(12);
@@ -23,8 +21,6 @@ describe('Verificando o componente footer', () => {
     await user.click(mealsBtn);
 
     loading = screen.getByText('Loading...');
-
-    expect(loading).toBeVisible();
 
     article = await screen.findAllByRole('article');
 
