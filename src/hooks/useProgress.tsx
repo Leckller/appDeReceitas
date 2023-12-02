@@ -1,27 +1,8 @@
 import { useLocation, useParams } from 'react-router-dom';
 import { useState } from 'react';
-import { Progress } from '../types';
 import { path } from '../utils/FuncsAll';
 import { getItem, setItem } from '../utils/localStorage';
-
-// ESTRUTURA A SEGUIR
-
-// inProgressRecipes: {
-//   drinks: {
-//       id-da-bebida: [lista-de-ingredientes-utilizados],
-//       ...
-//   },
-//   meals: {
-//       id-da-comida: [lista-de-ingredientes-utilizados],
-//       ...
-//   }
-// }
-
-// key: chave do localstorage
-// id: id do item
-// filter: para drinks ou meals
-// values: valores atuais dos inputs
-// rItem: item para remover
+import { Progress } from '../types';
 
 export const useProgress = () => {
   const { id } = useParams();
