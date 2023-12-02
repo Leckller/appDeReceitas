@@ -45,7 +45,7 @@ function RecipeDetails() {
       <h1>{keyPage}</h1>
       {
         product && (
-          <div>
+          <div className="flex flex-col items-start border-4 border-black">
             <Products />
             {
                 recipesProduts.map((value, index) => (
@@ -68,12 +68,17 @@ function RecipeDetails() {
                   />
                 )
               }
-            {
+            <div
+              className="flex flex-col flex-wrap overflow-x-scroll h-48 w-96
+              overflow-y-hidden"
+            >
+              {
               recipes.slice(0, 6).map((recipe, index) => (
                 <Link
                   key={ index }
                   to={ `${urlInverse}${recipe[`id${routeInverse(pathname)}`]}` as string }
                   data-testid={ `${index}-recommendation-card` }
+                  className="w-48 h48"
                 >
                   <img
                     src={ recipe[`str${routeInverse(pathname)}Thumb`] as string }
@@ -87,6 +92,7 @@ function RecipeDetails() {
                 </Link>
               ))
               }
+            </div>
             {
                 !getDoneRecipes && (
                   <button

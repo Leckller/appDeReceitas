@@ -85,7 +85,7 @@ function Login() {
           data-testid="login-submit-btn"
           disabled={ !validadeForm }
           className=" w-5/6 border border-blue-950 p-2
-          disabled: cursor-not-allowed bg
+          disabled:cursor-not-allowed
           "
         >
           Enter
