@@ -16,19 +16,7 @@ function useFavorite() {
     getItem('FinishRecipes') as Favorite[] || [],
   );
 
-  const verifyFinishRecipe = () => finish
-    .some((item) => item.id === id);
-
-  const removeFinishRecipe = () => finish
-    .filter((item) => item.id !== id);
-
-  const verifyFavorite = () => favorites
-    .some((item) => item.id === id);
-
-  const removeFavorite = () => favorites
-    .filter((item) => item.id !== id);
-
-  const setFavoriteRecipes = (paths: string) => {
+  const newFavoriteRecipes = (paths: string) => {
     return filters.map((filter) => ({
       id: filter[`id${paths}`],
       type: paths.toLowerCase(),
@@ -39,36 +27,49 @@ function useFavorite() {
       image: filter[`str${paths}Thumb`],
       doneDate: new Date().toJSON(),
       tags: filter.strTags === null ? [] : filter.strTags.split(','),
-    }));
-  };
-  const newFavorites = () => {
-    const getFavorite = setFavoriteRecipes(route(pathname))[0] as Favorite[];
-    const formaterFavorite = getFavorite.forEach((result) => delete result.doneDate
-      && result.tags);
-    return [...favorites, formaterFavorite] as Favorite[];
+    })) as Favorite[];
   };
 
-  const newDones = () => {
-    const formaterDones = setFavoriteRecipes(route(pathname))[0];
-    return [...favorites, formaterDones] as Favorite[];
+  const verifyFavorite = () => favorites.some((item) => item.id === id);
+
+  const removeFavorite = () => favorites.filter((item) => item.id !== id);
+
+  const newFavorites = () => {
+    const recipe = [...newFavoriteRecipes(route(pathname))];
+    recipe.forEach((item) => delete item.doneDate && delete item.tags);
+    return [...favorites, recipe[0]] as Favorite[];
   };
 
   const changeFavorite = () => {
-    if (verifyFavorite() || verifyFinishRecipe()) {
-      setFinish(removeFinishRecipe());
-      setItem('favoriteRecipes', removeFavorite());
-
+    if (verifyFavorite()) {
       setFavorites(removeFavorite());
-      setItem('FinishRecipes', removeFinishRecipe());
+      setItem('favoriteRecipes', removeFavorite());
     } else {
       setFavorites(newFavorites());
       setItem('favoriteRecipes', newFavorites());
+    }
+  };
 
+  const verifyFinishRecipe = () => finish.some((item) => item.id === id);
+
+  const removeFinishRecipe = () => finish.filter((item) => item.id !== id);
+
+  const newDones = () => {
+    const formaterDones = newFavoriteRecipes(route(pathname))[0];
+    return [...finish, formaterDones] as Favorite[];
+  };
+
+  const changeDoneRecipes = () => {
+    if (verifyFinishRecipe()) {
+      setFavorites(removeFinishRecipe());
+      setItem('finishRecipes', removeFinishRecipe());
+    } else {
       setFinish(newDones());
       setItem('doneRecipes', newDones());
     }
   };
-  return { changeFavorite, verifyFavorite };
+
+  return { changeFavorite, verifyFavorite, changeDoneRecipes };
 }
 
 export default useFavorite;

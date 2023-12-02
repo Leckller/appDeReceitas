@@ -90,7 +90,7 @@ export type Favorite = {
   name: string,
   image: string,
   doneDate?: string,
-  tags?: string,
+  tags?: string[],
 };
 
 export type Categorias = {

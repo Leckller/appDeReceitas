@@ -13,8 +13,7 @@ function RecipesInProgress() {
   const { id } = useParams();
   const { pathname } = useLocation();
   const { saveProgress } = useProgress();
-  const { changeFavorite } = useFavorite();
-
+  const { changeDoneRecipes } = useFavorite();
   const dispatch: Dispatch = useDispatch();
   const product: TypeRecipes = useSelector((state: GlobalState) => state.filters)[0]
   || {};
@@ -99,7 +98,7 @@ function RecipesInProgress() {
           hover:scale-110 duration-300 p-1 rounded-md
           shadow-lg
           "
-        onClick={ changeFavorite }
+        onClick={ changeDoneRecipes }
       >
         finish
       </button>
