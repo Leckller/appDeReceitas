@@ -76,7 +76,6 @@ function RecipesInProgress() {
                         {`${value[1]}: ${product[`strMeasure${index + 1}`]}`}
                       </p>
                       <input
-                        className="invisible"
                         checked={ productCheck
                           .some((item) => item.includes(`item-${index}`)) }
                         onChange={ () => changeChecked(value[1] as string, index) }
@@ -95,9 +94,10 @@ function RecipesInProgress() {
           hover:scale-110 duration-300 p-1 rounded-md
           shadow-lg
           "
+        disabled={ recipesProduts.length !== productCheck.length }
         onClick={ () => {
           changeDoneRecipes();
-          navigate(returnRoute(pathname, id as string));
+          navigate('/done-recipes');
         } }
       >
         finish
