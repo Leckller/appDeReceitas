@@ -17,7 +17,6 @@ afterEach(() => {
 });
 
 describe('Check page Recipes', () => {
-  const titleID = 'page-title';
   const profileBtnID = 'profile-top-btn';
   const searchBtnID = 'search-top-btn';
   const serchInputID = 'search-input';
@@ -74,8 +73,6 @@ describe('Check page Recipes', () => {
     const { user } = renderWithRouterAndRedux(<App />, '/drinks');
 
     const profileBtn = screen.getByTestId(profileBtnID);
-    const title = screen.getByTestId(titleID);
-
     await user.click(profileBtn);
 
     await screen.findByRole('heading', { level: 1, name: 'Profile' });

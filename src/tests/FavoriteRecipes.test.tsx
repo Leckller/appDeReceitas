@@ -8,9 +8,7 @@ describe('Check page Favorite Recipes', () => {
 
     await screen.findByRole('heading', { level: 1, name: 'Favorite Recipes' });
 
-    const profileBtnID = screen.getByTestId('profile-top-btn');
-
-    await user.click(profileBtnID);
+    await user.click(screen.getByTestId('profile-top-btn'));
 
     await screen.findByRole('heading', { level: 1, name: 'Profile' });
   });

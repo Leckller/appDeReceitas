@@ -6,14 +6,10 @@ describe('Check page Done Recipes', () => {
   test('Checks done recipes functionality', async () => {
     const { user } = renderWithRouterAndRedux(<App />, '/done-recipes');
 
-    const profileBtnID = screen.getByTestId('profile-top-btn');
-    let titleID = screen.getByTestId('page-title');
+    screen.getByRole('heading', { level: 1, name: 'Dones Recipes' });
 
-    expect(titleID).toHaveTextContent('Done Recipes');
+    await user.click(screen.getByTestId('profile-top-btn'));
 
-    await user.click(profileBtnID);
-
-    titleID = screen.getByTestId('page-title');
-    expect(titleID).toHaveTextContent('Profile');
+    await screen.findByRole('heading', { level: 1, name: 'Profile' });
   });
 });
