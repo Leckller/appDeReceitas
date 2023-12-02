@@ -1,4 +1,4 @@
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
@@ -10,15 +10,19 @@ import { useProgress } from '../../hooks/useProgress';
 import { getItem } from '../../utils/localStorage';
 import useFavorite from '../../hooks/useFavorite';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import useDoneRecipes from '../../hooks/useDoneRecipes';
 
 function Receita() {
   const { pathname } = useLocation();
   const { saveProgress } = useProgress();
   const { host, protocol } = window.location;
   const { id } = useParams();
+  const { changeFinish } = useDoneRecipes();
   const { changeFavorite, verifyFavorite } = useFavorite();
+  const navigate = useNavigate();
   const product: TypeRecipes = useSelector((state: GlobalState) => state.filters)[0]
-    || {};
+  || {};
+  console.log(product);
   const [productCheck, setproductCheck] = useState<string[]>([]);
 
   const url = `${protocol}//${host}${pathname}`.split('/in-progress')[0];
@@ -147,6 +151,17 @@ function Receita() {
                 ))
               }
       </div>
+      <button
+        className="fixed bottom-0 left-2/3 disabled:bg-red-400"
+        data-testid="finish-recipe-btn"
+        disabled={ recipesProduts.length !== productCheck.length }
+        onClick={ () => {
+          navigate('/done-recipes');
+          changeFinish();
+        } }
+      >
+        finish
+      </button>
     </div>
   );
 }

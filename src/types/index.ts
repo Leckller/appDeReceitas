@@ -89,8 +89,8 @@ export type Favorite = {
   alcoholicOrNot: string,
   name: string,
   image: string,
-  doneDate: string,
-  tags: string,
+  doneDate?: string,
+  tags?: string,
 };
 
 export type Categorias = {
