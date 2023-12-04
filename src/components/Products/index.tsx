@@ -14,7 +14,7 @@ function Products() {
   const { changeFavorite, verifyFavorite } = useFavorite();
 
   const product = useSelector((state: GlobalState) => state.filters)[0] || {};
-  const url = `${protocol}//${host}${pathname}`;
+  const url = `${protocol}//${host}${pathname}`.split('/in-progress')[0];
 
   const Toast = Swal.mixin({
     toast: true,
@@ -73,7 +73,7 @@ function Products() {
         <p
           data-testid="recipe-category"
         >
-          {`${product.strCategory}: ${product.strAlcoholic}`}
+          {product.strAlcoholic ? product.strAlcoholic : product.strCategory}
         </p>
 
         <p

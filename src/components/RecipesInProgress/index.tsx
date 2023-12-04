@@ -111,7 +111,8 @@ function Receita() {
                     </label>
                   </div>
                 ))
-              }
+        }
+        <button data-testid="finish-recipe-btn">finish</button>
       </div>
     </div>
   );
