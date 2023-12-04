@@ -12,7 +12,10 @@ function Section() {
 
   return (
     <div>
-      <section className="flex w-screen flex-wrap items-center justify-center">
+      <section
+        className="flex w-screen flex-row flex-wrap
+      items-center gap-2 justify-center mt-10"
+      >
         {
           // faz a reendenização das 12 primeiras Recipes
           filters.slice(0, 12).map((filter, index) => (
@@ -21,17 +24,20 @@ function Section() {
               key={ index }
             >
               <article
-                className={ `${animate} w-96 h-80 flex items-center flex-col
-                justify-around hover:scale-110 transition-all` }
+                className={ `${animate} w-48 h-48 flex items-center flex-col
+                justify-around hover:scale-110 transition-all mb-10` }
                 data-testid={ `${index}-recipe-card` }
               >
                 <img
-                  className="w-1/2 shadow-2xl shadow-blue-950"
+                  className="w-full shadow-2xl shadow-blue-950 rounded-t-md"
                   src={ `${filter[`str${route(pathname)}Thumb`]}` }
                   alt={ `${filter[`str${route(pathname)}`]}` }
                   data-testid={ `${index}-card-img` }
                 />
-                <h1 data-testid={ `${index}-card-name` }>
+                <h1
+                  className="z-50 p-2 bg-white w-full text-center rounded-b-md"
+                  data-testid={ `${index}-card-name` }
+                >
                   {filter[`str${route(pathname)}`]}
                 </h1>
               </article>

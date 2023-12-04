@@ -38,7 +38,7 @@ function DoneRecipes() {
           Drinks
         </button>
       </div>
-      <div className="flex flex-col w-full p-5">
+      <div className="flex flex-col w-full p-5 gap-5">
         {doneRec && doneRec.map((recipe, index) => (
           <Card index={ index } recipe={ recipe } key={ recipe.id } />
         ))}

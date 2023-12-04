@@ -9,6 +9,7 @@ function Card({ index, recipe }: { index: number, recipe:Favorite }) {
     <div className="flex flex-row w-full border border-gray-400 rounded-xl">
       <Link to={ url } className="w-1/2">
         <img
+          className="w-full h-full rounded-l-xl"
           src={ recipe.image }
           alt={ recipe.name }
           data-testid={ `${index}-horizontal-image` }
@@ -23,9 +24,10 @@ function Card({ index, recipe }: { index: number, recipe:Favorite }) {
             {recipe.doneDate?.split('T')[0]}
           </h4>
 
-          <div className="flex flex-row gap-5">
+          <div className="flex flex-row gap-2">
             {recipe.tags && recipe.tags.map((tag) => (
               <h5
+                className="bg-gray-300 rounded-xl p-1"
                 key={ tag }
                 data-testid={ `${index}-${tag}-horizontal-tag` }
               >
