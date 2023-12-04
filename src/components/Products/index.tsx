@@ -14,7 +14,7 @@ function Products() {
   const { changeFavorite, verifyFavorite } = useFavorite();
 
   const product = useSelector((state: GlobalState) => state.filters)[0] || {};
-  const url = `${protocol}//${host}${pathname}`;
+  const url = `${protocol}//${host}${pathname}`.split('/in-progress')[0];
 
   const Toast = Swal.mixin({
     toast: true,

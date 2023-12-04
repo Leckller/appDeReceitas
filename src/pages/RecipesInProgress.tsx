@@ -1,4 +1,4 @@
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAnyFilterInGlobal } from '../redux/actions';
@@ -7,14 +7,13 @@ import { Dispatch, GlobalState, Progress, TypeRecipes } from '../types';
 import { useProgress } from '../hooks/useProgress';
 import Products from '../components/Products';
 import { getItem } from '../utils/localStorage';
-import useFavorite from '../hooks/useFavorite';
 
 function RecipesInProgress() {
   const { id } = useParams();
   const { pathname } = useLocation();
-  const { saveProgress } = useProgress();
-  const { changeDoneRecipes } = useFavorite();
+  const { saveProgress, changeDoneRecipes } = useProgress();
   const dispatch: Dispatch = useDispatch();
+  const navigate = useNavigate();
   const product: TypeRecipes = useSelector((state: GlobalState) => state.filters)[0]
   || {};
   const [productCheck, setproductCheck] = useState<string[]>([]);
@@ -38,16 +37,14 @@ function RecipesInProgress() {
     setproductCheck(checked);
     saveProgress(checked);
   };
-
   const isInProgress = () => {
     const inProgressRecipes = getItem('inProgressRecipes') as Progress || {};
-    return inProgressRecipes[path(pathname)]?.[id as string];
+    return inProgressRecipes[path(pathname)]?.[id as string] as string[];
   };
 
   const getCheckeds = () => {
-    return isInProgress()
-      .filter((checked) => productCheck
-        .every((item) => item === checked));
+    return isInProgress().filter((checked) => productCheck
+      .every((item) => item === checked));
   };
 
   useEffect(() => {
@@ -79,7 +76,6 @@ function RecipesInProgress() {
                         {`${value[1]}: ${product[`strMeasure${index + 1}`]}`}
                       </p>
                       <input
-                        className=""
                         checked={ productCheck
                           .some((item) => item.includes(`item-${index}`)) }
                         onChange={ () => changeChecked(value[1] as string, index) }
@@ -99,7 +95,10 @@ function RecipesInProgress() {
           shadow-lg disabled:bg-red-400
           "
         disabled={ recipesProduts.length !== productCheck.length }
-        onClick={ changeDoneRecipes }
+        onClick={ () => {
+          changeDoneRecipes();
+          navigate('/done-recipes');
+        } }
       >
         finish
       </button>
