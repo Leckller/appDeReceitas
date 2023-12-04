@@ -1,4 +1,6 @@
+/* eslint-disable react/jsx-max-depth */
 import { Favorite } from '../../types';
+import shareIcon from '../../images/shareIcon.svg';
 
 function Card({ index, recipe }: { index: number, recipe:Favorite }) {
   return (
@@ -15,9 +17,21 @@ function Card({ index, recipe }: { index: number, recipe:Favorite }) {
         <div className="w-full flex flex-row flex-wrap">
           <div className="flex flex-row w-full justify-between">
             <h2 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h2>
-            <button data-testid={ `${index}-horizontal-share-btn` }>share</button>
+            <input
+              src={ shareIcon }
+              alt="shareIcon"
+              type="image"
+              data-testid={ `${index}-horizontal-share-btn` }
+            />
           </div>
-          <h3 data-testid={ `${index}-horizontal-top-text` }>{recipe.category}</h3>
+          <h3 data-testid={ `${index}-horizontal-top-text` }>
+            {recipe.type === 'meal' ? (
+              `${recipe.nationality} - ${recipe.category}`
+            ) : (
+              recipe.category
+            )}
+
+          </h3>
         </div>
 
         <div className="flex flex-col justify-around h-full">
