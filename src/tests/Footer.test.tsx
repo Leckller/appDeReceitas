@@ -1,28 +1,30 @@
 import { screen } from '@testing-library/dom';
-import renderWithRouterAndRedux from './helpers/renderWithRedux';
-import App from '../App';
+import userEvent from '@testing-library/user-event';
+import renderWithRouter from './helpers/renderWithRouter';
+import Layout from '../components/Header/Layout';
 
 describe('Verificando o componente footer', () => {
-  test('Verificando se o Footer renderiza corretamente', async () => {
-    const { user } = renderWithRouterAndRedux(<App />, '/meals');
+  test('Verificando se o Footer renderiza corretamente', () => {
+    renderWithRouter(<Layout />);
 
-    const mealsBtn = screen.getByTestId('meals-bottom-btn');
+    const footer = screen.getByTestId('footer');
+    expect(footer).toBeInTheDocument();
+  });
+  test('Verifica se o botão redireciona à página de bebidas', async () => {
+    renderWithRouter(<Layout />);
+
     const drinksBtn = screen.getByTestId('drinks-bottom-btn');
 
-    await user.click(drinksBtn);
+    await userEvent.click(drinksBtn);
+    expect(window.location.pathname).toBe('/drinks');
+  });
 
-    let loading = screen.getByRole('heading', { level: 1, name: 'Loading ...' });
+  test('verifica se o botão redireciona à página de comidas', async () => {
+    renderWithRouter(<Layout />);
 
-    expect(loading).toBeVisible();
+    const mealsBtn = screen.getByTestId('meals-bottom-btn');
 
-    const article = await screen.findAllByRole('article');
-
-    expect(article).toHaveLength(12);
-
-    await user.click(mealsBtn);
-
-    loading = screen.getByRole('heading', { level: 1, name: 'Loading ...' });
-
-    expect(loading).toBeVisible();
+    await userEvent.click(mealsBtn);
+    expect(window.location.pathname).toBe('/meals');
   });
 });
