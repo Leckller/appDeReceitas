@@ -1,4 +1,4 @@
-export const drinksID1722 = {
+export const drinksID17222 = {
   drinks: [
     {
       idDrink: '17222',

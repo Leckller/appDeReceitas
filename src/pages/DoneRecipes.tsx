@@ -8,7 +8,6 @@ function DoneRecipes() {
   useEffect(() => {
     setDoneRec(getItem('doneRecipes'));
   }, []);
-  console.log(doneRec);
   return (
     <div className="w-screen h-screen flex flex-col items-center pt-5 gap-5">
       <div className="w-screen flex flex-row justify-center gap-10">

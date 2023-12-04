@@ -29,9 +29,12 @@ export const fecthApi = async (
 ) => {
   try {
     const endPoint = createEndPoint(form, path, filter);
+    console.log(endPoint);
+
     const pathLowerCase = `${path.toLowerCase()}s`;
 
     const response = await fetch(endPoint);
+
     const data = await response.json();
 
     return data[pathLowerCase] || [];

@@ -36,7 +36,7 @@ describe('Check page Recipes', () => {
     const nameRadio = await screen.findByTestId(nameRadioID);
     const enterBtn = await screen.findByTestId(enterBtnID);
 
-    await user.type(searchInput, 'asdas');
+    await user.type(searchInput, 'aaa');
     await user.click(nameRadio);
 
     await user.click(enterBtn);
@@ -68,6 +68,26 @@ describe('Check page Recipes', () => {
       expect(window.alert).toHaveBeenCalledWith('Your search must have only 1 (one) character');
       expect(window.alert).toHaveBeenCalledTimes(1);
     });
+  });
+
+  test('Checks filter name functionality', async () => {
+    const { user } = renderWithRouterAndRedux(<App />, '/meals');
+
+    window.alert = vi.fn(() => {});
+
+    const searchBtn = screen.getByTestId(searchBtnID);
+    await user.click(searchBtn);
+
+    const searchInput = await screen.findByTestId(serchInputID);
+    const nameRadio = await screen.findByTestId(nameRadioID);
+    const enterBtn = await screen.findByTestId(enterBtnID);
+
+    await user.type(searchInput, 'Arrabiata');
+    await user.click(nameRadio);
+
+    await user.click(enterBtn);
+
+    await screen.findByRole('heading', { level: 1, name: 'Spicy Arrabiata Penne' });
   });
 
   test('Check if you click on drinks', async () => {

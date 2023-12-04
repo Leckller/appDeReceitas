@@ -2,14 +2,10 @@ import { screen } from '@testing-library/dom';
 import { vi } from 'vitest';
 import App from '../App';
 import renderWithRouterAndRedux from './helpers/renderWithRedux';
-import { drinksID1722 } from './mock/apiID';
+import fecthMock from './mock/fecthmock';
 
 beforeEach(() => {
-  vi.spyOn(global, 'fetch').mockResolvedValue({
-    ok: true,
-    status: 200,
-    json: async () => drinksID1722,
-  } as Response);
+  vi.spyOn(global, 'fetch').mockImplementation(fecthMock as any);
 });
 
 afterEach(() => {
