@@ -6,7 +6,7 @@ describe('Check page Done Recipes', () => {
   test('Checks done recipes functionality', async () => {
     const { user } = renderWithRouterAndRedux(<App />, '/done-recipes');
 
-    screen.getByRole('heading', { level: 1, name: 'Dones Recipes' });
+    screen.getByRole('heading', { level: 1, name: 'Done Recipes' });
 
     await user.click(screen.getByTestId('profile-top-btn'));
 

@@ -6,7 +6,7 @@ describe('Check page Favorite Recipes', () => {
   test('Checks favorite recipes functionality', async () => {
     const { user } = renderWithRouterAndRedux(<App />, '/favorite-recipes');
 
-    await screen.findByRole('heading', { level: 1, name: 'Favorite Recipes' });
+    screen.getByRole('heading', { level: 1, name: 'Favorite Recipes' });
 
     await user.click(screen.getByTestId('profile-top-btn'));
 

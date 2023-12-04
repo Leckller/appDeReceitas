@@ -14,7 +14,8 @@ function useFavorite() {
     getItem('favoriteRecipes') as Favorite[] || [],
   );
 
-  const verifyFavorite = () => favorites.some((item) => item.id === id);
+  const verifyFavorite = () => favorites.some((item) => (item
+    ? item.id === id : false));
 
   const changeFavorite = () => {
     const newFavorites = () => {
