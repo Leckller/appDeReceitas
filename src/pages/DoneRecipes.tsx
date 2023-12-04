@@ -15,23 +15,27 @@ function DoneRecipes() {
         <button
           className="rounded-full border border-black w-20 h-20"
           data-testid="filter-by-all-btn"
+          onClick={ () => setDoneRec(getItem('doneRecipes')) }
         >
           All
-
         </button>
         <button
           className="rounded-full border border-black w-20 h-20"
           data-testid="filter-by-meal-btn"
+          onClick={ () => {
+            setDoneRec([...doneRec.filter((rec) => rec.type === 'meal')]);
+          } }
         >
           Meals
-
         </button>
         <button
           className="rounded-full border border-black w-20 h-20"
           data-testid="filter-by-drink-btn"
+          onClick={ () => {
+            setDoneRec([...doneRec.filter((rec) => rec.type === 'drink')]);
+          } }
         >
           Drinks
-
         </button>
       </div>
       <div className="flex flex-col w-full p-5">

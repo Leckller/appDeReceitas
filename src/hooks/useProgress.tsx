@@ -13,7 +13,7 @@ export const useProgress = () => {
   const storage = getItem('inProgressRecipes') as Progress || {};
   const [progress, setProgress] = useState<Progress>(storage);
   const [dones, setDones] = useState<Favorite[]>(
-    getItem('FinishRecipes') as Favorite[] || [],
+    getItem('doneRecipes') as Favorite[] || [],
   );
 
   const newProgress = () => {

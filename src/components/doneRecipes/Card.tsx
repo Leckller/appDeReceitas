@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-max-depth */
 import Swal from 'sweetalert2';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { Favorite } from '../../types';
 import shareIcon from '../../images/shareIcon.svg';
 
@@ -23,18 +23,20 @@ function Card({ index, recipe }: { index: number, recipe:Favorite }) {
   console.log(pathname);
   return (
     <div className="flex flex-row w-full border border-gray-400 rounded-xl">
-      <div className="w-1/2">
+      <Link to={ url } className="w-1/2">
         <img
           src={ recipe.image }
           alt={ recipe.name }
           data-testid={ `${index}-horizontal-image` }
         />
-      </div>
+      </Link>
       <div className="w-1/2 p-2 flex flex-col">
 
         <div className="w-full flex flex-row flex-wrap">
           <div className="flex flex-row w-full justify-between ">
-            <h2 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h2>
+            <Link to={ url }>
+              <h2 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h2>
+            </Link>
             <input
               src={ shareIcon }
               alt="shareIcon"
