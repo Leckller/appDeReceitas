@@ -25,7 +25,7 @@ function Section() {
             >
               <article
                 className={ `${animate} w-48 h-48 flex items-center flex-col
-                justify-around hover:scale-110 transition-all mb-10` }
+                justify-around hover:scale-110 hover:z-50 transition-all mb-10` }
                 data-testid={ `${index}-recipe-card` }
               >
                 <img
@@ -35,7 +35,7 @@ function Section() {
                   data-testid={ `${index}-card-img` }
                 />
                 <h1
-                  className="z-50 p-2 bg-white w-full text-center rounded-b-md"
+                  className=" p-2 bg-white w-full text-center rounded-b-md"
                   data-testid={ `${index}-card-name` }
                 >
                   {filter[`str${route(pathname)}`]}

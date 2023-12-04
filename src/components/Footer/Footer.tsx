@@ -18,7 +18,7 @@ function Footer() {
       data-testid="footer"
       className="fixed w-screen bottom-0 bg-transparent
       flex flex-row justify-center items-center gap-5
-      backdrop-blur-sm h-9"
+      backdrop-blur-sm h-9 z-50"
     >
       <input
         onClick={ handleNavigateToMeals }

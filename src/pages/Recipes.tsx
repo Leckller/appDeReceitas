@@ -6,6 +6,8 @@ import { setAnyFilterInGlobal, setLoading } from '../redux/actions';
 import Loading from '../components/Loading/Loading';
 import { filterAll, route } from '../utils/FuncsAll';
 import Section from '../components/Recipes';
+import mealIcon from '../images/mealIcon.svg';
+import drinkIcon from '../images/drinkIcon.svg';
 
 function Recipes() {
   // pathname pega a rota em que você estiver
@@ -14,6 +16,16 @@ function Recipes() {
   const loading = useSelector((state: GlobalState) => state.loading);
   const [categories, setCategories] = useState<Categories[]>([]);
   const [select, setSelect] = useState('All');
+
+  const renderTitle = (str: string) => {
+    if (pathname === '/done-recipes' || pathname === '/favorite-recipes') {
+      const replace = str.replace('-recipes', ' Recipes');
+      return replace.charAt(1).toUpperCase() + replace.slice(2);
+    }
+    return str.charAt(1).toUpperCase() + str.slice(2);
+  };
+
+  const title = renderTitle(pathname);
 
   const handleClick = (strCategory: string) => {
     console.log(select, strCategory);
@@ -51,16 +63,30 @@ function Recipes() {
 
   return (
     <div className="flex flex-col items-center justify-center gap-1 pb-20">
+      <div className="flex justify-center items-center flex-col gap-5 pt-10">
+        <img
+          className="scale-125"
+          src={ title === 'Meals' ? mealIcon : drinkIcon }
+          alt=""
+        />
+        <h1
+          className="text-purple-700 text-4xl font-bold "
+          data-testid="page-title"
+        >
+          { title }
+
+        </h1>
+      </div>
       <section
         className="w-screen flex flex-row flex-wrap items-center
-        justify-around"
+        justify-around mt-10"
       >
         {
         // faz a reendenização das 5 primeiras Categories
         categories.slice(0, 5).map(({ strCategory }) => (
           <button
-            className="mt-4 hover:scale-110 transition-all border border-blue-950
-            rounded-md w-28"
+            className="w-16 h-16 border border-gray-400
+            rounded-full truncate"
             type="button"
             key={ strCategory }
             data-testid={ `${strCategory}-category-filter` }
@@ -73,8 +99,8 @@ function Recipes() {
       }
         <button
           type="button"
-          className="mt-4 hover:scale-110 transition-all border border-blue-950
-          rounded-md w-28"
+          className="w-16 h-16 border border-gray-400
+          rounded-full truncate"
           data-testid="All-category-filter"
           value="All"
           onClick={ () => handleClick('All') }
