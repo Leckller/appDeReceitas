@@ -1,26 +1,10 @@
-/* eslint-disable react/jsx-max-depth */
-import Swal from 'sweetalert2';
-import { useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Favorite } from '../../types';
-import shareIcon from '../../images/shareIcon.svg';
+import HeaderCard from './HeaderCard';
 
 function Card({ index, recipe }: { index: number, recipe:Favorite }) {
   const { host, protocol } = window.location;
-  const { pathname } = useLocation();
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.onmouseenter = Swal.stopTimer;
-      toast.onmouseleave = Swal.resumeTimer;
-    },
-  });
-
   const url = `${protocol}//${host}/${recipe.type}s/${recipe.id}`;
-  console.log(pathname);
   return (
     <div className="flex flex-row w-full border border-gray-400 rounded-xl">
       <Link to={ url } className="w-1/2">
@@ -32,34 +16,7 @@ function Card({ index, recipe }: { index: number, recipe:Favorite }) {
       </Link>
       <div className="w-1/2 p-2 flex flex-col">
 
-        <div className="w-full flex flex-row flex-wrap">
-          <div className="flex flex-row w-full justify-between ">
-            <Link to={ url }>
-              <h2 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h2>
-            </Link>
-            <input
-              src={ shareIcon }
-              alt="shareIcon"
-              type="image"
-              data-testid={ `${index}-horizontal-share-btn` }
-              onClick={ () => {
-                navigator.clipboard.writeText(url);
-                Toast.fire({
-                  icon: 'success',
-                  title: 'Link copied!',
-                });
-              } }
-            />
-          </div>
-          <h3 data-testid={ `${index}-horizontal-top-text` }>
-            {recipe.type === 'meal' ? (
-              `${recipe.nationality} - ${recipe.category}`
-            ) : (
-              recipe.alcoholicOrNot
-            )}
-
-          </h3>
-        </div>
+        <HeaderCard index={ index } recipe={ recipe } url={ url } key={ recipe.id } />
 
         <div className="flex flex-col justify-around h-full">
           <h4 data-testid={ `${index}-horizontal-done-date` }>
