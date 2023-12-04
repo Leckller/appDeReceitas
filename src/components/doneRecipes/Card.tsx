@@ -10,7 +10,7 @@ function Card({ index, recipe }: { index: number, recipe:Favorite }) {
           data-testid={ `${index}-horizontal-image` }
         />
       </div>
-      <div className="w-1/2 p-2">
+      <div className="w-1/2 p-2 flex flex-col">
 
         <div className="w-full flex flex-row flex-wrap">
           <div className="flex flex-row w-full justify-between">
@@ -20,16 +20,16 @@ function Card({ index, recipe }: { index: number, recipe:Favorite }) {
           <h3 data-testid={ `${index}-horizontal-top-text` }>{recipe.category}</h3>
         </div>
 
-        <div>
+        <div className="flex flex-col justify-around h-full">
           <h4 data-testid={ `${index}-horizontal-done-date` }>
-            {recipe.doneDate}
+            {recipe.doneDate?.split('T')[0]}
           </h4>
 
           <div className="flex flex-row gap-5">
             {recipe.tags && recipe.tags.map((tag) => (
               <h5
                 key={ tag }
-                data-testid={ `${index}-${recipe.tags}-horizontal-tag` }
+                data-testid={ `${index}-${tag}-horizontal-tag` }
               >
                 {tag}
               </h5>
