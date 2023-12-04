@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { TypeRecipes, GlobalState } from '../types';
-import { getItem } from '../utils/localStorage'; // Supondo que getItem é o método para obter dados do localStorage
+import { getItem } from '../utils/localStorage';
 
 function FavoriteRecipes() {
   const [favoriteRecipes, setFavoriteRecipes] = useState<TypeRecipes[]>([]);
 
-  // Utilizando useSelector para obter o estado global
+  // utilizando useSelector para obter o estado global
   const storedFavoriteRecipes = useSelector(
     (state: GlobalState) => state.favoriteRecipes,
   );
 
   useEffect(() => {
-    // Verifica se há receitas favoritas no localStorage e atualiza o estado
+    // verifica se há receitas favoritas no localStorage e atualiza o estado
     const localStorageFavorites = getItem('favoriteRecipes') || [];
     setFavoriteRecipes(localStorageFavorites as TypeRecipes[]);
   }, []);
 
-  // Função para manipular a lógica de favoritar/desfavoritar
   const toggleFavorite = (recipeId: string) => {
 
   };
@@ -28,9 +27,9 @@ function FavoriteRecipes() {
       <div className="favorite-recipes-grid">
         {favoriteRecipes.map((recipe, index) => (
           <div key={ index } className="recipe-card">
-            {/* Imagem */}
+            {/* imagem */}
             <img
-              src={ recipe.image || '' } // Substitua por sua lógica de imagem
+              src={ recipe.image || '' }
               alt={ recipe.name || '' }
               data-testid={ `${index}-horizontal-image` }
             />
@@ -41,10 +40,10 @@ function FavoriteRecipes() {
               {' '}
               {recipe.name}
             </p>
-            {/* Botões de Compartilhar e Favoritar */}
+            {/* botões de Compartilhar e Favoritar */}
             <button
               onClick={ () => {
-                // Lógica para compartilhar a receita
+                // logica para compartilhar
               } }
               data-testid={ `${index}-horizontal-share-btn` }
             >
@@ -54,7 +53,7 @@ function FavoriteRecipes() {
               onClick={ () => toggleFavorite(recipe.id || '') }
               data-testid={ `${index}-horizontal-favorite-btn` }
             >
-              { /* Lógica para exibir coração preenchido ou vazio conforme favorito */}
+              { /* lógica para exibir coração preenchido ou vazio */}
               {recipe.isFavorite ? '❤️' : '🤍'}
             </button>
           </div>

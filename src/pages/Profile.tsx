@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { removeItem } from '../utils/localStorage';
+import { clearStorage } from '../utils/localStorage';
 
 function Profile() {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ function Profile() {
     navigate('/favorite-recipes');
   };
   const handleLogoutNavigteClick = () => {
-    removeItem('user');
+    clearStorage();
     navigate('/');
   };
   // Obtendo o email do localStorage
