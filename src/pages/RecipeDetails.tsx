@@ -72,12 +72,12 @@ function RecipeDetails() {
               }
                 </div>
                 <div
-                  className="w-full border-2 border-gray-400 pl-5 p-3 rounded-lg
+                  className="w-full max-h-96 border-2 border-gray-400 pl-5 p-3 rounded-lg
                 overflow-y-auto"
                 >
                   <p
                     data-testid="instructions"
-                    className="w-full h-96"
+                    className="w-full"
                   >
                     { product.strInstructions }
 
@@ -133,7 +133,7 @@ function RecipeDetails() {
             </div>
             <div className="flex flex-row items-center w-screen justify-center">
               {
-                getDoneRecipes && (
+                !getDoneRecipes && (
                   <button
                     data-testid="start-recipe-btn"
                     className="fixed bottom-0 bg-yellow-300 h-12 w-full"

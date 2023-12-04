@@ -56,52 +56,89 @@ function RecipesInProgress() {
   return (
     <div className="flex flex-col items-center">
       <Products />
-      {
-                recipesProduts.map((value, index) => (
-                  <div
-                    key={ index }
-                    className="flex justify-center items-center text-center"
-                  >
-                    <label
-                      htmlFor={ value[1] as string + index }
-                      data-testid={ `${index}-ingredient-step` }
-                      className={
+      <div className="-translate-y-52 bg-white w-screen">
+        <div className="p-8">
+          <div className="p-2 border-2 rounded-lg border-gray-400">
+            {
+            recipesProduts.map((value, index) => (
+              <div
+                key={ index }
+              >
+                <label
+                  htmlFor={ value[1] as string + index }
+                  data-testid={ `${index}-ingredient-step` }
+                  className={
                         `${productCheck.some((item) => item.includes(`item-${index}`))
-                          ? 'text-decoration: line-through solid rgb(0, 0, 0)' : ''}`
+                          ? 'text-decoration: line-through solid rgb(0, 0, 0)' : ''}
+                          flex flex-row gap-5 w-full`
                     }
-                    >
-                      <p
-                        data-testid={ `${index}-ingredient-name-and-measure` }
-                      >
-                        {`${value[1]}: ${product[`strMeasure${index + 1}`]}`}
-                      </p>
-                      <input
-                        checked={ productCheck
-                          .some((item) => item.includes(`item-${index}`)) }
-                        onChange={ () => changeChecked(value[1] as string, index) }
-                        type="checkbox"
-                        name={ value[1] as string }
-                        id={ value[1] as string + index }
-                      />
-                    </label>
-                  </div>
-                ))
+                >
+                  <input
+                    checked={ productCheck
+                      .some((item) => item.includes(`item-${index}`)) }
+                    onChange={ () => changeChecked(value[1] as string, index) }
+                    type="checkbox"
+                    name={ value[1] as string }
+                    id={ value[1] as string + index }
+                  />
+                  <p
+                    className="w-full"
+                    data-testid={ `${index}-ingredient-name-and-measure` }
+                  >
+                    {`${value[1]}: ${product[`strMeasure${index + 1}`]}`}
+                  </p>
+                </label>
+              </div>
+            ))
         }
-      <button
-        data-testid="finish-recipe-btn"
-        className="w-32 mb-4 transition ease-in-out
+          </div>
+        </div>
+        <div className="p-10">
+          <div
+            className="w-full max-h-96 border-2 border-gray-400 pl-5 p-3 rounded-lg
+                overflow-y-auto"
+          >
+            <p
+              data-testid="instructions"
+              className="w-full"
+            >
+              { product.strInstructions }
+
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-col p-10 w-screen items-start">
+          <h2>Video</h2>
+          {
+                product.strYoutube && (
+                  <iframe
+                    className="w-full h-72"
+                    src={ product.strYoutube?.replace('watch?v=', 'embed/') as string }
+                    allowFullScreen
+                    title={ product[`str${route(pathname)}`] as string }
+                    data-testid="video"
+                  />
+                )
+}
+        </div>
+        <div className="w-screen flex items-center justify-center">
+          <button
+            data-testid="finish-recipe-btn"
+            className="w-32 mb-4 transition ease-in-out
           delay-150 border-2 border-gray-700 hover:-translate-y-1
           hover:scale-110 duration-300 p-1 rounded-md
           shadow-lg disabled:bg-red-400
           "
-        disabled={ recipesProduts.length !== productCheck.length }
-        onClick={ () => {
-          changeDoneRecipes();
-          navigate('/done-recipes');
-        } }
-      >
-        finish
-      </button>
+            disabled={ recipesProduts.length !== productCheck.length }
+            onClick={ () => {
+              changeDoneRecipes();
+              navigate('/done-recipes');
+            } }
+          >
+            finish
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
