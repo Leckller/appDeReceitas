@@ -12,8 +12,8 @@ function Products() {
   const { pathname } = useLocation();
   const { host, protocol } = window.location;
   const { changeFavorite, verifyFavorite } = useFavorite();
-
   const product = useSelector((state: GlobalState) => state.filters)[0] || {};
+  // const imageBg = `bg-[url(${product[`str${route(pathname)}Thumb`]})]`;
   const url = `${protocol}//${host}${pathname}`.split('/in-progress')[0];
 
   const Toast = Swal.mixin({
@@ -29,62 +29,48 @@ function Products() {
   });
 
   return (
-    <div>
-      <header className="flex w-screen flex-col justify-center relative">
-        <input
-          type="image"
-          src={ shareIcon }
-          alt="share"
-          data-testid="share-btn"
-          onClick={ () => {
-            navigator.clipboard.writeText(url);
-            Toast.fire({
-              icon: 'success',
-              title: 'Link copied!',
-            });
-          } }
-          className="absolute top-3 left-5"
-        />
-        <input
-          className="absolute top-3 right-5"
-          type="image"
-          src={ verifyFavorite() ? blackHeartIcon
-            : whiteHeartIcon }
-          alt={ verifyFavorite() ? 'Black Heart Icon'
-            : 'White Heart Icon' }
-          data-testid="favorite-btn"
-          onClick={ changeFavorite }
-        />
-        <img
-          data-testid="recipe-photo"
-          src={ product[`str${route(pathname)}Thumb`] as string }
-          alt={ product[`str${route(pathname)}`] as string }
-        />
-      </header>
-      <div className="-translate-y-48 bg-white flex flex-col items-center gap-5">
-
-        <h1
-          className="mt-5"
-          data-testid="recipe-title"
-        >
-          { product[`str${route(pathname)}`] }
-        </h1>
-
-        <p
-          data-testid="recipe-category"
-        >
-          {product.strAlcoholic ? product.strAlcoholic : product.strCategory}
-        </p>
-
-        <p
-          data-testid="instructions"
-          className="w-96"
-        >
-          { product.strInstructions }
-
-        </p>
-      </div>
-    </div>
+    <header
+      className={ `flex w-screen flex-col justify-center
+      relative items-center` }
+    >
+      <input
+        type="image"
+        src={ shareIcon }
+        alt="share"
+        data-testid="share-btn"
+        onClick={ () => {
+          navigator.clipboard.writeText(url);
+          Toast.fire({
+            icon: 'success',
+            title: 'Link copied!',
+          });
+        } }
+        className="absolute top-3 left-5 z-20"
+      />
+      <input
+        className="absolute top-3 right-5 z-20"
+        type="image"
+        src={ verifyFavorite() ? blackHeartIcon
+          : whiteHeartIcon }
+        alt={ verifyFavorite() ? 'Black Heart Icon'
+          : 'White Heart Icon' }
+        data-testid="favorite-btn"
+        onClick={ changeFavorite }
+      />
+      <img
+        data-testid="recipe-photo"
+        className="brightness-75 h-96 w-full -translate-y-16"
+        src={ product[`str${route(pathname)}Thumb`] as string }
+        alt={ product[`str${route(pathname)}`] as string }
+      />
+      <h1
+        className="mt-5 absolute top-10 text-5xl font-semibold
+         text-white brightness-100"
+        data-testid="recipe-title"
+      >
+        { product[`str${route(pathname)}`] }
+      </h1>
+    </header>
   );
 }
 
