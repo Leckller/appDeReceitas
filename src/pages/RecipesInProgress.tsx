@@ -21,7 +21,7 @@ function RecipesInProgress() {
 
   const recipesProduts = Object.entries(product)
     .filter(([key, value]) => key.includes('strIngredient') && value);
-
+  console.log(productCheck.length === recipesProduts.length);
   const changeChecked = (name: string, index: number) => {
     let checked = [] as string[];
     if (!productCheck.some((item) => item.includes(`item-${index}`))) {
@@ -79,7 +79,7 @@ function RecipesInProgress() {
                         {`${value[1]}: ${product[`strMeasure${index + 1}`]}`}
                       </p>
                       <input
-                        className="invisible"
+                        className=""
                         checked={ productCheck
                           .some((item) => item.includes(`item-${index}`)) }
                         onChange={ () => changeChecked(value[1] as string, index) }
@@ -96,8 +96,9 @@ function RecipesInProgress() {
         className="w-32 mb-4 transition ease-in-out
           delay-150 border-2 border-gray-700 hover:-translate-y-1
           hover:scale-110 duration-300 p-1 rounded-md
-          shadow-lg
+          shadow-lg disabled:bg-red-400
           "
+        disabled={ recipesProduts.length !== productCheck.length }
         onClick={ changeDoneRecipes }
       >
         finish
