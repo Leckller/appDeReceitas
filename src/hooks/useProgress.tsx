@@ -41,6 +41,7 @@ export const useProgress = () => {
       const formaterDones = newRecipes(route(pathname), filters)[0];
       return [...dones, formaterDones] as Favorite[];
     };
+
     if (!verifyDones && progress) {
       const conditionalStorage = storage[path(pathname)]?.[id as string]
         ? newProgress() : localStorage.removeItem('inProgressRecipes');

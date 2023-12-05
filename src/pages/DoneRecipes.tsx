@@ -1,15 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { getItem } from '../utils/localStorage';
 import Card from '../components/doneRecipes/Card';
 import { Favorite } from '../types';
 
 function DoneRecipes() {
-  const [doneRec, setDoneRec] = useState<Favorite[]>([]);
-
-  const doneRecipes = getItem('doneRecipes') as Favorite[] || [];
-  useEffect(() => {
-    setDoneRec(doneRecipes);
-  }, []);
+  const doneRecipes = getItem('doneRecipes') as Favorite[];
+  const [doneRec, setDoneRec] = useState<Favorite[]>(doneRecipes);
 
   const handleClick = (string: string) => {
     setDoneRec([...doneRecipes.filter((rec) => rec

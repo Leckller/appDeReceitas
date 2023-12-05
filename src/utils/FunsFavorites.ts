@@ -1,9 +1,6 @@
 import { Favorite, TypeRecipes } from '../types';
 
-export const removeFavorite = (items: Favorite[], id: string) => items
-  .filter((item) => item.id !== id);
-
-export const removeKey = (state: Favorite[], id: string) => state
+export const removeKey = (state: Favorite[], id: string | undefined) => state
   .filter((item) => item.id !== id);
 
 export const newRecipes = (paths: string, filters: TypeRecipes[]) => {

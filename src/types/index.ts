@@ -127,7 +127,7 @@ export type Progress = {
 export type TypeRecipes = Meals | Drinks;
 
 export type Key = {
-  key: 'firstLetter' | 'ingredient' | 'name' | 'list' | 'categories' | '' | 'id' | string,
+  key: 'firstLetter' | 'ingredient' | 'name' | 'list' | 'categories' | 'id',
 };
 export type Form = Key & {
   search?: string | '',
@@ -135,6 +135,6 @@ export type Form = Key & {
 
 export type Unions = Favorite[] | Progress | TypeRecipes[];
 
-export type Path = 'Meal' | 'Drink' | '';
+export type Path = 'Meal' | 'Drink';
 
 export type Dispatch = ThunkDispatch<GlobalState, void, AnyAction>;

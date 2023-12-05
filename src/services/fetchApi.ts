@@ -18,7 +18,7 @@ const createEndPoint = (form: Form, path: Path, filter: string) => {
     id: `lookup.php?i=${filter}`,
   };
 
-  return `https://www.the${recipePath[path as keyof typeof recipePath]}db.com/api/json/v1/1/${endPoint[key as keyof typeof endPoint]}`;
+  return `https://www.the${recipePath[path]}db.com/api/json/v1/1/${endPoint[key]}`;
 };
 
 // faz o fecth da API

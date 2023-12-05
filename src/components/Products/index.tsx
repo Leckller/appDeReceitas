@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { GlobalState } from '../../types';
 import { route } from '../../utils/FuncsAll';
@@ -9,6 +9,7 @@ import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import useFavorite from '../../hooks/useFavorite';
 
 function Products() {
+  const { id } = useParams();
   const { pathname } = useLocation();
   const { host, protocol } = window.location;
   const { changeFavorite, verifyFavorite } = useFavorite();
@@ -48,12 +49,12 @@ function Products() {
         <input
           className="absolute top-3 right-5"
           type="image"
-          src={ verifyFavorite() ? blackHeartIcon
-            : whiteHeartIcon }
-          alt={ verifyFavorite() ? 'Black Heart Icon'
-            : 'White Heart Icon' }
+          src={ verifyFavorite(id)
+            ? blackHeartIcon : whiteHeartIcon }
+          alt={ verifyFavorite(id)
+            ? 'Black Heart Icon' : 'White Heart Icon' }
           data-testid="favorite-btn"
-          onClick={ changeFavorite }
+          onClick={ () => changeFavorite(id) }
         />
         <img
           data-testid="recipe-photo"
