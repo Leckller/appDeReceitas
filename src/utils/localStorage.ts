@@ -5,3 +5,6 @@ export const getItem = <T>(key: string) => {
   const item = localStorage.getItem(key) || '[]';
   return JSON.parse(item) as T;
 };
+export const clearStorage = () => {
+  localStorage.clear();
+};

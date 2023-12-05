@@ -101,6 +101,7 @@ export type GlobalState = {
   recipes: TypeRecipes[],
   filters: TypeRecipes[],
   loading: boolean,
+  favoriteRecipes: TypeRecipes[],
 };
 
 export type FiltersDrinks = {
