@@ -14,8 +14,6 @@ function Receita() {
     || {};
   const [productCheck, setproductCheck] = useState<string[]>([]);
 
-  // console.log(productCheck);
-
   const recipesProduts = Object.entries(product)
     .filter(([key, value]) => key.includes('strIngredient') && value);
 

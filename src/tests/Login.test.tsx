@@ -3,17 +3,15 @@ import App from '../App';
 import renderWithRouterAndRedux from './helpers/renderWithRedux';
 
 describe('Check page Login', () => {
+  const emailInputID = 'email-input';
+  const loginBtnID = 'login-submit-btn';
+  const passwordInputID = 'password-input';
+
+  const password = '1234567';
   test('Checks login functionality', async () => {
     const { user } = renderWithRouterAndRedux(
       <App />,
     );
-
-    const emailInputID = 'email-input';
-    const loginBtnID = 'login-submit-btn';
-    const passwordInputID = 'password-input';
-
-    const password = '1234567';
-
     let emailInput = screen.getByTestId(emailInputID);
     let passwordInput = screen.getByTestId(passwordInputID);
     let enterBtn = screen.getByTestId(loginBtnID);

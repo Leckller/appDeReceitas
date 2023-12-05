@@ -16,8 +16,6 @@ function Recipes() {
   const [select, setSelect] = useState('All');
 
   const handleClick = (strCategory: string) => {
-    console.log(select, strCategory);
-
     if (select === 'All' && strCategory === 'All') return;
     dispatch(setLoading(true));
     if (select === strCategory || strCategory === 'All') {

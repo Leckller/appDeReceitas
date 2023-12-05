@@ -1,64 +1,103 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { TypeRecipes, GlobalState } from '../types';
+import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
+import { Favorite } from '../types';
 import { getItem } from '../utils/localStorage';
+import shareIcon from '../images/shareIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import useFavorite from '../hooks/useFavorite';
 
 function FavoriteRecipes() {
-  const [favoriteRecipes, setFavoriteRecipes] = useState<TypeRecipes[]>([]);
+  const { favorites, changeFavorite, setFavorites } = useFavorite();
+  const { host, protocol } = window.location;
+  const favoriteRecipes = getItem<Favorite[]>('favoriteRecipes');
 
-  // utilizando useSelector para obter o estado global
-  const storedFavoriteRecipes = useSelector(
-    (state: GlobalState) => state.favoriteRecipes,
-  );
-
-  useEffect(() => {
-    // verifica se há receitas favoritas no localStorage e atualiza o estado
-    const localStorageFavorites = getItem('favoriteRecipes') || [];
-    setFavoriteRecipes(localStorageFavorites as TypeRecipes[]);
-  }, []);
-
-  const toggleFavorite = (recipeId: string) => {
-
+  const handleClick = (string: string) => {
+    setFavorites([...favoriteRecipes.filter((rec) => rec
+      .type === string)] as Favorite[]);
   };
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    },
+  });
   return (
-    <div className="favorite-recipes-container">
-      <h1>Favorite Recipes</h1>
-      <div className="favorite-recipes-grid">
-        {favoriteRecipes.map((recipe, index) => (
-          <div key={ index } className="recipe-card">
-            {/* imagem */}
-            <img
-              src={ recipe.image || '' }
-              alt={ recipe.name || '' }
-              data-testid={ `${index}-horizontal-image` }
-            />
-            {/* Tipo (Meals/Drinks) e Nome */}
-            <p data-testid={ `${index}-horizontal-top-text` }>
-              {recipe.type}
-              :
-              {' '}
-              {recipe.name}
-            </p>
-            {/* botões de Compartilhar e Favoritar */}
-            <button
-              onClick={ () => {
-                // logica para compartilhar
-              } }
-              data-testid={ `${index}-horizontal-share-btn` }
-            >
-              Share
-            </button>
-            <button
-              onClick={ () => toggleFavorite(recipe.id || '') }
-              data-testid={ `${index}-horizontal-favorite-btn` }
-            >
-              { /* lógica para exibir coração preenchido ou vazio */}
-              {recipe.isFavorite ? '❤️' : '🤍'}
-            </button>
-          </div>
-        ))}
-      </div>
+    <div>
+      <button
+        data-testid="filter-by-all-btn"
+        onClick={ () => setFavorites(favoriteRecipes) }
+      >
+        All
+
+      </button>
+      <button
+        data-testid="filter-by-meal-btn"
+        onClick={ () => handleClick('meal') }
+      >
+        Meals
+
+      </button>
+      <button
+        data-testid="filter-by-drink-btn"
+        onClick={ () => handleClick('drink') }
+      >
+        Drinks
+
+      </button>
+      {
+        favorites.length > 0 && favorites.map((item, index) => {
+          const url = `${protocol}//${host}/${item.type}s/${item.id}`;
+          return (
+            <div key={ index }>
+              <Link to={ url }>
+                <img
+                  className="h-32"
+                  src={ item.image }
+                  alt={ item.name }
+                  data-testid={ `${index}-horizontal-image` }
+                />
+                <p
+                  data-testid={ `${index}-horizontal-name` }
+                >
+                  { item.name }
+                </p>
+              </Link>
+              <p
+                data-testid={ `${index}-horizontal-top-text` }
+              >
+                {`${item.nationality || item.alcoholicOrNot} - ${item
+                  .category}`}
+              </p>
+              <input
+                src={ shareIcon }
+                alt="shareIcon"
+                type="image"
+                data-testid={ `${index}-horizontal-share-btn` }
+                onClick={ () => {
+                  navigator.clipboard.writeText(url);
+                  Toast.fire({
+                    icon: 'success',
+                    title: 'Link copied!',
+                  });
+                } }
+              />
+              <input
+                type="image"
+                src={ blackHeartIcon }
+                alt="Black Heart Icon"
+                data-testid={ `${index}-horizontal-favorite-btn` }
+                onClick={ () => changeFavorite(item.id) }
+              />
+            </div>
+          );
+        })
+      }
     </div>
   );
 }
