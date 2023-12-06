@@ -28,14 +28,11 @@ function SearchBar() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (key === 'firstLetter' && search && search.length > 1) {
-      window.alert('Your search must have only 1 (one) character');
-    }
-
     const recipes = await fecthApi(form, route(pathname), key);
     dispatch(getAllFilters(recipes));
-
-    if (!recipes.length) {
+    if (key === 'firstLetter' && search && search.length > 1) {
+      window.alert('Your search must have only 1 (one) character');
+    } else if (!recipes.length) {
       window.alert("Sorry, we haven't found any recipes for these filters");
     }
 

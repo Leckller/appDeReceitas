@@ -5,7 +5,7 @@ import { Categories, Dispatch, GlobalState } from '../types';
 import { setAnyFilterInGlobal, setLoading } from '../redux/actions';
 import Loading from '../components/Loading/Loading';
 import { filterAll, route } from '../utils/FuncsAll';
-import Section from '../components/Recipes';
+import Section from '../components/Section';
 
 function Recipes() {
   // pathname pega a rota em que você estiver
@@ -33,11 +33,11 @@ function Recipes() {
   };
 
   useEffect(() => {
+    dispatch(setLoading(true));
     (async () => {
       const data = await filterAll({ key: 'list' }, route(pathname));
       setCategories(data);
     })();
-    dispatch(setLoading(true));
     dispatch(setAnyFilterInGlobal({ key: 'name' }, route(pathname)));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);

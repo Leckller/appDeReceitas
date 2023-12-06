@@ -2,21 +2,18 @@ import { screen, waitFor } from '@testing-library/dom';
 import { vi } from 'vitest';
 import renderWithRouterAndRedux from './helpers/renderWithRedux';
 import App from '../App';
-import drinks from '../../cypress/mocks/drinks';
-import meals from '../../cypress/mocks/meals';
+import fecthMock from './mock/fecthmock';
 
 beforeEach(() => {
-  const mockData = {
-    json: async () => drinks || meals,
-  } as Response;
-  vi.spyOn(global, 'fetch').mockResolvedValueOnce(mockData);
+  vi.spyOn(global, 'fetch').mockImplementation(fecthMock as any);
+  vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
 });
 
 afterEach(() => {
   vi.clearAllMocks();
 });
 
-describe.only('Check page Recipes', () => {
+describe('Check page Recipes', () => {
   const profileBtnID = 'profile-top-btn';
   const searchBtnID = 'search-top-btn';
   const serchInputID = 'search-input';
@@ -65,10 +62,10 @@ describe.only('Check page Recipes', () => {
 
     await user.click(enterBtn);
 
-    await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith('Your search must have only 1 (one) character');
-      expect(window.alert).toHaveBeenCalledTimes(1);
-    });
+    expect(window.alert).toHaveBeenCalledWith('Your search must have only 1 (one) character');
+    expect(window.alert).toHaveBeenCalledTimes(1);
+    // await waitFor(() => {
+    // });
   });
 
   test('Checks filter name functionality', async () => {
@@ -124,4 +121,30 @@ describe.only('Check page Recipes', () => {
 
     await screen.findByRole('heading', { level: 1, name: 'Profile' });
   });
+  // test('Checks buttons category functionality', async () => {
+  //   const { user } = renderWithRouterAndRedux(<App />, '/drinks');
+
+  //   let categoriesBtn = await screen.findAllByTestId(/-category-filter/i);
+
+  //   screen.debug();
+
+  //   expect(categoriesBtn).toHaveLength(6);
+  //   expect(categoriesBtn[1]).toHaveTextContent('Cocktail');
+
+  //   await user.click(categoriesBtn[1]);
+
+  //   const allArticle = await screen.findAllByRole('article');
+
+  //   expect(allArticle).toHaveLength(12);
+  //   expect(allArticle[1]).toHaveTextContent('155 Belmont');
+
+  //   categoriesBtn = await screen.findAllByTestId(/-category-filter/i);
+
+  //   // await user.click(categoriesBtn[1]);
+
+  //   // allArticle = await screen.findAllByRole('article');
+
+  //   // expect(allArticle).toHaveLength(12);
+  //   // expect(allArticle[0]).toHaveTextContent('A1');
+  // });
 });
