@@ -29,7 +29,6 @@ export const fecthApi = async (
 ) => {
   try {
     const endPoint = createEndPoint(form, path, filter);
-    console.log(endPoint);
 
     const pathLowerCase = `${path.toLowerCase()}s`;
 
@@ -39,7 +38,8 @@ export const fecthApi = async (
 
     return data[pathLowerCase] || [];
   } catch (error: any) {
-    throw new Error(error.message);
+    console.error(error.message);
+    return [];
   }
 };
 

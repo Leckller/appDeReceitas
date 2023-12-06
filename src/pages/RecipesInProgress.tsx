@@ -37,7 +37,7 @@ function RecipesInProgress() {
     saveProgress(checked);
   };
   const isInProgress = () => {
-    const inProgressRecipes = getItem('inProgressRecipes') as Progress || {};
+    const inProgressRecipes = getItem<Progress>('inProgressRecipes') || {};
     return inProgressRecipes[path(pathname)]?.[id as string] as string[];
   };
 

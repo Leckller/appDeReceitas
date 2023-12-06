@@ -8,6 +8,7 @@ import cocktailDrinks from '../../../cypress/mocks/cocktailDrinks';
 import { searchDrinksY, searchMealsY } from './searchY';
 import { drinksBanana, mealsBanana } from './searchBanana';
 import { ACID, Arrabiata } from './searchName';
+import { belmont15346, sushi53065 } from './mealsID';
 
 const POSSIBLE_RESPONSE: any = {
   // ingredient
@@ -30,6 +31,9 @@ const POSSIBLE_RESPONSE: any = {
   'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail': cocktailDrinks,
   // id
   'https://www.themealdb.com/api/json/v1/1/lookup.php?i=53060': mealsID53060,
+  'https://www.themealdb.com/api/json/v1/1/lookup.php?i=53065': sushi53065,
+
+  'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=15346': belmont15346,
   'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=17222': drinksID17222,
 };
 

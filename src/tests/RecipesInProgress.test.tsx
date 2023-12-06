@@ -6,6 +6,7 @@ import fecthMock from './mock/fecthmock';
 
 beforeEach(() => {
   vi.spyOn(global, 'fetch').mockImplementation(fecthMock as any);
+  vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
 });
 
 afterEach(() => {

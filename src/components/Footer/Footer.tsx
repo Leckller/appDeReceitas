@@ -5,14 +5,6 @@ import drinkIcon from '../../images/drinkIcon.svg';
 function Footer() {
   const navigate = useNavigate();
 
-  const handleNavigateToMeals = () => {
-    navigate('/meals');
-  };
-
-  const handleNavigateToDrinks = () => {
-    navigate('/drinks');
-  };
-
   return (
     <footer
       data-testid="footer"
@@ -21,7 +13,7 @@ function Footer() {
       backdrop-blur-sm h-9"
     >
       <input
-        onClick={ handleNavigateToMeals }
+        onClick={ () => navigate('/meals') }
         data-testid="meals-bottom-btn"
         type="image"
         className="footer-icon"
@@ -29,7 +21,7 @@ function Footer() {
         alt="Comidas"
       />
       <input
-        onClick={ handleNavigateToDrinks }
+        onClick={ () => navigate('/drinks') }
         data-testid="drinks-bottom-btn"
         type="image"
         className=""

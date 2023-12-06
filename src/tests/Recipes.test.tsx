@@ -16,12 +16,13 @@ afterEach(() => {
   vi.clearAllMocks();
 });
 
-describe('Check page Recipes', () => {
+describe.only('Check page Recipes', () => {
   const profileBtnID = 'profile-top-btn';
   const searchBtnID = 'search-top-btn';
   const serchInputID = 'search-input';
-  const ingredientInputID = 'first-letter';
-  const ingredientRadioID = 'ingredient-search-radio';
+
+  const firstLetterID = 'first-letter-search-radio';
+  const ingredientInputID = 'ingredient-search-radio';
   const nameRadioID = 'name-search-radio';
   const enterBtnID = 'exec-search-btn';
   test('Checks alert name functionality', async () => {
@@ -56,11 +57,11 @@ describe('Check page Recipes', () => {
     await user.click(searchBtn);
 
     const searchInput = await screen.findByTestId(serchInputID);
-    const ingredientRadio = await screen.findByTestId(ingredientInputID);
+    const firstLetterRadio = await screen.findByTestId(firstLetterID);
     const enterBtn = await screen.findByTestId(enterBtnID);
 
     await user.type(searchInput, 'aaa');
-    await user.click(ingredientRadio);
+    await user.click(firstLetterRadio);
 
     await user.click(enterBtn);
 
@@ -93,15 +94,17 @@ describe('Check page Recipes', () => {
   test('Check if you click on drinks', async () => {
     const { user } = renderWithRouterAndRedux(<App />, '/meals');
 
-    await user.click(screen.getByTestId(searchBtnID));
+    const searchBtn = await screen.findByTestId(searchBtnID);
+
+    await user.click(searchBtn);
+
+    const searchInput = await screen.findByTestId(serchInputID);
+    const ingredientRadio = await screen.findByTestId(ingredientInputID);
+    const enterBtn = await screen.findByTestId(enterBtnID);
 
     let article = await screen.findAllByRole('link');
 
     expect(article).toHaveLength(12);
-
-    const searchInput = screen.getByTestId(serchInputID);
-    const ingredientRadio = screen.getByTestId(ingredientRadioID);
-    const enterBtn = screen.getByTestId(enterBtnID);
 
     await user.type(searchInput, 'banana');
     await user.click(ingredientRadio);

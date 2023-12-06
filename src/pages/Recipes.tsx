@@ -21,7 +21,6 @@ function Recipes() {
     if (select === strCategory || strCategory === 'All') {
       setSelect('All');
       dispatch(setAnyFilterInGlobal({ key: 'name' }, route(pathname)));
-      dispatch(setLoading(false));
     } else {
       setSelect(strCategory);
       dispatch(setAnyFilterInGlobal(

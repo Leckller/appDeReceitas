@@ -32,6 +32,10 @@ function RecipeDetails() {
     .filter(([key, value]) => key.includes('strIngredient') && value);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  useEffect(() => {
     (async () => {
       const data = await filterAll({ key: 'name' }, routeInverse(pathname));
       setRecipes(data);

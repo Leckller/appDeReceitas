@@ -5,9 +5,8 @@ import { actions } from '../actions';
 const { GET_FILTERS, SET_LOADING } = actions;
 
 const INITIAL_STATE: GlobalState = {
-  recipes: [],
   filters: [],
-  loading: false,
+  loading: true,
 };
 
 const recipes = (state = INITIAL_STATE, action: AnyAction) => {
