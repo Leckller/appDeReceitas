@@ -121,30 +121,48 @@ describe('Check page Recipes', () => {
 
     await screen.findByRole('heading', { level: 1, name: 'Profile' });
   });
-  // test('Checks buttons category functionality', async () => {
-  //   const { user } = renderWithRouterAndRedux(<App />, '/drinks');
+  test('Checks buttons category functionality', async () => {
+    const { user } = renderWithRouterAndRedux(<App />, '/drinks');
 
-  //   let categoriesBtn = await screen.findAllByTestId(/-category-filter/i);
+    let categoriesBtn = await screen.findAllByTestId(/-category-filter/i);
 
-  //   screen.debug();
+    screen.debug();
 
-  //   expect(categoriesBtn).toHaveLength(6);
-  //   expect(categoriesBtn[1]).toHaveTextContent('Cocktail');
+    expect(categoriesBtn).toHaveLength(6);
+    expect(categoriesBtn[1]).toHaveTextContent('Cocktail');
 
-  //   await user.click(categoriesBtn[1]);
+    await user.click(categoriesBtn[1]);
 
-  //   const allArticle = await screen.findAllByRole('article');
+    let allArticle = await screen.findAllByRole('article');
 
-  //   expect(allArticle).toHaveLength(12);
-  //   expect(allArticle[1]).toHaveTextContent('155 Belmont');
+    expect(allArticle).toHaveLength(12);
+    expect(allArticle[1]).toHaveTextContent('155 Belmont');
 
-  //   categoriesBtn = await screen.findAllByTestId(/-category-filter/i);
+    categoriesBtn = await screen.findAllByTestId(/-category-filter/i);
 
-  //   // await user.click(categoriesBtn[1]);
+    await user.click(categoriesBtn[1]);
 
-  //   // allArticle = await screen.findAllByRole('article');
+    allArticle = await screen.findAllByRole('article');
 
-  //   // expect(allArticle).toHaveLength(12);
-  //   // expect(allArticle[0]).toHaveTextContent('A1');
-  // });
+    expect(allArticle).toHaveLength(12);
+    expect(allArticle[0]).toHaveTextContent('GG');
+
+    categoriesBtn = await screen.findAllByTestId(/-category-filter/i);
+
+    await user.click(categoriesBtn[1]);
+
+    allArticle = await screen.findAllByRole('article');
+
+    expect(allArticle).toHaveLength(12);
+    expect(allArticle[1]).toHaveTextContent('155 Belmont');
+
+    categoriesBtn = await screen.findAllByTestId(/-category-filter/i);
+
+    await user.click(categoriesBtn[5]);
+
+    allArticle = await screen.findAllByRole('article');
+
+    expect(allArticle).toHaveLength(12);
+    expect(allArticle[0]).toHaveTextContent('GG');
+  });
 });

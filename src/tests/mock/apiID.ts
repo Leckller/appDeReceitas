@@ -233,3 +233,10 @@ export const belmont15346 = {
     },
   ],
 };
+
+export const GGinProgress17222 = {
+  drinks: {
+    17222: ['item-0 Gin 1 3/4 shot ',
+      'item-1 Grand Marnier 1 Shot ', 'item-2 Lemon Juice 1/4 Shot'],
+  },
+};

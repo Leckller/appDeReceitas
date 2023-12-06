@@ -16,7 +16,7 @@ function Recipes() {
   const [select, setSelect] = useState('All');
 
   const handleClick = (strCategory: string) => {
-    if (select === 'All' && strCategory === 'All') return;
+    // if (select === 'All' && strCategory === 'All') return;
     dispatch(setLoading(true));
     if (select === strCategory || strCategory === 'All') {
       setSelect('All');
@@ -53,7 +53,7 @@ function Recipes() {
         justify-around"
       >
         {
-        // faz a reendenização das 5 primeiras Categories
+          // faz a reendenização das 5 primeiras Categories
         categories.slice(0, 5).map(({ strCategory }) => (
           <button
             className="mt-4 hover:scale-110 transition-all border border-blue-950
@@ -67,17 +67,23 @@ function Recipes() {
             { strCategory }
           </button>
         ))
-      }
-        <button
-          type="button"
-          className="mt-4 hover:scale-110 transition-all border border-blue-950
-          rounded-md w-28"
-          data-testid="All-category-filter"
-          value="All"
-          onClick={ () => handleClick('All') }
-        >
-          All
-        </button>
+        }
+        {
+
+          categories.length > 0 && (
+            <button
+              type="button"
+              className="mt-4 hover:scale-110 transition-all border border-blue-950
+              rounded-md w-28"
+              data-testid="All-category-filter"
+              value="All"
+              onClick={ () => handleClick('All') }
+            >
+              All
+            </button>
+          )
+        }
+
       </section>
       <Section />
     </div>
