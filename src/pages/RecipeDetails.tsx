@@ -23,7 +23,7 @@ function RecipeDetails() {
   const getDoneRecipes = (getItem('doneRecipes') as TypeRecipes[])
     .some((item) => item.id === id);
 
-  const progress: Progress = (getItem('inProgressRecipes') as Progress) || {};
+  const progress: Progress = (getItem('inProgressRecipes') as Progress);
 
   const getRecipesInProgress = progress[path(pathname)] && Object.prototype.hasOwnProperty
     .call(progress[path(pathname)], id as string);

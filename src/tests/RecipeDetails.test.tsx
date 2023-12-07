@@ -47,7 +47,11 @@ describe('Check page Details', () => {
 
     await screen.findByRole('heading', { level: 2, name: 'Link copied!' });
 
-    screen.getByRole('button', { name: 'Start Recipe' });
+    const startBtn = screen.getByRole('button', { name: 'Start Recipe' });
+
+    await user.click(startBtn);
+
+    expect(window.location.pathname).toBe('/drinks/17222/in-progress');
   });
   test('Checks buttons functionality', async () => {
     localStorage.clear();

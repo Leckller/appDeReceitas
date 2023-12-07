@@ -7,7 +7,7 @@ import Recipes from './pages/Recipes';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import RecipeDetails from './pages/RecipeDetails';
-import RecipesInProgress from './pages/RecipesInProgress';
+import RecipesInProgress from './pages/RecipeInProgress';
 
 function App() {
   return (
