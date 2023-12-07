@@ -3,9 +3,11 @@ import { vi } from 'vitest';
 import renderWithRouterAndRedux from './helpers/renderWithRedux';
 import App from '../App';
 import fecthMock from './mock/fecthmock';
+import { GGinProgress17222 } from './mock/apiID';
 
 beforeEach(() => {
   vi.spyOn(global, 'fetch').mockImplementation(fecthMock as any);
+  vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
 });
 
 afterEach(() => {
@@ -44,5 +46,19 @@ describe('Check page Details', () => {
     await user.click(shareBtn);
 
     await screen.findByRole('heading', { level: 2, name: 'Link copied!' });
+
+    const startBtn = screen.getByRole('button', { name: 'Start Recipe' });
+
+    await user.click(startBtn);
+
+    expect(window.location.pathname).toBe('/drinks/17222/in-progress');
+  });
+  test('Checks buttons functionality', async () => {
+    localStorage.clear();
+    localStorage.setItem('inProgressRecipes', JSON.stringify(GGinProgress17222));
+
+    renderWithRouterAndRedux(<App />, '/drinks/17222');
+
+    await screen.findByRole('button', { name: 'Continue Recipe' });
   });
 });

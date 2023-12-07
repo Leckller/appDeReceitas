@@ -4,43 +4,33 @@ import { clearStorage } from '../utils/localStorage';
 
 function Profile() {
   const navigate = useNavigate();
-  const handleDoneNavigateClick = () => {
-    navigate('/done-recipes');
-  };
-  const handleFavoriteNavigateClick = () => {
-    navigate('/favorite-recipes');
-  };
-  const handleLogoutNavigteClick = () => {
-    clearStorage();
-    navigate('/');
-  };
+
   // Obtendo o email do localStorage
   const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
   const userEmail = storedUser.email || '';
 
   return (
     <div className="profile-container">
-      <h1>Profile</h1>
       {/* Exibindo o email */}
       <div data-testid="profile-email">{userEmail}</div>
       {/* Restante dos botões */}
       <button
         data-testid="profile-done-btn"
-        onClick={ handleDoneNavigateClick }
+        onClick={ () => navigate('/done-recipes') }
       >
         Done Recipes
 
       </button>
       <button
         data-testid="profile-favorite-btn"
-        onClick={ handleFavoriteNavigateClick }
+        onClick={ () => navigate('/favorite-recipes') }
       >
         Favorite Recipes
 
       </button>
       <button
         data-testid="profile-logout-btn"
-        onClick={ handleLogoutNavigteClick }
+        onClick={ () => { clearStorage(); navigate('/'); } }
       >
         Logout
 

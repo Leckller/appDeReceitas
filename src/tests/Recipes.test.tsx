@@ -2,14 +2,11 @@ import { screen, waitFor } from '@testing-library/dom';
 import { vi } from 'vitest';
 import renderWithRouterAndRedux from './helpers/renderWithRedux';
 import App from '../App';
-import drinks from '../../cypress/mocks/drinks';
-import meals from '../../cypress/mocks/meals';
+import fecthMock from './mock/fecthmock';
 
 beforeEach(() => {
-  const mockData = {
-    json: async () => drinks || meals,
-  } as Response;
-  vi.spyOn(global, 'fetch').mockResolvedValueOnce(mockData);
+  vi.spyOn(global, 'fetch').mockImplementation(fecthMock as any);
+  vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
 });
 
 afterEach(() => {
@@ -20,8 +17,9 @@ describe('Check page Recipes', () => {
   const profileBtnID = 'profile-top-btn';
   const searchBtnID = 'search-top-btn';
   const serchInputID = 'search-input';
-  const ingredientInputID = 'first-letter';
-  const ingredientRadioID = 'ingredient-search-radio';
+
+  const firstLetterID = 'first-letter-search-radio';
+  const ingredientInputID = 'ingredient-search-radio';
   const nameRadioID = 'name-search-radio';
   const enterBtnID = 'exec-search-btn';
   test('Checks alert name functionality', async () => {
@@ -56,18 +54,18 @@ describe('Check page Recipes', () => {
     await user.click(searchBtn);
 
     const searchInput = await screen.findByTestId(serchInputID);
-    const ingredientRadio = await screen.findByTestId(ingredientInputID);
+    const firstLetterRadio = await screen.findByTestId(firstLetterID);
     const enterBtn = await screen.findByTestId(enterBtnID);
 
     await user.type(searchInput, 'aaa');
-    await user.click(ingredientRadio);
+    await user.click(firstLetterRadio);
 
     await user.click(enterBtn);
 
-    await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith('Your search must have only 1 (one) character');
-      expect(window.alert).toHaveBeenCalledTimes(1);
-    });
+    expect(window.alert).toHaveBeenCalledWith('Your search must have only 1 (one) character');
+    expect(window.alert).toHaveBeenCalledTimes(1);
+    // await waitFor(() => {
+    // });
   });
 
   test('Checks filter name functionality', async () => {
@@ -93,15 +91,17 @@ describe('Check page Recipes', () => {
   test('Check if you click on drinks', async () => {
     const { user } = renderWithRouterAndRedux(<App />, '/meals');
 
-    await user.click(screen.getByTestId(searchBtnID));
+    const searchBtn = await screen.findByTestId(searchBtnID);
+
+    await user.click(searchBtn);
+
+    const searchInput = await screen.findByTestId(serchInputID);
+    const ingredientRadio = await screen.findByTestId(ingredientInputID);
+    const enterBtn = await screen.findByTestId(enterBtnID);
 
     let article = await screen.findAllByRole('link');
 
     expect(article).toHaveLength(12);
-
-    const searchInput = screen.getByTestId(serchInputID);
-    const ingredientRadio = screen.getByTestId(ingredientRadioID);
-    const enterBtn = screen.getByTestId(enterBtnID);
 
     await user.type(searchInput, 'banana');
     await user.click(ingredientRadio);
@@ -120,5 +120,49 @@ describe('Check page Recipes', () => {
     await user.click(profileBtn);
 
     await screen.findByRole('heading', { level: 1, name: 'Profile' });
+  });
+  test('Checks buttons category functionality', async () => {
+    const { user } = renderWithRouterAndRedux(<App />, '/drinks');
+
+    let categoriesBtn = await screen.findAllByTestId(/-category-filter/i);
+
+    screen.debug();
+
+    expect(categoriesBtn).toHaveLength(6);
+    expect(categoriesBtn[1]).toHaveTextContent('Cocktail');
+
+    await user.click(categoriesBtn[1]);
+
+    let allArticle = await screen.findAllByRole('article');
+
+    expect(allArticle).toHaveLength(12);
+    expect(allArticle[1]).toHaveTextContent('155 Belmont');
+
+    categoriesBtn = await screen.findAllByTestId(/-category-filter/i);
+
+    await user.click(categoriesBtn[1]);
+
+    allArticle = await screen.findAllByRole('article');
+
+    expect(allArticle).toHaveLength(12);
+    expect(allArticle[0]).toHaveTextContent('GG');
+
+    categoriesBtn = await screen.findAllByTestId(/-category-filter/i);
+
+    await user.click(categoriesBtn[1]);
+
+    allArticle = await screen.findAllByRole('article');
+
+    expect(allArticle).toHaveLength(12);
+    expect(allArticle[1]).toHaveTextContent('155 Belmont');
+
+    categoriesBtn = await screen.findAllByTestId(/-category-filter/i);
+
+    await user.click(categoriesBtn[5]);
+
+    allArticle = await screen.findAllByRole('article');
+
+    expect(allArticle).toHaveLength(12);
+    expect(allArticle[0]).toHaveTextContent('GG');
   });
 });

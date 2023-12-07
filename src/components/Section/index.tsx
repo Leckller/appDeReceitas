@@ -6,9 +6,7 @@ import { route } from '../../utils/FuncsAll';
 function Section() {
   const { pathname } = useLocation();
   const filters = useSelector((state: GlobalState) => state.filters);
-  const loading = useSelector((state: GlobalState) => state.loading);
-
-  const animate = loading ? '' : 'animate-afterLoad';
+  // const animate = loading && 'animate-afterLoad';
 
   return (
     <div>
@@ -21,8 +19,9 @@ function Section() {
               key={ index }
             >
               <article
-                className={ `${animate} w-96 h-80 flex items-center flex-col
-                justify-around hover:scale-110 transition-all` }
+                className="animate-afterLoad w-96 h-80
+                flex items-center flex-col
+                justify-around hover:scale-110 transition-all"
                 data-testid={ `${index}-recipe-card` }
               >
                 <img

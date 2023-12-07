@@ -29,7 +29,8 @@ export const fecthApi = async (
 ) => {
   try {
     const endPoint = createEndPoint(form, path, filter);
-    console.log(endPoint);
+
+    // console.log(endPoint);
 
     const pathLowerCase = `${path.toLowerCase()}s`;
 
@@ -39,43 +40,7 @@ export const fecthApi = async (
 
     return data[pathLowerCase] || [];
   } catch (error: any) {
-    throw new Error(error.message);
+    console.error(error.message);
+    return [];
   }
 };
-
-// Como é criado o endPoint de forma Dinâmica.
-/*
-  Condição dinâmina do parêmetro "path":
-  - Acesso de forma dinâmica o 'recipePath' utilizando meu '"path" que pode ser "Meal" ou "Drink"'.
-  - Assim eu acesso a chave do objeto 'recipePath' e pego o valor do objeto que pode ser 'meal' ou 'cocktail'.
-  - Exemplo de um endPoint: https://www.themealdb.com/api/json/v1/1/list.php?c=list
-    - No final do endPoint ele espera essa chave "Beef".
-    - Então passamos a chave "path" de forma dinâmica.
-      - Exemplo: https://www.the${recipePath[path]}db.com/api/json/v1/1/list.php?c=list
-        - No caso path = Meal e dentro da objeto endPoint a chave list tem o valor = 'meal'
-          - seria a mesma coisa que https://www.themealdb.com/api/json/v1/1/list.php?c=list
-*/
-
-/*
-  Condição dinâmina do parêmetro "form":
-  - Na linha 11 eu desestruturo o "search" e o "key" de dentro do "form"
-  - Assim eu  acesso de forma dinâmica o objeto 'endPoint' utilizando meu paramêtro 'key' que pode ser "ingredient" ou "name" ou "firstLetter" e assim sucessivamente.
-  - Depois que acessamos a chave do objeto "endPoint", podemos pegar o valor do objeto que pode ser `filter.php?i=${search}` ou `search.php?s=${search}`, e assim sucessivamente novamente.
-  - Exemplo de um endPoint: https://www.themealdb.com/api/json/v1/1/list.php?c=list
-    - No final do endPoint ele espera essa chave "Beef".
-    - Então passamos a chave "filter" de forma dinâmica.
-      - Exemplo: https://www.themealdb.com/api/json/v1/1/${endPoint[key]}
-        - No caso key = list e dentro da objeto endPoint a chave list tem o valor = 'list.php?c=list'
-            - seria a mesma coisa que https://www.themealdb.com/api/json/v1/1/list.php?c=list
-*/
-
-/*
-  Condição dinâmina do parêmetro "filter":
-  - O paramêtro "filter" será para quando o endPoint precisa receber uma chave dinâmica no final do endPoint.
-  - Exemplo de um endPoint: https://www.themealdb.com/api/json/v1/1/filter.php?c=Beef
-    - No final do endPoint ele espera essa chave "Beef".
-    - Então passamos a chave "filter" de forma dinâmica.
-      - Exemplo: https://www.themealdb.com/api/json/v1/1/filter.php?c=${filter}
-        - No caso filter = Beef
-          - seria a mesma coisa que https://www.themealdb.com/api/json/v1/1/filter.php?c=Beef
-*/

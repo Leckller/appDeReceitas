@@ -93,15 +93,17 @@ export type Favorite = {
   tags?: string[],
 };
 
+export type TypeTestFavorite = {
+  [key: string]: Favorite[]
+};
+
 export type Categorias = {
   strCategory: string,
 };
 
 export type GlobalState = {
-  recipes: TypeRecipes[],
   filters: TypeRecipes[],
   loading: boolean,
-  favoriteRecipes: TypeRecipes[],
 };
 
 export type FiltersDrinks = {

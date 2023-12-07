@@ -6,6 +6,7 @@ import fecthMock from './mock/fecthmock';
 
 beforeEach(() => {
   vi.spyOn(global, 'fetch').mockImplementation(fecthMock as any);
+  vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
 });
 
 afterEach(() => {
@@ -13,8 +14,9 @@ afterEach(() => {
 });
 
 describe('Check page Recipes in Progress', () => {
+  const route = '/drinks/17222/in-progress';
   test('Checks checkbox functionality', async () => {
-    const { user } = renderWithRouterAndRedux(<App />, '/drinks/17222/in-progress');
+    const { user } = renderWithRouterAndRedux(<App />, route);
 
     let allCheckbox = await screen.findAllByRole('checkbox');
 
@@ -31,7 +33,7 @@ describe('Check page Recipes in Progress', () => {
     expect(allCheckbox).toHaveLength(2);
   });
   test('Checks button finish functionality', async () => {
-    const { user } = renderWithRouterAndRedux(<App />, '/drinks/17222/in-progress');
+    const { user } = renderWithRouterAndRedux(<App />, route);
 
     let allCheckbox = await screen.findAllByRole('checkbox', { checked: true });
     expect(allCheckbox).toHaveLength(2);
