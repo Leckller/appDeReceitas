@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { GlobalState } from '../../types';
 import { route } from '../../utils/FuncsAll';
 
@@ -7,8 +8,18 @@ function Section() {
   const { pathname } = useLocation();
   const filters = useSelector((state: GlobalState) => state.filters);
   const loading = useSelector((state: GlobalState) => state.loading);
-
+  const [visibleRecipes, setVisibleRecipes] = useState(12);
   const animate = loading ? '' : 'animate-afterLoad';
+
+  useEffect(() => {
+    const Observer = new IntersectionObserver((entrys) => {
+      if (entrys.some((entry) => entry.isIntersecting)) {
+        setVisibleRecipes((prev) => prev + 6);
+        console.log('oi');
+      }
+    });
+    Observer.observe(document.querySelector('#sentinel') as Element);
+  }, [visibleRecipes]);
 
   return (
     <div>
@@ -18,7 +29,7 @@ function Section() {
       >
         {
           // faz a reendenização das 12 primeiras Recipes
-          filters.slice(0, 12).map((filter, index) => (
+          filters.slice(0, visibleRecipes).map((filter, index) => (
             <Link
               to={ `${pathname}/${filter[`id${route(pathname)}`]}` }
               key={ index }
@@ -45,6 +56,7 @@ function Section() {
           ))
         }
       </section>
+      <div id="sentinel" />
     </div>
   );
 }
