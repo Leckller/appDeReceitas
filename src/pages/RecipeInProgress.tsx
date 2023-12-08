@@ -20,7 +20,6 @@ function RecipesInProgress() {
 
   const recipesProduts = Object.entries(product)
     .filter(([key, value]) => key.includes('strIngredient') && value);
-  console.log(productCheck.length === recipesProduts.length);
   const changeChecked = (name: string, index: number) => {
     let checked = [] as string[];
     if (!productCheck.some((item) => item.includes(`item-${index}`))) {
@@ -38,7 +37,7 @@ function RecipesInProgress() {
     saveProgress(checked);
   };
   const isInProgress = () => {
-    const inProgressRecipes = getItem('inProgressRecipes') as Progress || {};
+    const inProgressRecipes = getItem<Progress>('inProgressRecipes') || {};
     return inProgressRecipes[path(pathname)]?.[id as string] as string[];
   };
 

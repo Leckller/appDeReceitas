@@ -5,6 +5,7 @@ import { Dispatch, Form, GlobalState } from '../../types';
 import { getAllFilters } from '../../redux/actions';
 import { fecthApi } from '../../services/fetchApi';
 import Loading from '../Loading/Loading';
+import { route } from '../../utils/FuncsAll';
 
 function SearchBar() {
   // pathname pega a rota em que você estiver
@@ -25,28 +26,18 @@ function SearchBar() {
     setForm({ ...form, [name]: value });
   };
 
-  // pega o pathname e faz um condicional de forma dinâmica se for Drinks ou Meals.
-  const path = pathname.includes('/meals') ? 'Meal' : 'Drink';
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // verifica se o input search tiver tamanho maior que 1 e dispara o alerta.
+    const recipes = await fecthApi(form, route(pathname), key);
+    dispatch(getAllFilters(recipes));
     if (key === 'firstLetter' && search && search.length > 1) {
       window.alert('Your search must have only 1 (one) character');
-    }
-
-    // faz o fecth e o filtro na API de forma dinâmica e Dispara para o State Global Filters as Recipes.
-    const recipes = await fecthApi(form, path, key);
-    dispatch(getAllFilters(recipes));
-
-    // quando o recipes for igual a [], disparará o alerta.
-    if (!recipes.length) {
+    } else if (!recipes.length) {
       window.alert("Sorry, we haven't found any recipes for these filters");
     }
 
-    // faz a verificação se o filtro da API for igual a 1, redireciona para a página de detalhes do produto.
     if (recipes.length === 1) {
-      navigate(`${pathname}/${recipes[0][`id${path}`]}`);
+      navigate(`${pathname}/${recipes[0][`id${route(pathname)}`]}`);
     }
   };
 

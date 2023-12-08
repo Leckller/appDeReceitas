@@ -3,20 +3,43 @@ import renderWithRouterAndRedux from './helpers/renderWithRedux';
 import App from '../App';
 
 describe('Check page Profile', () => {
-  test('Checks profile functionality', async () => {
+  const profileBtnID = 'profile-top-btn';
+  test('Checks button favorite functionality', async () => {
+    const { user } = renderWithRouterAndRedux(<App />, '/profile');
+    const favoriteRecipesBtn = screen.getByTestId('profile-favorite-btn');
+
+    await user.click(favoriteRecipesBtn);
+
+    screen.getByRole('heading', { level: 1, name: 'Favorite Recipes' });
+
+    const profileBtn = screen.getByTestId(profileBtnID);
+
+    await user.click(profileBtn);
+
+    screen.getByRole('heading', { level: 1, name: 'Profile' });
+  });
+  test('Checks button dones recipes functionality', async () => {
     const { user } = renderWithRouterAndRedux(<App />, '/profile');
 
-    const profileBtnID = screen.getByTestId('profile-top-btn');
-    const searchBtnID = screen.queryByTestId('search-top-btn');
-    let titleID = screen.getByTestId('page-title');
+    const doneRecipesBtn = screen.getByTestId('profile-done-btn');
+    await user.click(doneRecipesBtn);
 
-    expect(titleID).toHaveTextContent('Profile');
-    expect(profileBtnID).toBeVisible();
-    expect(searchBtnID).not.toBeInTheDocument();
+    screen.getByRole('heading', { level: 1, name: 'Done Recipes' });
 
-    await user.click(profileBtnID);
+    const profileBtn = screen.getByTestId(profileBtnID);
 
-    titleID = screen.getByTestId('page-title');
-    expect(titleID).toHaveTextContent('Profile');
+    await user.click(profileBtn);
+
+    screen.getByRole('heading', { level: 1, name: 'Profile' });
+  });
+  test('Checks button logout functionality', async () => {
+    const { user } = renderWithRouterAndRedux(<App />, '/profile');
+    const logoutBtn = screen.getByTestId('profile-logout-btn');
+
+    await user.click(logoutBtn);
+
+    screen.getByRole('heading', { level: 1, name: 'Recipes App' });
+
+    expect(window.localStorage).toHaveLength(0);
   });
 });

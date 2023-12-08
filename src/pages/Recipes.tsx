@@ -5,9 +5,9 @@ import { Categories, Dispatch, GlobalState } from '../types';
 import { setAnyFilterInGlobal, setLoading } from '../redux/actions';
 import Loading from '../components/Loading/Loading';
 import { filterAll, route } from '../utils/FuncsAll';
-import Section from '../components/Recipes';
 import mealIcon from '../images/mealIcon.svg';
 import drinkIcon from '../images/drinkIcon.svg';
+import Section from '../components/Section';
 
 function Recipes() {
   // pathname pega a rota em que você estiver
@@ -28,14 +28,11 @@ function Recipes() {
   const title = renderTitle(pathname);
 
   const handleClick = (strCategory: string) => {
-    console.log(select, strCategory);
-
-    if (select === 'All' && strCategory === 'All') return;
+    // if (select === 'All' && strCategory === 'All') return;
     dispatch(setLoading(true));
     if (select === strCategory || strCategory === 'All') {
       setSelect('All');
       dispatch(setAnyFilterInGlobal({ key: 'name' }, route(pathname)));
-      dispatch(setLoading(false));
     } else {
       setSelect(strCategory);
       dispatch(setAnyFilterInGlobal(
@@ -48,11 +45,11 @@ function Recipes() {
   };
 
   useEffect(() => {
+    dispatch(setLoading(true));
     (async () => {
       const data = await filterAll({ key: 'list' }, route(pathname));
       setCategories(data);
     })();
-    dispatch(setLoading(true));
     dispatch(setAnyFilterInGlobal({ key: 'name' }, route(pathname)));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
@@ -82,7 +79,7 @@ function Recipes() {
         justify-around mt-10"
       >
         {
-        // faz a reendenização das 5 primeiras Categories
+          // faz a reendenização das 5 primeiras Categories
         categories.slice(0, 5).map(({ strCategory }) => (
           <button
             className="w-16 h-16 border border-gray-400

@@ -6,8 +6,11 @@ function Card({ index, recipe }: { index: number, recipe:Favorite }) {
   const { host, protocol } = window.location;
   const url = `${protocol}//${host}/${recipe.type}s/${recipe.id}`;
   return (
-    <div className="flex flex-row w-full border border-gray-400 rounded-xl">
-      <Link to={ url } className="w-1/2">
+    <div
+      className="flex flex-row w-full border border-gray-400 rounded-xl"
+      data-testid="recipe-card"
+    >
+      <Link to={ url } className="w-1/2" data-testid="image-link">
         <img
           className="w-full h-full rounded-l-xl"
           src={ recipe.image }

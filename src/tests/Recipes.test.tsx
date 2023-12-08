@@ -2,14 +2,11 @@ import { screen, waitFor } from '@testing-library/dom';
 import { vi } from 'vitest';
 import renderWithRouterAndRedux from './helpers/renderWithRedux';
 import App from '../App';
-import drinks from '../../cypress/mocks/drinks';
-import meals from '../../cypress/mocks/meals';
+import fecthMock from './mock/fecthmock';
 
 beforeEach(() => {
-  const mockData = {
-    json: async () => drinks || meals,
-  } as Response;
-  vi.spyOn(global, 'fetch').mockResolvedValueOnce(mockData);
+  vi.spyOn(global, 'fetch').mockImplementation(fecthMock as any);
+  vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
 });
 
 afterEach(() => {
@@ -17,14 +14,15 @@ afterEach(() => {
 });
 
 describe('Check page Recipes', () => {
-  const titleID = 'page-title';
   const profileBtnID = 'profile-top-btn';
   const searchBtnID = 'search-top-btn';
   const serchInputID = 'search-input';
-  const ingredientRadioID = 'ingredient-search-radio';
+
+  const firstLetterID = 'first-letter-search-radio';
+  const ingredientInputID = 'ingredient-search-radio';
   const nameRadioID = 'name-search-radio';
   const enterBtnID = 'exec-search-btn';
-  test('Checks alert functionality', async () => {
+  test('Checks alert name functionality', async () => {
     const { user } = renderWithRouterAndRedux(<App />, '/meals');
 
     window.alert = vi.fn(() => {});
@@ -32,11 +30,11 @@ describe('Check page Recipes', () => {
     const searchBtn = screen.getByTestId(searchBtnID);
     await user.click(searchBtn);
 
-    const searchInput = screen.getByTestId(serchInputID);
-    const nameRadio = screen.getByTestId(nameRadioID);
-    const enterBtn = screen.getByTestId(enterBtnID);
+    const searchInput = await screen.findByTestId(serchInputID);
+    const nameRadio = await screen.findByTestId(nameRadioID);
+    const enterBtn = await screen.findByTestId(enterBtnID);
 
-    await user.type(searchInput, 'asdas');
+    await user.type(searchInput, 'aaa');
     await user.click(nameRadio);
 
     await user.click(enterBtn);
@@ -47,18 +45,63 @@ describe('Check page Recipes', () => {
     });
   });
 
+  test('Checks alert fristLetter functionality', async () => {
+    const { user } = renderWithRouterAndRedux(<App />, '/meals');
+
+    window.alert = vi.fn(() => {});
+
+    const searchBtn = screen.getByTestId(searchBtnID);
+    await user.click(searchBtn);
+
+    const searchInput = await screen.findByTestId(serchInputID);
+    const firstLetterRadio = await screen.findByTestId(firstLetterID);
+    const enterBtn = await screen.findByTestId(enterBtnID);
+
+    await user.type(searchInput, 'aaa');
+    await user.click(firstLetterRadio);
+
+    await user.click(enterBtn);
+
+    expect(window.alert).toHaveBeenCalledWith('Your search must have only 1 (one) character');
+    expect(window.alert).toHaveBeenCalledTimes(1);
+    // await waitFor(() => {
+    // });
+  });
+
+  test('Checks filter name functionality', async () => {
+    const { user } = renderWithRouterAndRedux(<App />, '/meals');
+
+    window.alert = vi.fn(() => {});
+
+    const searchBtn = screen.getByTestId(searchBtnID);
+    await user.click(searchBtn);
+
+    const searchInput = await screen.findByTestId(serchInputID);
+    const nameRadio = await screen.findByTestId(nameRadioID);
+    const enterBtn = await screen.findByTestId(enterBtnID);
+
+    await user.type(searchInput, 'Arrabiata');
+    await user.click(nameRadio);
+
+    await user.click(enterBtn);
+
+    await screen.findByRole('heading', { level: 1, name: 'Spicy Arrabiata Penne' });
+  });
+
   test('Check if you click on drinks', async () => {
     const { user } = renderWithRouterAndRedux(<App />, '/meals');
 
-    await user.click(screen.getByTestId(searchBtnID));
+    const searchBtn = await screen.findByTestId(searchBtnID);
+
+    await user.click(searchBtn);
+
+    const searchInput = await screen.findByTestId(serchInputID);
+    const ingredientRadio = await screen.findByTestId(ingredientInputID);
+    const enterBtn = await screen.findByTestId(enterBtnID);
 
     let article = await screen.findAllByRole('link');
 
     expect(article).toHaveLength(12);
-
-    const searchInput = screen.getByTestId(serchInputID);
-    const ingredientRadio = screen.getByTestId(ingredientRadioID);
-    const enterBtn = screen.getByTestId(enterBtnID);
 
     await user.type(searchInput, 'banana');
     await user.click(ingredientRadio);
@@ -74,10 +117,52 @@ describe('Check page Recipes', () => {
     const { user } = renderWithRouterAndRedux(<App />, '/drinks');
 
     const profileBtn = screen.getByTestId(profileBtnID);
-    const title = screen.getByTestId(titleID);
-
     await user.click(profileBtn);
 
-    expect(title).toHaveTextContent('Profile');
+    await screen.findByRole('heading', { level: 1, name: 'Profile' });
+  });
+  test('Checks buttons category functionality', async () => {
+    const { user } = renderWithRouterAndRedux(<App />, '/drinks');
+
+    let categoriesBtn = await screen.findAllByTestId(/-category-filter/i);
+
+    screen.debug();
+
+    expect(categoriesBtn).toHaveLength(6);
+    expect(categoriesBtn[1]).toHaveTextContent('Cocktail');
+
+    await user.click(categoriesBtn[1]);
+
+    let allArticle = await screen.findAllByRole('article');
+
+    expect(allArticle).toHaveLength(12);
+    expect(allArticle[1]).toHaveTextContent('155 Belmont');
+
+    categoriesBtn = await screen.findAllByTestId(/-category-filter/i);
+
+    await user.click(categoriesBtn[1]);
+
+    allArticle = await screen.findAllByRole('article');
+
+    expect(allArticle).toHaveLength(12);
+    expect(allArticle[0]).toHaveTextContent('GG');
+
+    categoriesBtn = await screen.findAllByTestId(/-category-filter/i);
+
+    await user.click(categoriesBtn[1]);
+
+    allArticle = await screen.findAllByRole('article');
+
+    expect(allArticle).toHaveLength(12);
+    expect(allArticle[1]).toHaveTextContent('155 Belmont');
+
+    categoriesBtn = await screen.findAllByTestId(/-category-filter/i);
+
+    await user.click(categoriesBtn[5]);
+
+    allArticle = await screen.findAllByRole('article');
+
+    expect(allArticle).toHaveLength(12);
+    expect(allArticle[0]).toHaveTextContent('GG');
   });
 });
