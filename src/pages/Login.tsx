@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import validator from 'validator';
 import { setItem } from '../utils/localStorage';
+import logo from '../assets/logoPintada2-removebg-preview.png';
+import backSvg from '../assets/Animated Shape.svg';
 
 type User = {
   email: string,
@@ -32,29 +34,30 @@ function Login() {
   return (
     <div
       className="w-screen h-screen flex items-center justify-center
-      bg-blue-400"
+     flex-col"
     >
+      <img src={ backSvg } alt="" className="absolute -z-10 w-screen h-screen" />
+      <img src={ logo } alt="logo" className="p-10 w-96 translate-y-20 translate-x-2" />
       <form
         className="w-3/4 h-4/5 flex p-5 flex-col items-center
-          justify-center shadow-2xl shadow-blue-950 rounded-2xl
+          justify-center
           gap-16
         "
         onSubmit={ handleSubmit }
       >
-        {' '}
-        <h1>
+        <h1 className="text-blue-500">
           Recipes App
         </h1>
         <div className="flex flex-col gap-3">
           <label
             htmlFor="email"
-            className="border border-blue-950 p-2
-            flex flex-row items-center
+            className="border border-blue-600 p-2
+            flex flex-row items-center text-blue-500
           "
           >
             Email:
             <input
-              className="w-full p-2 bg-transparent outline-none"
+              className="w-full p-2 bg-transparent outline-none text-blue-500"
               type="email"
               name="email"
               id="email"
@@ -65,13 +68,13 @@ function Login() {
           </label>
           <label
             htmlFor="password"
-            className="border border-blue-950 p-2
-            flex flex-row items-center
+            className="border border-blue-600 p-2
+            flex flex-row items-center text-blue-500
           "
           >
             Password:
             <input
-              className="w-full p-2 bg-transparent outline-none"
+              className="w-56 p-2 bg-transparent outline-none text-blue-500"
               type="password"
               name="password"
               id="password"
@@ -84,8 +87,8 @@ function Login() {
         <button
           data-testid="login-submit-btn"
           disabled={ !validadeForm }
-          className=" w-5/6 border border-blue-950 p-2
-          disabled:cursor-not-allowed
+          className=" w-56 border border-blue-600 p-2
+          disabled:cursor-not-allowed text-blue-500
           "
         >
           Enter

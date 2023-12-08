@@ -15,7 +15,6 @@ function Section() {
     const Observer = new IntersectionObserver((entrys) => {
       if (entrys.some((entry) => entry.isIntersecting)) {
         setVisibleRecipes((prev) => prev + 6);
-        console.log('oi');
       }
     });
     Observer.observe(document.querySelector('#sentinel') as Element);
@@ -25,7 +24,7 @@ function Section() {
     <div>
       <section
         className="flex w-screen flex-row flex-wrap
-      items-center gap-2 justify-center mt-10"
+      items-center gap-6 justify-center mt-10"
       >
         {
           // faz a reendenização das 12 primeiras Recipes
@@ -46,7 +45,7 @@ function Section() {
                   data-testid={ `${index}-card-img` }
                 />
                 <h1
-                  className=" p-2 bg-white w-full text-center rounded-b-md"
+                  className=" p-2 bg-white w-full text-center rounded-b-md "
                   data-testid={ `${index}-card-name` }
                 >
                   {filter[`str${route(pathname)}`]}
