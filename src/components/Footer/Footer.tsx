@@ -19,9 +19,10 @@ function Footer() {
         onClick={ () => {
           if (pathname === '/meals') {
             window.scrollTo(0, 0);
+          } else {
+            navigate('/meals');
+            dispatch(setVisibleRecipes(true));
           }
-          navigate('/meals');
-          dispatch(setVisibleRecipes(true));
         } }
         data-testid="meals-bottom-btn"
       >
@@ -34,9 +35,10 @@ function Footer() {
         onClick={ () => {
           if (pathname === '/drinks') {
             window.scrollTo(0, 0);
+          } else {
+            navigate('/drinks');
+            dispatch(setVisibleRecipes(true));
           }
-          navigate('/drinks');
-          dispatch(setVisibleRecipes(true));
         } }
       >
         <BiSolidDrink

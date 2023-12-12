@@ -16,7 +16,7 @@ const recipes = (state = INITIAL_STATE, action: AnyAction) => {
     case SET_LOADING:
       return { ...state, loading: action.payload };
     case GET_FILTERS:
-      return { ...state, filters: action.payload };
+      return { ...state, filters: action.payload, visibleRecipes: 12 };
     // case SET_RECIPES:
     //   return { ...state, recipes: action.payload };
     case SET_SEARCH_BAR: { return { ...state, searchBar: !state.searchBar }; }
