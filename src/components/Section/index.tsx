@@ -1,20 +1,22 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { GlobalState } from '../../types';
 import { route } from '../../utils/FuncsAll';
+import { setVisibleRecipes } from '../../redux/actions';
 
 function Section() {
   const { pathname } = useLocation();
   const filters = useSelector((state: GlobalState) => state.filters);
   const loading = useSelector((state: GlobalState) => state.loading);
-  const [visibleRecipes, setVisibleRecipes] = useState(12);
+  const visibleRecipes = useSelector((state: GlobalState) => state.visibleRecipes);
   const animate = loading ? '' : 'animate-afterLoad';
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const Observer = new IntersectionObserver((entrys) => {
       if (entrys.some((entry) => entry.isIntersecting)) {
-        setVisibleRecipes((prev) => prev + 6);
+        dispatch(setVisibleRecipes());
       }
     });
     Observer.observe(document.querySelector('#sentinel') as Element);
@@ -57,7 +59,7 @@ function Section() {
           ))
         }
       </section>
-      <div id="sentinel" />
+      <div id="sentinel" className="h-20" />
     </div>
   );
 }

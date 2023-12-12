@@ -5,6 +5,7 @@ export const actions = {
   GET_FILTERS: 'GET_FILTERS',
   SET_LOADING: 'SET_LOADING',
   SET_SEARCH_BAR: 'SET_SEARCH_BAR',
+  SET_VISIBLE_RECIPES: 'SET_VISIBLE_RECIPES',
   // SET_RECIPES: 'SET_RECIPES',
 } as const;
 
@@ -13,6 +14,11 @@ const { GET_FILTERS, SET_LOADING } = actions;
 export const setLoading = (boolean: boolean) => ({
   type: SET_LOADING,
   payload: boolean,
+});
+
+export const setVisibleRecipes = (n?: number) => ({
+  type: actions.SET_VISIBLE_RECIPES,
+  payload: n,
 });
 
 // seta no estado global todos os Filtros

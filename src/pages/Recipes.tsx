@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { Categories, Dispatch, GlobalState } from '../types';
-import { setAnyFilterInGlobal, setLoading } from '../redux/actions';
+import { setAnyFilterInGlobal, setLoading, setVisibleRecipes } from '../redux/actions';
 import Loading from '../components/Loading/Loading';
 import { filterAll, route } from '../utils/FuncsAll';
 import mealIcon from '../images/mealIcon.svg';
@@ -30,6 +30,7 @@ function Recipes() {
 
   const handleClick = (strCategory: string) => {
     // if (select === 'All' && strCategory === 'All') return;
+    dispatch(setVisibleRecipes(12));
     dispatch(setLoading(true));
     if (select === strCategory || strCategory === 'All') {
       setSelect('All');
