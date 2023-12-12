@@ -32,7 +32,7 @@ function Products() {
   return (
     <div>
       <header className="flex w-screen items-center flex-col justify-center relative">
-        <FiShare2
+        <button
           data-testid="share-btn"
           onClick={ () => {
             navigator.clipboard.writeText(url);
@@ -41,21 +41,30 @@ function Products() {
               title: 'Link copied!',
             });
           } }
-          className="absolute top-3 z-20 left-5 text-3xl text-yellow-300"
-        />
+        >
+          <FiShare2
+            className="absolute top-3 z-20 left-5 text-3xl text-yellow-300"
+          />
+        </button>
         {verifyFavorite(id)
           ? (
-            <IoHeart
+            <button
               data-testid="favorite-btn"
-              className="absolute top-3 z-20 right-5 text-3xl text-yellow-300"
               onClick={ () => changeFavorite(id) }
-            />
+            >
+              <IoHeart
+                className="absolute top-3 z-20 right-5 text-3xl text-yellow-300"
+              />
+            </button>
           ) : (
-            <CiHeart
+            <button
               data-testid="favorite-btn"
-              className="absolute top-3 z-20 right-5 text-3xl text-yellow-300"
               onClick={ () => changeFavorite(id) }
-            />
+            >
+              <CiHeart
+                className="absolute top-3 z-20 right-5 text-3xl text-yellow-300"
+              />
+            </button>
           )}
         <img
           className="brightness-50"

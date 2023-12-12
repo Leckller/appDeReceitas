@@ -41,13 +41,15 @@ function FavoriteRecipes() {
 
         </button>
       </div>
-      {
+      <div className="flex flex-row flex-wrap justify-center w-full p-5 gap-5 pb-16">
+        {
         favorites.length > 0 && favorites.map((item, index) => {
           return (
             <Card index={ index } recipe={ item } key={ item.id } like />
           );
         })
       }
+      </div>
     </div>
   );
 }

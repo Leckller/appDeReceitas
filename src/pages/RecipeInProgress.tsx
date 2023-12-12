@@ -47,6 +47,7 @@ function RecipesInProgress() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (isInProgress()) setproductCheck(getCheckeds());
     dispatch(setAnyFilterInGlobal({ key: 'id' }, route(pathname), id));
   // eslint-disable-next-line react-hooks/exhaustive-deps
