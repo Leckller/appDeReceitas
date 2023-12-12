@@ -33,7 +33,7 @@ function HeaderCard({ url, index, recipe, like }:
             gap-5 flex
           ` }
         >
-          <FiShare2
+          <button
             data-testid="share-btn"
             onClick={ () => {
               navigator.clipboard.writeText(url);
@@ -42,8 +42,11 @@ function HeaderCard({ url, index, recipe, like }:
                 title: 'Link copied!',
               });
             } }
-            className="text-3xl text-yellow-300"
-          />
+          >
+            <FiShare2
+              className="text-3xl text-yellow-300"
+            />
+          </button>
           {like && (
             <button
               data-testid={ `${index}-horizontal-favorite-btn` }
