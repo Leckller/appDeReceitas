@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom';
 import { Favorite } from '../../types';
 import HeaderCard from './HeaderCard';
 
-function Card({ index, recipe }: { index: number, recipe:Favorite }) {
+function Card({ index, recipe, like = false }: {
+  index: number, recipe:Favorite, like?: boolean }) {
   const { host, protocol } = window.location;
   const url = `${protocol}//${host}/${recipe.type}s/${recipe.id}`;
   return (
@@ -20,26 +21,34 @@ function Card({ index, recipe }: { index: number, recipe:Favorite }) {
       </Link>
       <div className="w-1/2 p-2 flex flex-col">
 
-        <HeaderCard index={ index } recipe={ recipe } url={ url } key={ recipe.id } />
+        <HeaderCard
+          like={ like }
+          index={ index }
+          recipe={ recipe }
+          url={ url }
+          key={ recipe.id }
+        />
+        {!like
+          && (
+            <div className="flex flex-col text-gray-500 justify-around h-full">
+              <h4 data-testid={ `${index}-horizontal-done-date` }>
+                {recipe.doneDate?.split('T')[0]}
+              </h4>
 
-        <div className="flex flex-col justify-around h-full">
-          <h4 data-testid={ `${index}-horizontal-done-date` }>
-            {recipe.doneDate?.split('T')[0]}
-          </h4>
+              <div className="flex flex-row flex-wrap gap-2">
+                {recipe.tags && recipe.tags.map((tag) => (
+                  <h5
+                    className="bg-gray-300 rounded-xl p-1"
+                    key={ tag }
+                    data-testid={ `${index}-${tag}-horizontal-tag` }
+                  >
+                    {tag}
+                  </h5>
+                ))}
+              </div>
 
-          <div className="flex flex-row flex-wrap gap-2">
-            {recipe.tags && recipe.tags.map((tag) => (
-              <h5
-                className="bg-gray-300 rounded-xl p-1"
-                key={ tag }
-                data-testid={ `${index}-${tag}-horizontal-tag` }
-              >
-                {tag}
-              </h5>
-            ))}
-          </div>
-
-        </div>
+            </div>
+          )}
 
       </div>
     </div>

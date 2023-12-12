@@ -41,19 +41,19 @@ function Products() {
               title: 'Link copied!',
             });
           } }
-          className="absolute top-3 z-20 left-5 text-2xl text-yellow-300"
+          className="absolute top-3 z-20 left-5 text-3xl text-yellow-300"
         />
         {verifyFavorite(id)
           ? (
             <IoHeart
               data-testid="favorite-btn"
-              className="absolute top-3 z-20 right-5 text-2xl text-yellow-300"
+              className="absolute top-3 z-20 right-5 text-3xl text-yellow-300"
               onClick={ () => changeFavorite(id) }
             />
           ) : (
             <CiHeart
               data-testid="favorite-btn"
-              className="absolute top-3 z-20 right-5 text-2xl text-yellow-300"
+              className="absolute top-3 z-20 right-5 text-3xl text-yellow-300"
               onClick={ () => changeFavorite(id) }
             />
           )}
