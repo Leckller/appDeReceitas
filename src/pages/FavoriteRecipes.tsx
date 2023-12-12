@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Favorite } from '../types';
 import { getItem } from '../utils/localStorage';
 import useFavorite from '../hooks/useFavorite';
@@ -11,6 +12,10 @@ function FavoriteRecipes() {
     setFavorites([...favoriteRecipes.filter((rec) => rec
       .type === string)] as Favorite[]);
   };
+
+  useEffect(() => {
+    setFavorites(getItem<Favorite[]>('favoriteRecipes'));
+  }, [favorites]);
 
   return (
     <div className="w-screen h-screen flex flex-col items-center pt-5 gap-5">

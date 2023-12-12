@@ -19,7 +19,6 @@ function HeaderCard({ url, index, recipe, like }:
     },
   });
   const { changeFavorite } = useFavorite();
-
   return (
     <div className="w-full flex flex-row flex-wrap">
       <div className="flex flex-row w-full justify-between relative">
