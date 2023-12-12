@@ -49,7 +49,7 @@ function SearchBar() {
   return (
     <DivSearchBar
       className="bg-white z-50 h-68 p-5
-      border-2 border-purple-700 w-80 "
+      border-2 border-purple-800 w-80 "
     >
       <form
         onSubmit={ handleSubmit }
@@ -85,6 +85,7 @@ function SearchBar() {
               value="ingredient"
               onChange={ handleChange }
               checked={ key === 'ingredient' }
+              className="focus:ring-yellow-300 focus:ring-2"
             />
           </label>
           <label className="flex flex-row items-center" htmlFor="name">
@@ -100,6 +101,7 @@ function SearchBar() {
               value="name"
               onChange={ handleChange }
               checked={ key === 'name' }
+              className="focus:ring-yellow-300 focus:ring-2"
             />
           </label>
           <label className="flex flex-row items-center" htmlFor="first-letter">
@@ -115,6 +117,7 @@ function SearchBar() {
               value="firstLetter"
               onChange={ handleChange }
               checked={ key === 'firstLetter' }
+              className="focus:ring-yellow-300 focus:ring-2"
             />
           </label>
 

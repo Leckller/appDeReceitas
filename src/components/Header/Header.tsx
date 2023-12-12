@@ -24,24 +24,36 @@ function Header() {
     <div
       className="w-screen h-16
       flex justify-around items-center relative
+      bg-yellow-300
       "
     >
       {/* <h1 data-testid="page-title">{ title }</h1> */}
-      <img
-        src={ logo }
-        alt="logo"
-        className=" w-20
-       top-0 absolute"
-      />
-      <button
-        data-testid="profile-top-btn"
-        onClick={ () => navigate('/profile') }
-      >
-        <FaRegUserCircle className="text-5xl" />
-      </button>
-      <div className="flex h-full items-center">
+      <div className="flex flex-row items-center justify-center">
+        <img
+          src={ logo }
+          alt="logo"
+          className=" w-20
+       scale-75"
+        />
+        <div className="flex -translate-x-2 gap-1 items-center pt-2 text-purple-800">
+          <span className="text-3xl font-thin">
+            RECIPES
+          </span>
+          <span className="text-xl font-extrabold text-purple-800">
+            app
+          </span>
+        </div>
+      </div>
+      <div className="flex flex-row gap-10 items-center justify-center">
+        <button
+          data-testid="profile-top-btn"
+          onClick={ () => navigate('/profile') }
+        >
+          <FaRegUserCircle className="text-5xl" />
+        </button>
+        <div className="flex h-full items-center">
 
-        {
+          {
           !notSearch.includes(pathname) && (
             <button
               data-testid="search-top-btn"
@@ -51,6 +63,7 @@ function Header() {
             </button>
           )
       }
+        </div>
       </div>
     </div>
   );
