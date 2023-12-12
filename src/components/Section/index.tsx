@@ -44,12 +44,14 @@ function Section() {
                   alt={ `${filter[`str${route(pathname)}`]}` }
                   data-testid={ `${index}-card-img` }
                 />
-                <h1
-                  className=" p-2 bg-white w-full text-center rounded-b-md "
-                  data-testid={ `${index}-card-name` }
-                >
-                  {filter[`str${route(pathname)}`]}
-                </h1>
+                <div className="rounded-b-md p-2 text-center bg-white w-full">
+                  <p
+                    className="w-full truncate"
+                    data-testid={ `${index}-card-name` }
+                  >
+                    {filter[`str${route(pathname)}`]}
+                  </p>
+                </div>
               </article>
             </Link>
           ))
