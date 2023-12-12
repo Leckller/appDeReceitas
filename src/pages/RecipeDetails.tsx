@@ -59,13 +59,6 @@ function RecipeDetails() {
                 className="-translate-y-56 bg-white
                flex flex-col items-center gap-5 h-full pr-10 pl-10"
               >
-
-                <p
-                  data-testid="recipe-category"
-                >
-                  {product.strAlcoholic ? product.strAlcoholic : product.strCategory}
-                </p>
-
                 <div className="w-full border-2 border-gray-400 pl-5 p-1 rounded-lg">
                   <h2>Ingredients</h2>
                   {
@@ -78,18 +71,6 @@ function RecipeDetails() {
                   </li>
                 ))
               }
-                </div>
-                <div
-                  className="w-full max-h-96 border-2 border-gray-400 pl-5 p-3 rounded-lg
-                overflow-y-auto"
-                >
-                  <p
-                    data-testid="instructions"
-                    className="w-full"
-                  >
-                    { product.strInstructions }
-
-                  </p>
                 </div>
               </div>
 
@@ -109,6 +90,7 @@ function RecipeDetails() {
                 )
 }
                 </div>
+                <h2 className="m-2">Recomendações</h2>
                 <div
                   className="flex flex-col flex-wrap overflow-x-scroll h-48 w-96
               overflow-y-hidden gap-8 pl-1 pt-1"

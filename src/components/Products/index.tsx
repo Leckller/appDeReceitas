@@ -1,11 +1,11 @@
 import { useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { FiShare2 } from 'react-icons/fi';
+import { CiHeart } from 'react-icons/ci';
+import { IoHeart } from 'react-icons/io5';
 import { GlobalState } from '../../types';
 import { route } from '../../utils/FuncsAll';
-import shareIcon from '../../images/shareIcon.svg';
-import blackHeartIcon from '../../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import useFavorite from '../../hooks/useFavorite';
 
 function Products() {
@@ -31,11 +31,8 @@ function Products() {
 
   return (
     <div>
-      <header className="flex w-screen flex-col justify-center relative">
-        <input
-          type="image"
-          src={ shareIcon }
-          alt="share"
+      <header className="flex w-screen items-center flex-col justify-center relative">
+        <FiShare2
           data-testid="share-btn"
           onClick={ () => {
             navigator.clipboard.writeText(url);
@@ -44,47 +41,59 @@ function Products() {
               title: 'Link copied!',
             });
           } }
-          className="absolute top-3 left-5"
+          className="absolute top-3 z-20 left-5 text-2xl text-yellow-300"
         />
-        <input
-          className="absolute top-3 right-5"
-          type="image"
-          src={ verifyFavorite(id)
-            ? blackHeartIcon : whiteHeartIcon }
-          alt={ verifyFavorite(id)
-            ? 'Black Heart Icon' : 'White Heart Icon' }
-          data-testid="favorite-btn"
-          onClick={ () => changeFavorite(id) }
-        />
+        {verifyFavorite(id)
+          ? (
+            <IoHeart
+              data-testid="favorite-btn"
+              className="absolute top-3 z-20 right-5 text-2xl text-yellow-300"
+              onClick={ () => changeFavorite(id) }
+            />
+          ) : (
+            <CiHeart
+              data-testid="favorite-btn"
+              className="absolute top-3 z-20 right-5 text-2xl text-yellow-300"
+              onClick={ () => changeFavorite(id) }
+            />
+          )}
         <img
           className="brightness-50"
           data-testid="recipe-photo"
           src={ product[`str${route(pathname)}Thumb`] as string }
           alt={ product[`str${route(pathname)}`] as string }
         />
-      </header>
-      <div className="-translate-y-48 bg-white flex flex-col items-center gap-5">
-
         <h1
-          className="mt-5"
+          className="absolute top-20 text-white text-xl scale-110 font-extrabold"
           data-testid="recipe-title"
         >
           { product[`str${route(pathname)}`] }
         </h1>
+      </header>
+      <div
+        className="-translate-y-56 bg-white
+                      flex flex-col items-center gap-5 h-full pr-10 pl-10
+                      mb-5"
+      >
 
         <p
+          className="mt-5 text-lg"
           data-testid="recipe-category"
         >
           {product.strAlcoholic ? product.strAlcoholic : product.strCategory}
         </p>
-
-        <p
-          data-testid="instructions"
-          className="w-96"
+        <div
+          className="w-full max-h-96 border-2 border-gray-400 pl-5 p-3 rounded-lg
+                overflow-y-auto"
         >
-          { product.strInstructions }
+          <p
+            data-testid="instructions"
+            className="w-full"
+          >
+            { product.strInstructions }
 
-        </p>
+          </p>
+        </div>
       </div>
     </div>
   );
