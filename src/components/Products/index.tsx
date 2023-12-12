@@ -81,8 +81,8 @@ function Products() {
       </header>
       <div
         className="-translate-y-56 bg-white
-                      flex flex-col items-center gap-5 h-full pr-10 pl-10
-                      mb-5"
+                      flex flex-col items-center gap-5 pr-10 pl-10
+                      mb-5 h-60"
       >
 
         <p
