@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import validator from 'validator';
 import { setItem } from '../utils/localStorage';
-import logo from '../assets/logoPintada2-removebg-preview.png';
 import backSvg from '../assets/Animated Shape.svg';
 
 type User = {
@@ -36,7 +35,6 @@ function Login() {
      flex-col"
     >
       <img src={ backSvg } alt="" className="absolute -z-10 w-screen h-screen" />
-      <img src={ logo } alt="logo" className="p-10 w-96 translate-y-20 translate-x-2" />
       <form
         className="w-3/4 h-4/5 flex p-5 flex-col items-center
           justify-center

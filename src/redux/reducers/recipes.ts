@@ -2,11 +2,12 @@ import { AnyAction } from 'redux';
 import { GlobalState } from '../../types';
 import { actions } from '../actions';
 
-const { GET_FILTERS, SET_LOADING } = actions;
+const { GET_FILTERS, SET_LOADING, SET_SEARCH_BAR } = actions;
 
 const INITIAL_STATE: GlobalState = {
   filters: [],
   loading: true,
+  searchBar: false,
 };
 
 const recipes = (state = INITIAL_STATE, action: AnyAction) => {
@@ -17,6 +18,7 @@ const recipes = (state = INITIAL_STATE, action: AnyAction) => {
       return { ...state, filters: action.payload };
     // case SET_RECIPES:
     //   return { ...state, recipes: action.payload };
+    case SET_SEARCH_BAR: { return { ...state, searchBar: !state.searchBar }; }
     default:
       return state;
   }

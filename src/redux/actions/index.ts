@@ -4,6 +4,7 @@ import { TypeRecipes, Dispatch, Path, Form } from '../../types';
 export const actions = {
   GET_FILTERS: 'GET_FILTERS',
   SET_LOADING: 'SET_LOADING',
+  SET_SEARCH_BAR: 'SET_SEARCH_BAR',
   // SET_RECIPES: 'SET_RECIPES',
 } as const;
 
@@ -33,6 +34,12 @@ export const setAnyFilterInGlobal = (
 
   return data;
 };
+
+export const setSearchBar = () => (
+  {
+    type: actions.SET_SEARCH_BAR,
+  }
+);
 
 // // seta no estado global todos os Filtros
 // export const setRecipes = (recipes: TypeRecipes[]) => ({

@@ -6,6 +6,7 @@ import { getAllFilters } from '../../redux/actions';
 import { fecthApi } from '../../services/fetchApi';
 import Loading from '../Loading/Loading';
 import { route } from '../../utils/FuncsAll';
+import { DivSearchBar } from '../../styles';
 
 function SearchBar() {
   // pathname pega a rota em que você estiver
@@ -46,57 +47,89 @@ function SearchBar() {
   }
 
   return (
-    <div>
+    <DivSearchBar
+      className="bg-white z-50 h-68 p-5
+      border-2 border-purple-700 w-80 "
+    >
       <form
         onSubmit={ handleSubmit }
+        className="flex flex-col items-center p-5 gap-2"
       >
-        <label htmlFor="search">Search</label>
-        <input
-          type="text"
-          name="search"
-          id="search"
-          data-testid="search-input"
-          value={ search }
-          onChange={ handleChange }
-        />
-        <label htmlFor="ingredient">Ingredient</label>
-        <input
-          type="radio"
-          name="key"
-          id="ingredient"
-          data-testid="ingredient-search-radio"
-          value="ingredient"
-          onChange={ handleChange }
-          checked={ key === 'ingredient' }
-        />
-        <label htmlFor="name">Name</label>
-        <input
-          type="radio"
-          name="key"
-          id="name"
-          data-testid="name-search-radio"
-          value="name"
-          onChange={ handleChange }
-          checked={ key === 'name' }
-        />
-        <label htmlFor="first-letter">First Letter</label>
-        <input
-          type="radio"
-          name="key"
-          id="first-letter"
-          data-testid="first-letter-search-radio"
-          value="firstLetter"
-          onChange={ handleChange }
-          checked={ key === 'firstLetter' }
-        />
+        <div className="flex flex-col gap-2 items-center">
+          <label className="flex flex-col items-center" htmlFor="search">
+            <h2>
+              Search
+            </h2>
+
+            <input
+              className="outline-none w-4/6"
+              placeholder="Ex: tomato"
+              type="text"
+              name="search"
+              id="search"
+              data-testid="search-input"
+              value={ search }
+              onChange={ handleChange }
+            />
+          </label>
+          <label className="flex flex-row items-center" htmlFor="ingredient">
+            <h2 className="w-36">
+              Ingredient
+            </h2>
+
+            <input
+              type="radio"
+              name="key"
+              id="ingredient"
+              data-testid="ingredient-search-radio"
+              value="ingredient"
+              onChange={ handleChange }
+              checked={ key === 'ingredient' }
+            />
+          </label>
+          <label className="flex flex-row items-center" htmlFor="name">
+            <h2 className="w-36">
+              Name
+            </h2>
+
+            <input
+              type="radio"
+              name="key"
+              id="name"
+              data-testid="name-search-radio"
+              value="name"
+              onChange={ handleChange }
+              checked={ key === 'name' }
+            />
+          </label>
+          <label className="flex flex-row items-center" htmlFor="first-letter">
+            <h2 className="w-36">
+              First Letter
+            </h2>
+
+            <input
+              type="radio"
+              name="key"
+              id="first-letter"
+              data-testid="first-letter-search-radio"
+              value="firstLetter"
+              onChange={ handleChange }
+              checked={ key === 'firstLetter' }
+            />
+          </label>
+
+        </div>
         <button
           data-testid="exec-search-btn"
+          className="bg-purple-700 pl-5 pr-5 p-1 text-white
+            hove
+          "
         >
           Enter
         </button>
 
       </form>
-    </div>
+    </DivSearchBar>
   );
 }
 

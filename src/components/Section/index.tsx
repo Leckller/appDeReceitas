@@ -24,7 +24,7 @@ function Section() {
     <div>
       <section
         className="flex w-screen flex-row flex-wrap
-      items-center gap-6 justify-center mt-10"
+      items-center gap-6 justify-center mt-10 p-4"
       >
         {
           // faz a reendenização das 12 primeiras Recipes
@@ -34,8 +34,8 @@ function Section() {
               key={ index }
             >
               <article
-                className={ `${animate} w-48 h-48 flex items-center flex-col
-                justify-around hover:scale-110 hover:z-50 transition-all mb-10` }
+                className={ `${animate} w-44 h-44 flex items-center flex-col
+                justify-around hover:scale-110 hover:z-50 transition-all mb-10 grow` }
                 data-testid={ `${index}-recipe-card` }
               >
                 <img

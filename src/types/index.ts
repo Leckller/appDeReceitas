@@ -104,6 +104,7 @@ export type Categorias = {
 export type GlobalState = {
   filters: TypeRecipes[],
   loading: boolean,
+  searchBar: boolean
 };
 
 export type FiltersDrinks = {

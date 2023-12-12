@@ -8,12 +8,13 @@ import { filterAll, route } from '../utils/FuncsAll';
 import mealIcon from '../images/mealIcon.svg';
 import drinkIcon from '../images/drinkIcon.svg';
 import Section from '../components/Section';
+import SearchBar from '../components/SearchBar/SearchBar';
 
 function Recipes() {
   // pathname pega a rota em que você estiver
   const { pathname } = useLocation();
   const dispatch: Dispatch = useDispatch();
-  const loading = useSelector((state: GlobalState) => state.loading);
+  const { loading, searchBar } = useSelector((state: GlobalState) => state);
   const [categories, setCategories] = useState<Categories[]>([]);
   const [select, setSelect] = useState('All');
 
@@ -61,6 +62,7 @@ function Recipes() {
   return (
     <div className="flex flex-col items-center justify-center gap-1 pb-20">
       <div className="flex justify-center items-center flex-col gap-5 pt-10">
+        {searchBar && <SearchBar />}
         <img
           className="scale-125"
           src={ title === 'Meals' ? mealIcon : drinkIcon }

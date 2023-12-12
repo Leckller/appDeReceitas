@@ -57,6 +57,7 @@ function Products() {
           onClick={ () => changeFavorite(id) }
         />
         <img
+          className="brightness-50"
           data-testid="recipe-photo"
           src={ product[`str${route(pathname)}Thumb`] as string }
           alt={ product[`str${route(pathname)}`] as string }
