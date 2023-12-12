@@ -92,20 +92,6 @@ function RecipesInProgress() {
         }
           </div>
         </div>
-        <div className="p-10">
-          <div
-            className="w-full max-h-96 border-2 border-gray-400 pl-5 p-3 rounded-lg
-                overflow-y-auto"
-          >
-            <p
-              data-testid="instructions"
-              className="w-full"
-            >
-              { product.strInstructions }
-
-            </p>
-          </div>
-        </div>
         <div className="flex flex-col p-10 w-screen items-start">
           <h2>Video</h2>
           {

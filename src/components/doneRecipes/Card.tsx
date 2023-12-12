@@ -7,7 +7,7 @@ function Card({ index, recipe }: { index: number, recipe:Favorite }) {
   const url = `${protocol}//${host}/${recipe.type}s/${recipe.id}`;
   return (
     <div
-      className="flex flex-row w-full border border-gray-400 rounded-xl"
+      className="flex flex-row w-96 border border-gray-400 rounded-xl"
       data-testid="recipe-card"
     >
       <Link to={ url } className="w-1/2" data-testid="image-link">
@@ -27,7 +27,7 @@ function Card({ index, recipe }: { index: number, recipe:Favorite }) {
             {recipe.doneDate?.split('T')[0]}
           </h4>
 
-          <div className="flex flex-row gap-2">
+          <div className="flex flex-row flex-wrap gap-2">
             {recipe.tags && recipe.tags.map((tag) => (
               <h5
                 className="bg-gray-300 rounded-xl p-1"
