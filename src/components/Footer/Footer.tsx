@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { GiMeal } from 'react-icons/gi';
 import { BiSolidDrink } from 'react-icons/bi';
 
 function Footer() {
   const navigate = useNavigate();
-
+  const { pathname } = useLocation();
   return (
     <footer
       data-testid="footer"
@@ -12,16 +12,32 @@ function Footer() {
       flex flex-row justify-center items-center gap-12
       backdrop-blur-sm h-10 z-50"
     >
-      <GiMeal
-        className="text-5xl text-yellow-300"
-        onClick={ () => navigate('/meals') }
+      <button
+        onClick={ () => {
+          if (pathname === '/meals') {
+            window.scrollTo(0, 0);
+          }
+          navigate('/meals');
+        } }
         data-testid="meals-bottom-btn"
-      />
-      <BiSolidDrink
+      >
+        <GiMeal
+          className="text-5xl text-yellow-300"
+        />
+      </button>
+      <button
         className="text-5xl text-yellow-300"
-        onClick={ () => navigate('/drinks') }
-        data-testid="drinks-bottom-btn"
-      />
+        onClick={ () => {
+          if (pathname === '/drinks') {
+            window.scrollTo(0, 0);
+          }
+          navigate('/drinks');
+        } }
+      >
+        <BiSolidDrink
+          data-testid="drinks-bottom-btn"
+        />
+      </button>
     </footer>
   );
 }

@@ -21,11 +21,12 @@ function Header() {
   // const title = renderTitle(pathname);
 
   return (
-    <div
+    <header
       className="w-screen h-16
       flex justify-around items-center relative
       bg-yellow-300
       "
+      id="header"
     >
       {/* <h1 data-testid="page-title">{ title }</h1> */}
       <div className="flex flex-row items-center justify-center">
@@ -65,7 +66,7 @@ function Header() {
       }
         </div>
       </div>
-    </div>
+    </header>
   );
 }
 

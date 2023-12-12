@@ -59,7 +59,7 @@ function Section() {
           ))
         }
       </section>
-      <div id="sentinel" className="h-20" />
+      <div id="sentinel" className="h-8" />
     </div>
   );
 }
