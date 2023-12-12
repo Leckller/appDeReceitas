@@ -11,7 +11,7 @@ function Footer() {
   return (
     <footer
       data-testid="footer"
-      className="fixed w-screen bottom-0 bg-purple-800
+      className="fixed w-screen bottom-0 bg-purple-900
       flex flex-row justify-center items-center gap-12
       backdrop-blur-sm h-10 z-50"
     >
@@ -27,11 +27,15 @@ function Footer() {
         data-testid="meals-bottom-btn"
       >
         <GiMeal
-          className="text-5xl text-yellow-300"
+          className="text-5xl text-yellow-300 scale-90"
         />
       </button>
+      <div className="border-2 border-yellow-300 rounded-md">
+        <h2 className="text-yellow-300 pl-1 pr-1">
+          {pathname.split('/')[1]}
+        </h2>
+      </div>
       <button
-        className="text-5xl text-yellow-300"
         onClick={ () => {
           if (pathname === '/drinks') {
             window.scrollTo(0, 0);
@@ -42,6 +46,7 @@ function Footer() {
         } }
       >
         <BiSolidDrink
+          className="text-5xl text-yellow-300 scale-90"
           data-testid="drinks-bottom-btn"
         />
       </button>

@@ -70,7 +70,7 @@ function Recipes() {
           alt=""
         />
         <h1
-          className="text-purple-800 text-4xl font-bold "
+          className="text-purple-900 text-4xl font-bold "
           data-testid="page-title"
         >
           { title }

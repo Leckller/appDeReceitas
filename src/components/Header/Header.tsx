@@ -36,11 +36,11 @@ function Header() {
           className=" w-20
        scale-75"
         />
-        <div className="flex -translate-x-2 gap-1 items-center pt-2 text-purple-800">
+        <div className="flex -translate-x-2 gap-1 items-center pt-2 text-purple-900">
           <span className="text-3xl font-thin">
             RECIPES
           </span>
-          <span className="text-xl font-extrabold text-purple-800">
+          <span className="text-xl font-extrabold text-purple-900">
             app
           </span>
         </div>
@@ -50,7 +50,7 @@ function Header() {
           data-testid="profile-top-btn"
           onClick={ () => navigate('/profile') }
         >
-          <FaRegUserCircle className="text-5xl" />
+          <FaRegUserCircle className="text-5xl text-purple-900" />
         </button>
         <div className="flex h-full items-center">
 
@@ -60,7 +60,7 @@ function Header() {
               data-testid="search-top-btn"
               onClick={ () => dispatch(setSearchBar()) }
             >
-              <IoSearchSharp className="text-5xl" />
+              <IoSearchSharp className="text-5xl text-purple-900" />
             </button>
           )
       }
