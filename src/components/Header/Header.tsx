@@ -1,8 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import profileIcon from '../../images/profileIcon.svg';
-import searchIcon from '../../images/searchIcon.svg';
+import { FaRegUserCircle } from 'react-icons/fa';
+import { IoSearchSharp } from 'react-icons/io5';
 import logo from '../../assets/logoPintada2-removebg-preview.png';
 import { setSearchBar } from '../../redux/actions';
 
@@ -34,24 +33,22 @@ function Header() {
         className=" w-20
        top-0 absolute"
       />
-      <input
-        type="image"
-        src={ profileIcon }
-        alt="profile"
+      <button
         data-testid="profile-top-btn"
         onClick={ () => navigate('/profile') }
-      />
+      >
+        <FaRegUserCircle className="text-5xl" />
+      </button>
       <div className="flex h-full items-center">
 
         {
           !notSearch.includes(pathname) && (
-            <input
-              type="image"
-              src={ searchIcon }
-              alt="search"
+            <button
               data-testid="search-top-btn"
               onClick={ () => dispatch(setSearchBar()) }
-            />
+            >
+              <IoSearchSharp className="text-5xl" />
+            </button>
           )
       }
       </div>
