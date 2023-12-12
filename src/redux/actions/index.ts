@@ -16,9 +16,9 @@ export const setLoading = (boolean: boolean) => ({
   payload: boolean,
 });
 
-export const setVisibleRecipes = (n?: number) => ({
+export const setVisibleRecipes = (reset?: boolean) => ({
   type: actions.SET_VISIBLE_RECIPES,
-  payload: n,
+  payload: reset,
 });
 
 // seta no estado global todos os Filtros

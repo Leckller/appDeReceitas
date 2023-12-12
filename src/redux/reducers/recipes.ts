@@ -21,11 +21,11 @@ const recipes = (state = INITIAL_STATE, action: AnyAction) => {
     //   return { ...state, recipes: action.payload };
     case SET_SEARCH_BAR: { return { ...state, searchBar: !state.searchBar }; }
     case SET_VISIBLE_RECIPES: {
-      if (state.filters.length <= state.visibleRecipes) {
-        return { ...state };
-      }
       if (action.payload) {
         return { ...state, visibleRecipes: 12 };
+      }
+      if (state.filters.length <= state.visibleRecipes) {
+        return { ...state };
       }
       return { ...state, visibleRecipes: state.visibleRecipes + 6 }; }
     default:

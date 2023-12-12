@@ -30,7 +30,7 @@ function Recipes() {
 
   const handleClick = (strCategory: string) => {
     // if (select === 'All' && strCategory === 'All') return;
-    dispatch(setVisibleRecipes(12));
+    dispatch(setVisibleRecipes(true));
     dispatch(setLoading(true));
     if (select === strCategory || strCategory === 'All') {
       setSelect('All');

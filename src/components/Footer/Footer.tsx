@@ -1,10 +1,13 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { GiMeal } from 'react-icons/gi';
 import { BiSolidDrink } from 'react-icons/bi';
+import { useDispatch } from 'react-redux';
+import { setVisibleRecipes } from '../../redux/actions';
 
 function Footer() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const dispatch = useDispatch();
   return (
     <footer
       data-testid="footer"
@@ -18,6 +21,7 @@ function Footer() {
             window.scrollTo(0, 0);
           }
           navigate('/meals');
+          dispatch(setVisibleRecipes(true));
         } }
         data-testid="meals-bottom-btn"
       >
@@ -32,6 +36,7 @@ function Footer() {
             window.scrollTo(0, 0);
           }
           navigate('/drinks');
+          dispatch(setVisibleRecipes(true));
         } }
       >
         <BiSolidDrink
